@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apply Leave - Attendance App</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap" rel="stylesheet">
+    
+    <!-- Material Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- External CSS -->
+    <link rel="stylesheet" href="./css/style.css">
+</head>
+<body>
+    <div class="dashboard-wrapper">
+        <!-- Sidebar -->
+        <aside class="dashboard-sidebar">
+            <!-- Logo Section -->
+            <div class="sidebar-logo-section">
+                <div class="d-flex align-items-center gap-3">
+                    <div class="logo-icon">
+                        <span class="material-symbols-outlined">token</span>
+                    </div>
+                    <h2 class="logo-text">HR Portal</h2>
+                </div>
+            </div>
+
+            <!-- Navigation Links -->
+            <nav class="nav-menu">
+                <a href="index.html" class="nav-menu-link">
+                    <span class="material-symbols-outlined">dashboard</span>
+                    <span>Dashboard</span>
+                </a>
+                <a href="attendance.html" class="nav-menu-link">
+                    <span class="material-symbols-outlined">schedule</span>
+                    <span>Attendance</span>
+                </a>
+                <a href="leave.html" class="nav-menu-link active">
+                    <span class="material-symbols-outlined">event_available</span>
+                    <span>Leaves</span>
+                </a>
+                <a href="taskmanagement.html" class="nav-menu-link">
+                    <span class="material-symbols-outlined">checklist</span>
+                    <span>My Tasks</span>
+                </a>
+                <!-- <a href="#" class="nav-menu-link">
+                    <span class="material-symbols-outlined">group</span>
+                    <span>Team</span>
+                </a> -->
+            </nav>
+
+            <!-- Bottom Settings -->
+            <div class="sidebar-bottom">
+                <a href="settings.html" class="nav-menu-link">
+                    <span class="material-symbols-outlined">settings</span>
+                    <span>Settings</span>
+                </a>
+                <a href="#" class="nav-menu-link logout-link">
+                    <span class="material-symbols-outlined">logout</span>
+                    <span>Log Out</span>
+                </a>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="dashboard-main">
+            <!-- Desktop Header -->
+            <div class="desktop-header d-none d-lg-flex">
+                <div class="header-left">
+                    <h2 class="page-title-header">Apply for Leave</h2>
+                </div>
+                <div class="header-right">
+                    <button class="action-btn">
+                        <span class="material-symbols-outlined">notifications</span>
+                    </button>
+                    <button class="action-btn">
+                        <span class="material-symbols-outlined">help</span>
+                    </button>
+                    <div class="header-user-profile">
+                        <div class="user-avatar-wrapper">
+                            <div class="user-avatar"></div>
+                            <span class="status-indicator"></span>
+                        </div>
+                        <div>
+                            <h3 class="user-name">Alex Morgan</h3>
+                            <p class="user-role">Product Designer</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Mobile Header -->
+            <div class="mobile-header d-lg-none">
+                <div class="d-flex align-items-center gap-2">
+                    <span class="material-symbols-outlined text-primary">verified</span>
+                    <span class="mobile-header-title">HR Portal</span>
+                </div>
+                <button class="mobile-menu-btn" onclick="toggleMobileMenu()">
+                    <span class="material-symbols-outlined" id="mobileMenuIcon">menu</span>
+                </button>
+            </div>
+
+            <!-- Mobile Sidebar Overlay -->
+            <div class="mobile-sidebar-overlay" id="mobileOverlay" onclick="closeMobileMenu()"></div>
+            
+            <!-- Mobile Sidebar -->
+            <div class="mobile-sidebar" id="mobileSidebar">
+                <div class="mobile-sidebar-header">
+                    <div class="d-flex align-items-center gap-2">
+                        <span class="material-symbols-outlined text-primary">verified</span>
+                        <span class="mobile-header-title">HR Portal</span>
+                    </div>
+                    <button class="mobile-close-btn" onclick="closeMobileMenu()">
+                        <span class="material-symbols-outlined">close</span>
+                    </button>
+                </div>
+
+                <!-- Mobile User Profile -->
+                <div class="mobile-user-section">
+                    <div class="d-flex align-items-center gap-3">
+                        <div class="user-avatar-wrapper">
+                            <div class="user-avatar"></div>
+                            <span class="status-indicator"></span>
+                        </div>
+                        <div>
+                            <h3 class="user-name">Alex Morgan</h3>
+                            <p class="user-role">Product Designer</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Mobile Navigation -->
+                <nav class="mobile-nav-menu">
+                    <a href="index.html" class="nav-menu-link" onclick="closeMobileMenu()">
+                        <span class="material-symbols-outlined">dashboard</span>
+                        <span>Dashboard</span>
+                    </a>
+                    <a href="attendance.html" class="nav-menu-link" onclick="closeMobileMenu()">
+                        <span class="material-symbols-outlined">schedule</span>
+                        <span>Attendance</span>
+                    </a>
+                    <a href="leave.html" class="nav-menu-link active" onclick="closeMobileMenu()">
+                        <span class="material-symbols-outlined">event_available</span>
+                        <span>Leaves</span>
+                    </a>
+                    <a href="taskmanagement.html" class="nav-menu-link" onclick="closeMobileMenu()">
+                        <span class="material-symbols-outlined">checklist</span>
+                        <span>My Tasks</span>
+                    </a>
+                    <!-- <a href="#" class="nav-menu-link" onclick="closeMobileMenu()">
+                        <span class="material-symbols-outlined">group</span>
+                        <span>Team</span>
+                    </a> -->
+                    <a href="settings.html" class="nav-menu-link" onclick="closeMobileMenu()">
+                        <span class="material-symbols-outlined">settings</span>
+                        <span>Settings</span>
+                    </a>
+                    <a href="#" class="nav-menu-link logout-link" onclick="closeMobileMenu()">
+                        <span class="material-symbols-outlined">logout</span>
+                        <span>Log Out</span>
+                    </a>
+                </nav>
+            </div>
+
+            <!-- Main Content Area -->
+            <div class="dashboard-content">
+                <div class="content-wrapper">
+                    <!-- Page Description -->
+                    <div class="page-header-dashboard">
+                        <div>
+                            <p class="page-subtitle-leave">Request time off and manage your schedule efficiently.</p>
+                        </div>
+                        <div class="status-badge-system">
+                            <span class="status-dot-system"></span>
+                            <span>System Online</span>
+                        </div>
+                    </div>
+
+                    <!-- Leave Balance Cards -->
+                    <div class="row g-4 mb-4">
+                        <div class="col-12 col-md-4">
+                            <div class="stats-card">
+                                <div class="d-flex justify-content-between align-items-center mb-3">
+                                    <p class="stats-label">VACATION</p>
+                                    <span class="material-symbols-outlined text-primary">beach_access</span>
+                                </div>
+                                <div class="d-flex align-items-baseline gap-2 mb-3">
+                                    <p class="stats-value">12</p>
+                                    <p class="stats-total">/ 20 Days</p>
+                                </div>
+                                <div class="progress-bar-custom">
+                                    <div class="progress-fill bg-primary" style="width: 60%"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-4">
+                            <div class="stats-card">
+                                <div class="d-flex justify-content-between align-items-center mb-3">
+                                    <p class="stats-label">SICK LEAVE</p>
+                                    <span class="material-symbols-outlined text-danger">sick</span>
+                                </div>
+                                <div class="d-flex align-items-baseline gap-2 mb-3">
+                                    <p class="stats-value">5</p>
+                                    <p class="stats-total">/ 10 Days</p>
+                                </div>
+                                <div class="progress-bar-custom">
+                                    <div class="progress-fill bg-danger" style="width: 50%"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-4">
+                            <div class="stats-card">
+                                <div class="d-flex justify-content-between align-items-center mb-3">
+                                    <p class="stats-label">CASUAL</p>
+                                    <span class="material-symbols-outlined text-warning">event_available</span>
+                                </div>
+                                <div class="d-flex align-items-baseline gap-2 mb-3">
+                                    <p class="stats-value">3</p>
+                                    <p class="stats-total">/ 8 Days</p>
+                                </div>
+                                <div class="progress-bar-custom">
+                                    <div class="progress-fill bg-warning" style="width: 37%"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Form and Sidebar Layout -->
+                    <div class="row g-4">
+                        <!-- Form Section -->
+                        <div class="col-12 col-lg-8">
+                            <div class="form-card">
+                                <form>
+                                    <!-- Leave Type -->
+                                    <div class="mb-4">
+                                        <label class="form-label-custom">Leave Type</label>
+                                        <div class="select-wrapper">
+                                            <select class="form-select-custom">
+                                                <option selected disabled>Select leave type</option>
+                                                <option value="vacation">Vacation</option>
+                                                <option value="sick">Sick Leave</option>
+                                                <option value="casual">Casual Leave</option>
+                                                <option value="wfh">Work From Home</option>
+                                            </select>
+                                            <span class="material-symbols-outlined select-arrow">expand_more</span>
+                                        </div>
+                                    </div>
+
+                                    <!-- Dates -->
+                                    <div class="row g-4 mb-4">
+                                        <div class="col-12 col-md-6">
+                                            <label class="form-label-custom">Start Date</label>
+                                            <input type="date" class="form-input-custom" placeholder="Select date">
+                                        </div>
+                                        <div class="col-12 col-md-6">
+                                            <label class="form-label-custom">End Date</label>
+                                            <input type="date" class="form-input-custom" placeholder="Select date">
+                                        </div>
+                                    </div>
+
+                                    <!-- Duration Info -->
+                                    <div class="duration-box mb-4">
+                                        <div class="d-flex align-items-center gap-3">
+                                            <div class="duration-icon">
+                                                <span class="material-symbols-outlined">schedule</span>
+                                            </div>
+                                            <div>
+                                                <p class="duration-label">Total Duration</p>
+                                                <p class="duration-sublabel">Calculated automatically</p>
+                                            </div>
+                                        </div>
+                                        <div class="d-flex align-items-center gap-4">
+                                            <span class="duration-value">3 Days</span>
+                                            <div class="divider-vertical"></div>
+                                            <label class="toggle-wrapper">
+                                                <span class="toggle-label">Half Day</span>
+                                                <input type="checkbox" class="toggle-input">
+                                                <span class="toggle-slider"></span>
+                                            </label>
+                                        </div>
+                                    </div>
+
+                                    <!-- Reason -->
+                                    <div class="mb-4">
+                                        <label class="form-label-custom">Reason for Leave</label>
+                                        <textarea class="form-textarea-custom" rows="4" placeholder="Please describe the reason for your leave request..."></textarea>
+                                    </div>
+
+                                    <!-- File Upload -->
+                                    <div class="mb-4">
+                                        <label class="form-label-custom">Attachments (Optional)</label>
+                                        <div class="upload-box">
+                                            <span class="material-symbols-outlined upload-icon">cloud_upload</span>
+                                            <p class="upload-text"><span class="text-primary fw-semibold">Click to upload</span> or drag and drop</p>
+                                            <p class="upload-hint">PDF, JPG, PNG (MAX. 5MB)</p>
+                                            <input type="file" class="d-none">
+                                        </div>
+                                    </div>
+
+                                    <!-- Actions -->
+                                    <div class="form-actions">
+                                        <button type="button" class="btn-secondary-custom">Cancel</button>
+                                        <button type="button" class="btn-primary-custom">
+                                            <span class="material-symbols-outlined">send</span>
+                                            Submit Request
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+
+                        <!-- Side Widgets -->
+                        <div class="col-12 col-lg-4">
+                            <!-- Upcoming Holidays -->
+                            <div class="widget-card mb-4">
+                                <div class="widget-header">
+                                    <h3 class="widget-title">Upcoming Holidays</h3>
+                                    <span class="material-symbols-outlined">calendar_month</span>
+                                </div>
+                                <div class="holiday-item">
+                                    <div class="holiday-date">
+                                        <span class="month">DEC</span>
+                                        <span class="day">25</span>
+                                    </div>
+                                    <div>
+                                        <p class="holiday-name">Christmas Day</p>
+                                        <p class="holiday-day">Wednesday</p>
+                                    </div>
+                                </div>
+                                <div class="holiday-item">
+                                    <div class="holiday-date">
+                                        <span class="month">JAN</span>
+                                        <span class="day">01</span>
+                                    </div>
+                                    <div>
+                                        <p class="holiday-name">New Year's Day</p>
+                                        <p class="holiday-day">Wednesday</p>
+                                    </div>
+                                </div>
+                                <div class="widget-footer">
+                                    <a href="#" class="view-calendar-link">View Full Calendar</a>
+                                </div>
+                            </div>
+
+                            <!-- Policy Tip -->
+                            <div class="policy-tip">
+                                <span class="material-symbols-outlined policy-icon">info</span>
+                                <div>
+                                    <h4 class="policy-title">Policy Tip</h4>
+                                    <p class="policy-text">
+                                        Sick leave requests for more than 2 days require a medical certificate attached. Please ensure you upload it before submitting.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="./js/script.js"></script>
+</body>
+</html>

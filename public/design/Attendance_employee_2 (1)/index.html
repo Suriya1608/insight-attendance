@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Dashboard</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap" rel="stylesheet">
+    
+    <!-- Material Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- External CSS -->
+    <link rel="stylesheet" href="./css/style.css">
+</head>
+<body>
+    <div class="dashboard-wrapper">
+        <!-- Sidebar -->
+        <aside class="dashboard-sidebar">
+            <!-- Logo Section -->
+            <div class="sidebar-logo-section">
+                <div class="d-flex align-items-center gap-3">
+                    <div class="logo-icon">
+                        <span class="material-symbols-outlined">token</span>
+                    </div>
+                    <h2 class="logo-text">HR Portal</h2>
+                </div>
+            </div>
+
+            <!-- Navigation Links -->
+            <nav class="nav-menu">
+                <a href="index.html" class="nav-menu-link active">
+                    <span class="material-symbols-outlined">dashboard</span>
+                    <span>Dashboard</span>
+                </a>
+                <a href="attendance.html" class="nav-menu-link">
+                    <span class="material-symbols-outlined">schedule</span>
+                    <span>Attendance</span>
+                </a>
+                <a href="leave.html" class="nav-menu-link">
+                    <span class="material-symbols-outlined">event_available</span>
+                    <span>Leaves</span>
+                </a>
+                <a href="taskmanagement.html" class="nav-menu-link">
+                    <span class="material-symbols-outlined">checklist</span>
+                    <span>My Tasks</span>
+                </a>
+                <!-- <a href="#" class="nav-menu-link">
+                    <span class="material-symbols-outlined">group</span>
+                    <span>Team</span>
+                </a> -->
+            </nav>
+
+            <!-- Bottom Settings -->
+            <div class="sidebar-bottom">
+                <a href="settings.html" class="nav-menu-link">
+                    <span class="material-symbols-outlined">settings</span>
+                    <span>Settings</span>
+                </a>
+                <a href="#" class="nav-menu-link logout-link">
+                    <span class="material-symbols-outlined">logout</span>
+                    <span>Log Out</span>
+                </a>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="dashboard-main">
+            <!-- Desktop Header -->
+            <div class="desktop-header d-none d-lg-flex">
+                <div class="header-left">
+                    <h2 class="page-title-header">Dashboard</h2>
+                </div>
+                <div class="header-right">
+                    <button class="action-btn">
+                        <span class="material-symbols-outlined">notifications</span>
+                    </button>
+                    <button class="action-btn">
+                        <span class="material-symbols-outlined">help</span>
+                    </button>
+                    <div class="header-user-profile">
+                        <div class="user-avatar-wrapper">
+                            <div class="user-avatar"></div>
+                            <span class="status-indicator"></span>
+                        </div>
+                        <div>
+                            <h3 class="user-name">Alex Morgan</h3>
+                            <p class="user-role">Product Designer</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Mobile Header -->
+            <div class="mobile-header d-lg-none">
+                <div class="d-flex align-items-center gap-2">
+                    <span class="material-symbols-outlined text-primary">verified</span>
+                    <span class="mobile-header-title">HR Portal</span>
+                </div>
+                <button class="mobile-menu-btn" onclick="toggleMobileMenu()">
+                    <span class="material-symbols-outlined" id="mobileMenuIcon">menu</span>
+                </button>
+            </div>
+
+            <!-- Mobile Sidebar Overlay -->
+            <div class="mobile-sidebar-overlay" id="mobileOverlay" onclick="closeMobileMenu()"></div>
+            
+            <!-- Mobile Sidebar -->
+            <div class="mobile-sidebar" id="mobileSidebar">
+                <div class="mobile-sidebar-header">
+                    <div class="d-flex align-items-center gap-2">
+                        <span class="material-symbols-outlined text-primary">verified</span>
+                        <span class="mobile-header-title">HR Portal</span>
+                    </div>
+                    <button class="mobile-close-btn" onclick="closeMobileMenu()">
+                        <span class="material-symbols-outlined">close</span>
+                    </button>
+                </div>
+
+                <!-- Mobile User Profile -->
+                <div class="mobile-user-section">
+                    <div class="d-flex align-items-center gap-3">
+                        <div class="user-avatar-wrapper">
+                            <div class="user-avatar"></div>
+                            <span class="status-indicator"></span>
+                        </div>
+                        <div>
+                            <h3 class="user-name">Alex Morgan</h3>
+                            <p class="user-role">Product Designer</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Mobile Navigation -->
+                <nav class="mobile-nav-menu">
+                    <a href="index.html" class="nav-menu-link active" onclick="closeMobileMenu()">
+                        <span class="material-symbols-outlined">dashboard</span>
+                        <span>Dashboard</span>
+                    </a>
+                    <a href="attendance.html" class="nav-menu-link" onclick="closeMobileMenu()">
+                        <span class="material-symbols-outlined">schedule</span>
+                        <span>Attendance</span>
+                    </a>
+                    <a href="leave.html" class="nav-menu-link" onclick="closeMobileMenu()">
+                        <span class="material-symbols-outlined">event_available</span>
+                        <span>Leaves</span>
+                    </a>
+                    <a href="taskmanagement.html" class="nav-menu-link" onclick="closeMobileMenu()">
+                        <span class="material-symbols-outlined">checklist</span>
+                        <span>My Tasks</span>
+                    </a>
+                    <!-- <a href="#" class="nav-menu-link" onclick="closeMobileMenu()">
+                        <span class="material-symbols-outlined">group</span>
+                        <span>Team</span>
+                    </a> -->
+                    <a href="settings.html" class="nav-menu-link" onclick="closeMobileMenu()">
+                        <span class="material-symbols-outlined">settings</span>
+                        <span>Settings</span>
+                    </a>
+                    <a href="#" class="nav-menu-link logout-link" onclick="closeMobileMenu()">
+                        <span class="material-symbols-outlined">logout</span>
+                        <span>Log Out</span>
+                    </a>
+                </nav>
+            </div>
+
+            <!-- Main Content Area -->
+            <div class="dashboard-content">
+                <div class="content-wrapper">
+                    <!-- Page Header -->
+                    <div class="page-header-dashboard">
+                        <div>
+                            <h2 class="dashboard-greeting">Good Morning, Alex</h2>
+                            <p class="dashboard-date">
+                                <span class="material-symbols-outlined">calendar_today</span>
+                                Tuesday, October 24, 2023
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Statistics Grid -->
+                    <div class="row g-4 mb-4">
+                        <div class="col-12 col-sm-6 col-lg-3">
+                            <div class="stat-card stat-card-blue">
+                                <div class="stat-header">
+                                    <p class="stat-label">Hours Today</p>
+                                    <div class="stat-icon stat-icon-blue">
+                                        <span class="material-symbols-outlined">schedule</span>
+                                    </div>
+                                </div>
+                                <p class="stat-value" id="hoursToday">0h 0m</p>
+                                <div class="stat-progress">
+                                    <div class="stat-progress-bar bg-primary" id="hoursProgress" style="width: 0%"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-sm-6 col-lg-3">
+                            <div class="stat-card stat-card-purple">
+                                <div class="stat-header">
+                                    <p class="stat-label">Overtime</p>
+                                    <div class="stat-icon stat-icon-purple">
+                                        <span class="material-symbols-outlined">timelapse</span>
+                                    </div>
+                                </div>
+                                <p class="stat-value">0h 30m</p>
+                                <div class="stat-progress">
+                                    <div class="stat-progress-bar bg-purple" style="width: 15%"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-sm-6 col-lg-3">
+                            <div class="stat-card stat-card-green">
+                                <div class="stat-header">
+                                    <p class="stat-label">Days Present</p>
+                                    <div class="stat-icon stat-icon-green">
+                                        <span class="material-symbols-outlined">calendar_month</span>
+                                    </div>
+                                </div>
+                                <p class="stat-value">18 <span class="stat-sub">/ 22</span></p>
+                                <div class="stat-progress">
+                                    <div class="stat-progress-bar bg-success" style="width: 82%"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-sm-6 col-lg-3">
+                            <div class="stat-card stat-card-orange">
+                                <div class="stat-header">
+                                    <p class="stat-label">Leave Balance</p>
+                                    <div class="stat-icon stat-icon-orange">
+                                        <span class="material-symbols-outlined">beach_access</span>
+                                    </div>
+                                </div>
+                                <p class="stat-value">12 <span class="stat-sub">Days</span></p>
+                                <div class="stat-progress">
+                                    <div class="stat-progress-bar bg-orange" style="width: 40%"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Main Dashboard Grid -->
+                    <div class="row g-4">
+                        <!-- Left Column -->
+                        <div class="col-12 col-xl-4">
+                            <!-- Attendance Widget -->
+                            <div class="attendance-widget mb-4">
+                                <div class="attendance-bg-blur"></div>
+                                
+                                <div class="attendance-header">
+                                    <h3 class="widget-title">Attendance</h3>
+                                    <span class="status-badge-active" id="attendanceStatus" style="display: none;">
+                                        <span class="status-pulse"></span>
+                                        Active
+                                    </span>
+                                    <span class="status-badge-inactive" id="inactiveStatus">
+                                        <span class="status-dot-inactive"></span>
+                                        Not Clocked In
+                                    </span>
+                                </div>
+
+                                <!-- Timer Display -->
+                                <div class="timer-display">
+                                    <div class="timer-unit">
+                                        <div class="timer-box">
+                                            <p class="timer-number" id="hours">00</p>
+                                        </div>
+                                        <p class="timer-label">HRS</p>
+                                    </div>
+                                    <span class="timer-separator">:</span>
+                                    <div class="timer-unit">
+                                        <div class="timer-box">
+                                            <p class="timer-number" id="minutes">00</p>
+                                        </div>
+                                        <p class="timer-label">MIN</p>
+                                    </div>
+                                    <span class="timer-separator">:</span>
+                                    <div class="timer-unit">
+                                        <div class="timer-box timer-box-active">
+                                            <p class="timer-number timer-number-active" id="seconds">00</p>
+                                        </div>
+                                        <p class="timer-label timer-label-active">SEC</p>
+                                    </div>
+                                </div>
+
+                                <div class="attendance-footer">
+                                    <p class="clock-in-text" id="clockInText">Click below to start your work day</p>
+                                    <button class="btn-checkin" id="punchBtn" onclick="togglePunch()">
+                                        <span class="material-symbols-outlined">login</span>
+                                        Check In
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Holidays Widget -->
+                            <div class="holidays-widget">
+                                <div class="holidays-header">
+                                    <h3 class="widget-title">Upcoming Holidays</h3>
+                                    <a href="#" class="view-all-link">View All</a>
+                                </div>
+                                <div class="holidays-list">
+                                    <div class="holiday-item">
+                                        <div class="holiday-date-box">
+                                            <span class="holiday-month">Nov</span>
+                                            <span class="holiday-day">01</span>
+                                        </div>
+                                        <div>
+                                            <p class="holiday-name">All Saints' Day</p>
+                                            <p class="holiday-type">Wednesday, National Holiday</p>
+                                        </div>
+                                    </div>
+                                    <div class="holiday-item">
+                                        <div class="holiday-date-box">
+                                            <span class="holiday-month">Nov</span>
+                                            <span class="holiday-day">30</span>
+                                        </div>
+                                        <div>
+                                            <p class="holiday-name">Bonifacio Day</p>
+                                            <p class="holiday-type">Thursday, Regular Holiday</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Right Column - Tasks -->
+                        <div class="col-12 col-xl-8">
+                            <div class="tasks-widget">
+                                <div class="tasks-header">
+                                    <h3 class="widget-title">Assigned Tasks</h3>
+                                    <div class="tasks-actions d-none">
+                                        <button class="filter-btn">
+                                            <span class="material-symbols-outlined">filter_list</span>
+                                        </button>
+                                        <button class="new-task-btn">
+                                            <span class="material-symbols-outlined">add</span>
+                                            New Task
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div class="table-responsive">
+                                    <table class="tasks-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Task Name</th>
+                                                <th>Priority</th>
+                                                <th>Due Date</th>
+                                                <th>Status</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>
+                                                    <div class="task-info">
+                                                        <div class="task-icon task-icon-blue">
+                                                            <span class="material-symbols-outlined">description</span>
+                                                        </div>
+                                                        <div>
+                                                            <p class="task-name">Q4 Design Review</p>
+                                                            <p class="task-team">UI/UX Team</p>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <span class="priority-badge priority-high">High</span>
+                                                </td>
+                                                <td>
+                                                    <p class="task-date">Oct 26, 2023</p>
+                                                </td>
+                                                <td>
+                                                    <select class="status-dropdown status-progress" onchange="updateTaskStatus(this)">
+                                                        <option value="pending">Pending</option>
+                                                        <option value="progress" selected>In Progress</option>
+                                                        <option value="completed">Completed</option>
+                                                    </select>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <div class="task-info">
+                                                        <div class="task-icon task-icon-purple">
+                                                            <span class="material-symbols-outlined">palette</span>
+                                                        </div>
+                                                        <div>
+                                                            <p class="task-name">Update Style Guide</p>
+                                                            <p class="task-team">Design System</p>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <span class="priority-badge priority-medium">Medium</span>
+                                                </td>
+                                                <td>
+                                                    <p class="task-date">Oct 28, 2023</p>
+                                                </td>
+                                                <td>
+                                                    <select class="status-dropdown status-pending" onchange="updateTaskStatus(this)">
+                                                        <option value="pending" selected>Pending</option>
+                                                        <option value="progress">In Progress</option>
+                                                        <option value="completed">Completed</option>
+                                                    </select>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <div class="task-info">
+                                                        <div class="task-icon task-icon-green">
+                                                            <span class="material-symbols-outlined">bug_report</span>
+                                                        </div>
+                                                        <div>
+                                                            <p class="task-name">Fix Mobile Nav Bug</p>
+                                                            <p class="task-team">Engineering</p>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <span class="priority-badge priority-low">Low</span>
+                                                </td>
+                                                <td>
+                                                    <p class="task-date">Oct 30, 2023</p>
+                                                </td>
+                                                <td>
+                                                    <select class="status-dropdown status-completed" onchange="updateTaskStatus(this)">
+                                                        <option value="pending">Pending</option>
+                                                        <option value="progress">In Progress</option>
+                                                        <option value="completed" selected>Completed</option>
+                                                    </select>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        let isPunchedIn = false;
+        let startTime = null;
+        let timerInterval = null;
+
+        // Mobile Menu Functions
+        function toggleMobileMenu() {
+            const sidebar = document.getElementById('mobileSidebar');
+            const overlay = document.getElementById('mobileOverlay');
+            const icon = document.getElementById('mobileMenuIcon');
+            
+            sidebar.classList.toggle('active');
+            overlay.classList.toggle('active');
+            document.body.style.overflow = sidebar.classList.contains('active') ? 'hidden' : '';
+        }
+
+        function closeMobileMenu() {
+            const sidebar = document.getElementById('mobileSidebar');
+            const overlay = document.getElementById('mobileOverlay');
+            
+            sidebar.classList.remove('active');
+            overlay.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        // Punch In/Out Functions
+        function togglePunch() {
+            const btn = document.getElementById('punchBtn');
+            const statusActive = document.getElementById('attendanceStatus');
+            const statusInactive = document.getElementById('inactiveStatus');
+            const clockInText = document.getElementById('clockInText');
+
+            if (!isPunchedIn) {
+                // Punch In
+                isPunchedIn = true;
+                startTime = new Date();
+                
+                btn.innerHTML = '<span class="material-symbols-outlined">logout</span> Check Out';
+                btn.classList.remove('btn-checkin');
+                btn.classList.add('btn-checkout');
+                
+                statusActive.style.display = 'inline-flex';
+                statusInactive.style.display = 'none';
+                
+                const timeStr = startTime.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
+                clockInText.innerHTML = `You clocked in at <span class="clock-in-time">${timeStr}</span>`;
+                
+                startTimer();
+            } else {
+                // Punch Out
+                isPunchedIn = false;
+                stopTimer();
+                
+                btn.innerHTML = '<span class="material-symbols-outlined">login</span> Check In';
+                btn.classList.remove('btn-checkout');
+                btn.classList.add('btn-checkin');
+                
+                statusActive.style.display = 'none';
+                statusInactive.style.display = 'inline-flex';
+                
+                clockInText.innerHTML = 'Click below to start your work day';
+                
+                // Reset timer display
+                document.getElementById('hours').textContent = '00';
+                document.getElementById('minutes').textContent = '00';
+                document.getElementById('seconds').textContent = '00';
+            }
+        }
+
+        function startTimer() {
+            timerInterval = setInterval(updateTimer, 1000);
+        }
+
+        function stopTimer() {
+            if (timerInterval) {
+                clearInterval(timerInterval);
+                timerInterval = null;
+            }
+        }
+
+        function updateTimer() {
+            if (!startTime) return;
+
+            const now = new Date();
+            const diff = now - startTime;
+
+            const hours = Math.floor(diff / (1000 * 60 * 60));
+            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+            document.getElementById('hours').textContent = String(hours).padStart(2, '0');
+            document.getElementById('minutes').textContent = String(minutes).padStart(2, '0');
+            document.getElementById('seconds').textContent = String(seconds).padStart(2, '0');
+
+            // Update hours today stat
+            const hoursToday = document.getElementById('hoursToday');
+            hoursToday.textContent = `${hours}h ${minutes}m`;
+            
+            // Update progress bar (assuming 8 hour work day)
+            const totalMinutes = (hours * 60) + minutes;
+            const percentage = Math.min((totalMinutes / 480) * 100, 100);
+            document.getElementById('hoursProgress').style.width = percentage + '%';
+        }
+
+        function updateTaskStatus(select) {
+            const selectedValue = select.value;
+            
+            // Remove all status classes
+            select.classList.remove('status-pending', 'status-progress', 'status-completed');
+            
+            // Add appropriate class based on selection
+            if (selectedValue === 'pending') {
+                select.classList.add('status-pending');
+            } else if (selectedValue === 'progress') {
+                select.classList.add('status-progress');
+            } else if (selectedValue === 'completed') {
+                select.classList.add('status-completed');
+            }
+        }
+    </script>
+</body>
+</html>

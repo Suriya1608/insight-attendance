@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leave Request - HR Portal</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+        rel="stylesheet">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- External CSS -->
+    <link href="./css/style.css" rel="stylesheet">
+</head>
+
+<body>
+    <div class="d-flex vh-100 overflow-hidden">
+        <!-- Sidebar (same as your other pages) -->
+      <aside class="sidebar border-end d-flex flex-column">
+            <div class="sidebar-header border-bottom p-3">
+                <div class="d-flex align-items-center gap-3">
+                    <div class="brand-icon">
+                        <span class="material-symbols-outlined icon-fill">hexagon</span>
+                    </div>
+                    <div>
+                        <h1 class="brand-title mb-0">HR Portal</h1>
+                        <p class="brand-subtitle mb-0">Manager View</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="sidebar-nav flex-grow-1 overflow-auto p-3">
+                <!-- Main Nav -->
+                <a href="#" class="nav-link active d-flex align-items-center gap-3 mb-2">
+                    <span class="material-symbols-outlined icon-fill">dashboard</span>
+                    <span>Dashboard</span>
+                </a>
+                
+                <div class="nav-section-title">My Space</div>
+                
+                <!-- <a href="#" class="nav-link d-flex align-items-center gap-3 mb-2">
+                    <span class="material-symbols-outlined">fingerprint</span>
+                    <span>Punch In/Out</span>
+                </a> -->
+                <a href="attendance.html" class="nav-link d-flex align-items-center gap-3 mb-2">
+                    <span class="material-symbols-outlined">calendar_month</span>
+                    <span>Attendance</span>
+                </a>
+                <a href="leaverequest.html" class="nav-link d-flex align-items-center gap-3 mb-2">
+                    <span class="material-symbols-outlined">event_busy</span>
+                    <span>Leave Request</span>
+                </a>
+                <!-- <a href="#" class="nav-link d-flex align-items-center gap-3 mb-2">
+                    <span class="material-symbols-outlined">palm_logo</span>
+                    <span>Holiday List</span>
+                </a> -->
+                
+                <div class="nav-section-title">Work Management</div>
+                
+                <a href="taskAllogation.html" class="nav-link d-flex align-items-center gap-3 mb-2">
+                    <span class="material-symbols-outlined">task_alt</span>
+                    <span>Task Allocation</span>
+                </a>
+                
+                <div class="nav-section-title d-flex align-items-center justify-content-between">
+                    <span>Under Team</span>
+                    <span class="material-symbols-outlined">expand_more</span>
+                </div>
+                
+                <!-- Submenu -->
+                <div class="nav-submenu">
+                    <a href="teamattendance.html" class="nav-link submenu-link">Team Attendance</a>
+                    <a href="leaveapproval.html" class="nav-link submenu-link d-flex align-items-center justify-content-between">
+                        <span>Leave Approval</span>
+                        <span class="badge-notification">3</span>
+                    </a>
+                    <a href="permissionApproval.html" class="nav-link submenu-link">Permission</a>
+                    <a href="teamattendance.html" class="nav-link submenu-link">Timesheet</a>
+                </div>
+            </div>
+            
+            <div class="sidebar-footer border-top p-3">
+                <button class="btn btn-logout w-100 d-flex align-items-center gap-3">
+                    <span class="material-symbols-outlined">logout</span>
+                    <span>Log Out</span>
+                </button>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="flex-grow-1 d-flex flex-column overflow-hidden">
+            <!-- Header -->
+            <!-- Top Header (same as other pages) -->
+            <header class="top-header border-bottom">
+                <div class="container-fluid h-100">
+                    <div class="row h-100 align-items-center">
+                        <div class="col-auto">
+                            <button class="btn-mobile-menu d-lg-none" id="menuBtn">
+                                <span class="material-symbols-outlined">menu</span>
+                            </button>
+                            <nav class="breadcrumb-nav d-none d-lg-flex align-items-center">
+                                <span>Home</span>
+                                <span class="material-symbols-outlined mx-2">chevron_right</span>
+                                <span class="active">permission Approval </span>
+                            </nav>
+                        </div>
+                        <div class="col d-flex align-items-center justify-content-end gap-3">
+                            <div class="search-box d-none d-md-block position-relative">
+                                <span class="material-symbols-outlined search-icon">search</span>
+                                <input type="text" class="form-control" placeholder="Search...">
+                            </div>
+                            <button class="btn-icon position-relative">
+                                <span class="material-symbols-outlined">notifications</span>
+                                <span class="notification-dot"></span>
+                            </button>
+                            <div class="vr"></div>
+                            <button class="user-profile d-flex align-items-center gap-3">
+                                <div class="avatar" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDQGeZA_zVQ7HKHYdZ0fx0K5Gb9vk64w8Dc6KDrCY5K6MTLZRSXFWav5mWm6Fe6iTVuUJ4h9Xl5cG9ajyYlgxzTvqPWYq0-70loIgdzL5pkfRFg4HoopIjSAy2CW9A4xn_jKY67WvVhgXS8LY8j6wIVZncRCoTOgJMFY2yzyZRi7nKFqMydIbCpqLEV3dM586lh38DrFrjYw7jredsuNR4fDjfYBYuKioKaG7Jh3Z5z9t5jcfTdPoOK_vtJfa2nCRkvVD-ZecDM7oGL');"></div>
+                                <div class="d-none d-md-block text-start">
+                                    <p class="user-name mb-0">Alex Morgan</p>
+                                    <p class="user-role mb-0">Manager</p>
+                                </div>
+                                <span class="material-symbols-outlined">expand_more</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Content -->
+            <div class="flex-grow-1 overflow-auto p-4">
+                <div class="container-fluid">
+
+                    <!-- Page Title -->
+                    <div class="mb-4">
+                        <h2 class="fw-black">Permission Approval</h2>
+                        <p class="text-muted">Monitor daily attendance, status, and hours.</p>
+                    </div>
+
+                    <!-- ================= TABLE CARD ================= -->
+                    <div class="card">
+                        <div class="card-header d-flex flex-wrap justify-content-between gap-3">
+                            <div class="search-box position-relative">
+                                <span class="material-symbols-outlined search-icon">search</span>
+                                <input type="text" class="form-control" placeholder="Search employee">
+                            </div>
+
+                            <div class="d-flex gap-2">
+                                <button class="btn btn-outline-secondary d-flex align-items-center gap-2">
+                                    <span class="material-symbols-outlined">filter_list</span> Filter
+                                </button>
+                                <button class="btn btn-outline-secondary d-flex align-items-center gap-2">
+                                    <span class="material-symbols-outlined">download</span> Export
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="table-responsive">
+                            <table class="table attendance-table mb-0">
+                                <thead>
+                                    <tr>
+                                        <th class="sortable">
+                                            <div class="d-flex align-items-center gap-1">
+                                                Employee
+                                                <span class="material-symbols-outlined sort-icon">swap_vert</span>
+                                            </div>
+                                        </th>
+                                        <th>Status</th>
+                                        <th>Date</th>
+                                        <th>Type</th>
+                                        <th class="text-end">Action</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <div class="d-flex align-items-center gap-3">
+                                                <div class="avatar-sm"></div>
+                                                <div>
+                                                    <div class="fw-semibold">Olivia Rhye</div>
+                                                    <small class="text-muted">Design Team</small>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td><span class="status-badge pending">Pending</span></td>
+                                        <td>Oct 24, 2023</td>
+                                        <td>Casual Leave</td>
+                                        <td class="text-end">
+                                            <button class="btn btn-action approve">
+                                                <span class="material-symbols-outlined">check</span>
+                                            </button>
+                                            <button class="btn btn-action reject">
+                                                <span class="material-symbols-outlined">close</span>
+                                            </button>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>
+                                            <div class="d-flex align-items-center gap-3">
+                                                <div class="avatar-sm"></div>
+                                                <div>
+                                                    <div class="fw-semibold">Phoenix Baker</div>
+                                                    <small class="text-muted">Engineering</small>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td><span class="status-badge approved">Approved</span></td>
+                                        <td>Oct 22, 2023</td>
+                                        <td>Sick Leave</td>
+                                        <td class="text-end">
+                                            <button class="btn btn-action approve" disabled>
+                                                <span class="material-symbols-outlined">check</span>
+                                            </button>
+                                            <button class="btn btn-action reject" disabled>
+                                                <span class="material-symbols-outlined">close</span>
+                                            </button>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>
+                                            <div class="d-flex align-items-center gap-3">
+                                                <div class="avatar-sm"></div>
+                                                <div>
+                                                    <div class="fw-semibold">Lana Steiner</div>
+                                                    <small class="text-muted">Product</small>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td><span class="status-badge rejected">Rejected</span></td>
+                                        <td>Oct 21, 2023</td>
+                                        <td>Permission</td>
+                                        <td class="text-end">
+                                            <button class="btn btn-action approve" disabled>
+                                                <span class="material-symbols-outlined">check</span>
+                                            </button>
+                                            <button class="btn btn-action reject" disabled>
+                                                <span class="material-symbols-outlined">close</span>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="card-footer d-flex justify-content-between align-items-center">
+                            <span class="pagination-text">Showing 1 to 3 of 12 results</span>
+                            <div class="d-flex gap-2">
+                                <button class="btn btn-pagination">Previous</button>
+                                <button class="btn btn-pagination">Next</button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Mobile Menu Overlay -->
+    <div class="mobile-overlay" id="mobileOverlay"></div>
+
+
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="./js/attendance.js"></script>
+
+    <script>
+        // Mobile menu toggle (same as other pages)
+        document.getElementById('menuBtn').addEventListener('click', toggleMenu);
+        document.getElementById('mobileOverlay').addEventListener('click', toggleMenu);
+
+        function toggleMenu() {
+            document.querySelector('.sidebar').classList.toggle('active');
+            document.getElementById('mobileOverlay').classList.toggle('active');
+            document.body.style.overflow = document.querySelector('.sidebar').classList.contains('active') ? 'hidden' : '';
+        }
+
+        // Auto-show/hide To Date based on duration
+        document.getElementById('durationType').addEventListener('change', function () {
+            const toDateField = document.getElementById('toDateField');
+            toDateField.parentElement.style.display = this.value === 'multiple' ? 'block' : 'none';
+            toDateField.required = this.value === 'multiple';
+        });
+
+        // Close mobile menu when clicking a link (same behavior)
+        document.querySelectorAll('.sidebar .nav-link').forEach(link => {
+            link.addEventListener('click', () => {
+                if (window.innerWidth < 992) toggleMenu();
+            });
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,1092 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Attendance Management System — Project Documentation</title>
+  <style>
+    :root {
+      --primary:    #2563eb;
+      --primary-dk: #1d4ed8;
+      --accent:     #0ea5e9;
+      --success:    #16a34a;
+      --warning:    #d97706;
+      --danger:     #dc2626;
+      --gray-50:    #f8fafc;
+      --gray-100:   #f1f5f9;
+      --gray-200:   #e2e8f0;
+      --gray-300:   #cbd5e1;
+      --gray-500:   #64748b;
+      --gray-700:   #334155;
+      --gray-900:   #0f172a;
+      --sidebar-w:  260px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      font-size: 15px;
+      line-height: 1.7;
+      color: var(--gray-700);
+      background: var(--gray-50);
+      display: flex;
+    }
+
+    /* ── SIDEBAR ── */
+    #sidebar {
+      position: fixed;
+      top: 0; left: 0;
+      width: var(--sidebar-w);
+      height: 100vh;
+      background: var(--gray-900);
+      color: #cbd5e1;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      z-index: 100;
+    }
+
+    #sidebar .brand {
+      padding: 24px 20px 20px;
+      border-bottom: 1px solid #1e293b;
+    }
+
+    #sidebar .brand h2 {
+      font-size: 13px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      color: #94a3b8;
+    }
+
+    #sidebar .brand p {
+      font-size: 11px;
+      color: #475569;
+      margin-top: 3px;
+    }
+
+    #sidebar nav { padding: 12px 0 24px; flex: 1; }
+
+    #sidebar nav a {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      padding: 9px 20px;
+      font-size: 13px;
+      color: #94a3b8;
+      text-decoration: none;
+      transition: background .15s, color .15s;
+      border-left: 3px solid transparent;
+    }
+
+    #sidebar nav a:hover,
+    #sidebar nav a.active {
+      background: #1e293b;
+      color: #f1f5f9;
+      border-left-color: var(--primary);
+    }
+
+    #sidebar nav .section-label {
+      padding: 16px 20px 4px;
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .1em;
+      color: #475569;
+    }
+
+    /* ── MAIN ── */
+    #main {
+      margin-left: var(--sidebar-w);
+      flex: 1;
+      min-height: 100vh;
+    }
+
+    /* ── HERO ── */
+    .hero {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dk) 60%, #1e3a8a 100%);
+      color: #fff;
+      padding: 56px 60px 48px;
+    }
+
+    .hero .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(255,255,255,.15);
+      border: 1px solid rgba(255,255,255,.25);
+      border-radius: 20px;
+      padding: 4px 14px;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: .05em;
+      text-transform: uppercase;
+      margin-bottom: 18px;
+    }
+
+    .hero h1 {
+      font-size: 36px;
+      font-weight: 800;
+      line-height: 1.2;
+      margin-bottom: 14px;
+    }
+
+    .hero p {
+      font-size: 16px;
+      opacity: .85;
+      max-width: 620px;
+      margin-bottom: 28px;
+    }
+
+    .hero .meta {
+      display: flex;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+
+    .hero .meta span {
+      font-size: 13px;
+      opacity: .75;
+    }
+
+    .hero .meta strong { opacity: 1; }
+
+    /* ── CONTENT AREA ── */
+    .content { padding: 48px 60px; max-width: 1000px; }
+
+    /* ── SECTION ── */
+    .section {
+      margin-bottom: 56px;
+      scroll-margin-top: 24px;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 20px;
+      padding-bottom: 14px;
+      border-bottom: 2px solid var(--gray-200);
+    }
+
+    .section-icon {
+      width: 40px; height: 40px;
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px;
+      flex-shrink: 0;
+    }
+
+    .section-header h2 {
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--gray-900);
+    }
+
+    h3 {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--gray-900);
+      margin: 22px 0 10px;
+    }
+
+    p { margin-bottom: 10px; }
+
+    /* ── FEATURE CARDS ── */
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 14px;
+      margin: 16px 0;
+    }
+
+    .feature-card {
+      background: #fff;
+      border: 1px solid var(--gray-200);
+      border-radius: 10px;
+      padding: 16px;
+      font-size: 13px;
+    }
+
+    .feature-card .fc-icon { font-size: 22px; margin-bottom: 8px; }
+    .feature-card strong { display: block; font-size: 13px; color: var(--gray-900); margin-bottom: 4px; }
+
+    /* ── ROLE CARDS ── */
+    .role-cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin: 16px 0;
+    }
+
+    .role-card {
+      border-radius: 12px;
+      padding: 20px;
+      border: 1px solid var(--gray-200);
+    }
+
+    .role-card.admin  { background: #eff6ff; border-color: #bfdbfe; }
+    .role-card.manager { background: #f0fdf4; border-color: #bbf7d0; }
+    .role-card.employee { background: #fff7ed; border-color: #fed7aa; }
+
+    .role-card .role-title {
+      font-size: 14px;
+      font-weight: 700;
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .role-card.admin .role-title    { color: #1d4ed8; }
+    .role-card.manager .role-title  { color: #15803d; }
+    .role-card.employee .role-title { color: #c2410c; }
+
+    .role-card p { font-size: 13px; margin: 0; }
+
+    /* ── TABLES ── */
+    .table-wrap {
+      overflow-x: auto;
+      border-radius: 10px;
+      border: 1px solid var(--gray-200);
+      margin: 14px 0;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+      background: #fff;
+    }
+
+    thead tr { background: var(--gray-100); }
+
+    th {
+      padding: 11px 16px;
+      text-align: left;
+      font-weight: 700;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: .05em;
+      color: var(--gray-500);
+      border-bottom: 1px solid var(--gray-200);
+    }
+
+    td {
+      padding: 11px 16px;
+      border-bottom: 1px solid var(--gray-200);
+      vertical-align: top;
+    }
+
+    tr:last-child td { border-bottom: none; }
+    tr:hover td { background: var(--gray-50); }
+
+    td code, th code {
+      background: var(--gray-100);
+      border: 1px solid var(--gray-200);
+      border-radius: 4px;
+      padding: 1px 6px;
+      font-family: 'Cascadia Code', 'Consolas', monospace;
+      font-size: 12px;
+      color: var(--primary-dk);
+    }
+
+    /* ── BULLET LISTS ── */
+    ul {
+      padding-left: 20px;
+      margin: 8px 0;
+    }
+
+    ul li { margin-bottom: 5px; font-size: 14px; }
+
+    /* ── BADGE PILLS ── */
+    .pill {
+      display: inline-block;
+      border-radius: 20px;
+      padding: 2px 10px;
+      font-size: 11px;
+      font-weight: 600;
+    }
+
+    .pill-blue   { background: #dbeafe; color: #1d4ed8; }
+    .pill-green  { background: #dcfce7; color: #15803d; }
+    .pill-orange { background: #ffedd5; color: #c2410c; }
+    .pill-gray   { background: var(--gray-100); color: var(--gray-500); }
+
+    /* ── CALLOUT BOXES ── */
+    .callout {
+      border-radius: 10px;
+      padding: 14px 18px;
+      margin: 14px 0;
+      font-size: 13.5px;
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      border: 1px solid;
+    }
+
+    .callout.info    { background: #eff6ff; border-color: #bfdbfe; color: #1e40af; }
+    .callout.success { background: #f0fdf4; border-color: #bbf7d0; color: #15803d; }
+    .callout.warn    { background: #fffbeb; border-color: #fde68a; color: #92400e; }
+
+    .callout .ci { font-size: 18px; flex-shrink: 0; line-height: 1.5; }
+
+    /* ── FLOW DIAGRAM ── */
+    .flow {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0;
+      margin: 16px 0;
+      background: #fff;
+      border: 1px solid var(--gray-200);
+      border-radius: 10px;
+      padding: 18px 20px;
+      overflow-x: auto;
+    }
+
+    .flow-step {
+      background: var(--primary);
+      color: #fff;
+      border-radius: 8px;
+      padding: 8px 16px;
+      font-size: 13px;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+
+    .flow-step.alt  { background: var(--success); }
+    .flow-step.warn { background: var(--warning); }
+    .flow-step.danger { background: var(--danger); }
+
+    .flow-arrow {
+      padding: 0 10px;
+      color: var(--gray-500);
+      font-size: 18px;
+    }
+
+    /* ── CODE BLOCK ── */
+    pre {
+      background: var(--gray-900);
+      color: #e2e8f0;
+      border-radius: 10px;
+      padding: 18px 20px;
+      font-family: 'Cascadia Code', 'Consolas', monospace;
+      font-size: 13px;
+      overflow-x: auto;
+      margin: 14px 0;
+    }
+
+    /* ── INLINE CODE ── */
+    code {
+      background: var(--gray-100);
+      border: 1px solid var(--gray-200);
+      border-radius: 4px;
+      padding: 1px 6px;
+      font-family: 'Cascadia Code', 'Consolas', monospace;
+      font-size: 12px;
+      color: var(--primary-dk);
+    }
+
+    pre code { background: none; border: none; padding: 0; color: inherit; font-size: inherit; }
+
+    /* ── ACCESS LABEL ── */
+    .access-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      font-weight: 600;
+      padding: 3px 10px;
+      border-radius: 6px;
+      background: var(--gray-100);
+      color: var(--gray-500);
+      margin-bottom: 12px;
+      border: 1px solid var(--gray-200);
+    }
+
+    /* ── DIVIDER ── */
+    hr { border: none; border-top: 1px solid var(--gray-200); margin: 32px 0; }
+
+    /* ── FOOTER ── */
+    .doc-footer {
+      padding: 24px 60px;
+      border-top: 1px solid var(--gray-200);
+      font-size: 12px;
+      color: var(--gray-500);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #fff;
+    }
+
+    /* ── PRINT ── */
+    @media print {
+      #sidebar { display: none; }
+      #main { margin-left: 0; }
+      .hero { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      .content { padding: 24px 32px; }
+    }
+
+    @media (max-width: 768px) {
+      #sidebar { display: none; }
+      #main { margin-left: 0; }
+      .hero { padding: 36px 24px 28px; }
+      .content { padding: 28px 24px; }
+      .role-cards { grid-template-columns: 1fr; }
+      .doc-footer { flex-direction: column; gap: 6px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══════════════ SIDEBAR ══════════════ -->
+<aside id="sidebar">
+  <div class="brand">
+    <h2>AMS Docs</h2>
+    <p>Attendance Management System</p>
+  </div>
+  <nav>
+    <div class="section-label">Getting Started</div>
+    <a href="#overview">📋 Overview</a>
+    <a href="#roles">👥 User Roles</a>
+    <a href="#auth">🔐 Authentication</a>
+
+    <div class="section-label">Core Modules</div>
+    <a href="#employees">🧑‍💼 Employee Management</a>
+    <a href="#departments">🏢 Departments</a>
+    <a href="#holidays">🗓️ Holiday Management</a>
+    <a href="#attendance">⏱️ Attendance & Punch</a>
+    <a href="#leave">🌿 Leave & Permissions</a>
+    <a href="#tasks">✅ Task Management</a>
+    <a href="#notifications">🔔 Notifications</a>
+    <a href="#dashboards">📊 Dashboards</a>
+
+    <div class="section-label">Administration</div>
+    <a href="#settings">⚙️ Site Settings</a>
+    <a href="#cron">🕐 Cron Jobs</a>
+    <a href="#security">🛡️ Security</a>
+    <a href="#database">🗄️ Database Schema</a>
+  </nav>
+</aside>
+
+<!-- ══════════════ MAIN ══════════════ -->
+<div id="main">
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="badge">📄 Project Documentation</div>
+    <h1>Attendance Management System</h1>
+    <p>An enterprise-grade platform for employee attendance, leave, task management, and departmental administration — built on Laravel 11.</p>
+    <div class="meta">
+      <span><strong>Version</strong> 1.0</span>
+      <span><strong>Framework</strong> Laravel 11</span>
+      <span><strong>Date</strong> 2026-03-17</span>
+      <span><strong>Roles</strong> Admin · Manager · Employee</span>
+    </div>
+  </div>
+
+  <!-- CONTENT -->
+  <div class="content">
+
+    <!-- ── OVERVIEW ── -->
+    <div class="section" id="overview">
+      <div class="section-header">
+        <div class="section-icon" style="background:#eff6ff;">📋</div>
+        <h2>Overview</h2>
+      </div>
+      <p>The <strong>Attendance Management System (AMS)</strong> is a centralized web application that helps organizations manage employee attendance, leaves, permissions, tasks, and departmental configurations. It supports three role-based user types with tailored dashboards and strict access controls.</p>
+
+      <div class="feature-grid">
+        <div class="feature-card">
+          <div class="fc-icon">📍</div>
+          <strong>GPS Punch Tracking</strong>
+          Real-time attendance with location data
+        </div>
+        <div class="feature-card">
+          <div class="fc-icon">🌿</div>
+          <strong>Leave Workflows</strong>
+          Multi-level approval chains for all leave types
+        </div>
+        <div class="feature-card">
+          <div class="fc-icon">✅</div>
+          <strong>Task Management</strong>
+          Assign, track, and collaborate on tasks
+        </div>
+        <div class="feature-card">
+          <div class="fc-icon">🔔</div>
+          <strong>Notifications</strong>
+          In-app alerts for all key events
+        </div>
+        <div class="feature-card">
+          <div class="fc-icon">🕐</div>
+          <strong>Auto Leave Credits</strong>
+          Scheduled cron jobs for leave management
+        </div>
+        <div class="feature-card">
+          <div class="fc-icon">🔒</div>
+          <strong>ID Encryption</strong>
+          AES-128 encrypted route parameters
+        </div>
+      </div>
+    </div>
+
+    <!-- ── USER ROLES ── -->
+    <div class="section" id="roles">
+      <div class="section-header">
+        <div class="section-icon" style="background:#f0fdf4;">👥</div>
+        <h2>User Roles</h2>
+      </div>
+      <p>The system enforces role-based access control via middleware, with automatic dashboard redirection after login.</p>
+
+      <div class="role-cards">
+        <div class="role-card admin">
+          <div class="role-title">🛡️ Admin</div>
+          <p>Full system access. Manages employees, departments, holidays, leave rules, site settings, and cron jobs.</p>
+        </div>
+        <div class="role-card manager">
+          <div class="role-title">👔 Manager</div>
+          <p>Manages team attendance, approves leave requests, assigns tasks, and monitors team performance.</p>
+        </div>
+        <div class="role-card employee">
+          <div class="role-title">🧑‍💻 Employee</div>
+          <p>Views personal attendance, submits leave/permission requests, and updates assigned task statuses.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── AUTHENTICATION ── -->
+    <div class="section" id="auth">
+      <div class="section-header">
+        <div class="section-icon" style="background:#fef3c7;">🔐</div>
+        <h2>Authentication</h2>
+      </div>
+
+      <div class="callout info">
+        <span class="ci">ℹ️</span>
+        <span>Users can log in using their <strong>email address</strong>, <strong>username</strong>, or <strong>employee code</strong> — whichever they prefer.</span>
+      </div>
+
+      <ul>
+        <li>Multi-identifier login: email, username, or employee code</li>
+        <li>Remember-me functionality for persistent sessions</li>
+        <li>Automatic role-based dashboard redirection after login</li>
+        <li>Secure session regeneration on login and logout</li>
+        <li>Strong password requirements: uppercase, lowercase, digit, special character</li>
+        <li>New employees receive their initial password via email</li>
+      </ul>
+    </div>
+
+    <!-- ── EMPLOYEE MANAGEMENT ── -->
+    <div class="section" id="employees">
+      <div class="section-header">
+        <div class="section-icon" style="background:#eff6ff;">🧑‍💼</div>
+        <h2>Employee Management</h2>
+      </div>
+      <div class="access-label">🛡️ Admin only</div>
+
+      <ul>
+        <li><strong>Full CRUD</strong> — Create, view, edit, and manage all employee records</li>
+        <li><strong>Auto Employee Code Generation</strong> — Configurable prefix (e.g., <code>EMP0001</code>)</li>
+        <li><strong>Two-Level Manager Hierarchy</strong> — Each employee has an L1 and L2 manager</li>
+        <li><strong>Role Assignment</strong> — Set as <code>employee</code> or <code>manager</code></li>
+        <li><strong>Employment Status</strong> — Toggle between <code>active</code> and <code>inactive</code></li>
+        <li><strong>Profile Management</strong> — Personal details and profile photo upload</li>
+      </ul>
+
+      <h3>Stored Information</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Category</th><th>Fields</th></tr></thead>
+          <tbody>
+            <tr><td>Personal</td><td>Name, date of birth, blood group, emergency contact, address</td></tr>
+            <tr><td>Employment</td><td>Date of joining, employee code, department, role, status</td></tr>
+            <tr><td>Identity &amp; Finance</td><td>Aadhaar, PAN, bank account number, IFSC code</td></tr>
+            <tr><td>Access</td><td>Email, username, password (hashed)</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Filters &amp; Statistics</h3>
+      <ul>
+        <li>Filter by department, role, or employment status</li>
+        <li>Stats: total employees, total managers, active count, new hires this month</li>
+      </ul>
+    </div>
+
+    <!-- ── DEPARTMENTS ── -->
+    <div class="section" id="departments">
+      <div class="section-header">
+        <div class="section-icon" style="background:#f0fdf4;">🏢</div>
+        <h2>Department Management</h2>
+      </div>
+      <div class="access-label">🛡️ Admin only</div>
+
+      <ul>
+        <li>Manage departments with name, code, description, and status</li>
+        <li>Configure per-department Saturday working rules</li>
+      </ul>
+
+      <h3>Saturday Working Rules</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Rule</th><th>Description</th></tr></thead>
+          <tbody>
+            <tr><td>None</td><td>No Saturday rules applied</td></tr>
+            <tr><td>2nd Saturday off</td><td>Second Saturday of each month is a holiday</td></tr>
+            <tr><td>4th Saturday off</td><td>Fourth Saturday of each month is a holiday</td></tr>
+            <tr><td>Alternating Saturdays</td><td>Every alternate Saturday is off</td></tr>
+            <tr><td>Flexible Saturday</td><td>Employees may apply for Saturday leave</td></tr>
+            <tr><td>Carry forward</td><td>Unused Saturday leaves carry forward</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Leave Rules (Per Department)</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Setting</th><th>Range</th><th>Description</th></tr></thead>
+          <tbody>
+            <tr><td>CL per month</td><td>0 – 30 days</td><td>Monthly casual leave credit</td></tr>
+            <tr><td>Monthly permissions</td><td>0 – 10</td><td>Number of permission requests allowed</td></tr>
+            <tr><td>Hours per permission</td><td>1 – 8 hrs</td><td>Duration per permission session</td></tr>
+            <tr><td>Saturday leave eligibility</td><td>—</td><td>Auto-synced with Saturday rule</td></tr>
+            <tr><td>Activation toggle</td><td>—</td><td>Enable or disable the rule set</td></tr>
+            <tr><td>Notes</td><td>—</td><td>Internal notes for administrators</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ── HOLIDAYS ── -->
+    <div class="section" id="holidays">
+      <div class="section-header">
+        <div class="section-icon" style="background:#fff7ed;">🗓️</div>
+        <h2>Holiday Management</h2>
+      </div>
+      <div class="access-label">🛡️ Admin — create/edit &nbsp;|&nbsp; 👥 All users — view only</div>
+
+      <ul>
+        <li>Create <strong>national</strong> or <strong>optional</strong> holidays</li>
+        <li>Scope to <strong>all departments</strong> or a specific department</li>
+        <li>Duplicate date prevention per scope</li>
+        <li>Filter by year, type, and department</li>
+        <li>Statistics: total, today's, and next 30-day upcoming holidays</li>
+        <li>Holidays are <strong>automatically excluded</strong> from working day calculations in leave processing</li>
+      </ul>
+    </div>
+
+    <!-- ── ATTENDANCE ── -->
+    <div class="section" id="attendance">
+      <div class="section-header">
+        <div class="section-icon" style="background:#f0fdf4;">⏱️</div>
+        <h2>Attendance &amp; Punch Log System</h2>
+      </div>
+      <div class="access-label">👥 All roles</div>
+
+      <h3>Punch Operations</h3>
+      <ul>
+        <li><strong>Punch In / Punch Out</strong> with GPS coordinates, formatted address, and IP address logging</li>
+        <li>Multiple punch pairs per day (supports flexible working hours)</li>
+        <li>Automatic work hours calculation from punch pairs</li>
+        <li>Prevents duplicate punch-in when already clocked in</li>
+      </ul>
+
+      <h3>Daily Attendance Record</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Field</th><th>Description</th></tr></thead>
+          <tbody>
+            <tr><td>Status</td><td><span class="pill pill-green">present</span> <span class="pill pill-orange">absent</span> <span class="pill pill-blue">permission</span> <span class="pill pill-gray">leave</span></td></tr>
+            <tr><td>Work hours</td><td>Decimal format — e.g., <code>8.5</code> hours</td></tr>
+            <tr><td>Permission hours</td><td>Cumulative approved permission time</td></tr>
+            <tr><td>Punch times</td><td>First punch-in and last punch-out in HH:MM:SS</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Attendance History &amp; Export</h3>
+      <ul>
+        <li>Paginated history with date range and month-year filtering</li>
+        <li>KPI calculations: work days, present, absent, total hours, insufficient days</li>
+        <li>Export as <strong>CSV</strong> (UTF-8 BOM) or <strong>PDF</strong> (print-optimized)</li>
+        <li>Hours status indicator: sufficient or insufficient vs. configurable 9-hour minimum</li>
+      </ul>
+    </div>
+
+    <!-- ── LEAVE ── -->
+    <div class="section" id="leave">
+      <div class="section-header">
+        <div class="section-icon" style="background:#f0fdf4;">🌿</div>
+        <h2>Leave &amp; Permission System</h2>
+      </div>
+      <div class="access-label">👥 All roles — submit &nbsp;|&nbsp; 👔 Manager &amp; 🛡️ Admin — approve</div>
+
+      <h3>Leave Types</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Type</th><th>Description</th><th>Key Rules</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><strong>Casual Leave (CL)</strong></td>
+              <td>Date range leave request</td>
+              <td>Annual balance tracked; monthly cap (default 3/month); auto-fallback to LOP if balance is zero</td>
+            </tr>
+            <tr>
+              <td><strong>Permission</strong></td>
+              <td>Short leave in hours for a single date</td>
+              <td>Monthly limit per department; configurable hour duration; no duplicate dates</td>
+            </tr>
+            <tr>
+              <td><strong>Saturday Leave</strong></td>
+              <td>For flexible-Saturday departments</td>
+              <td>One-time per month; auto-expires if unused by month end</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Two-Level Approval Workflow</h3>
+      <div class="flow">
+        <div class="flow-step">Employee Submits</div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step alt">L1 Approves</div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step alt">L2 Final Approval</div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step" style="background:#16a34a;">Approved</div>
+      </div>
+      <ul>
+        <li>Manager remarks recorded at each approval step</li>
+        <li>Auto-advances to final if no L2 manager is assigned</li>
+        <li>Admin handles approvals if no managers are configured</li>
+        <li>Rejection possible at any stage</li>
+      </ul>
+
+      <h3>Leave Balance &amp; Audit Trail</h3>
+      <ul>
+        <li><strong>LeaveBalance</strong> — tracks credited, used, and lapsed amounts</li>
+        <li><strong>LeaveTransaction</strong> — complete audit trail: <code>credit</code>, <code>debit</code>, <code>lapse</code></li>
+        <li>Attachment support (max 4 MB): jpg, jpeg, png, pdf, doc, docx</li>
+      </ul>
+    </div>
+
+    <!-- ── TASKS ── -->
+    <div class="section" id="tasks">
+      <div class="section-header">
+        <div class="section-icon" style="background:#fef3c7;">✅</div>
+        <h2>Task Management System</h2>
+      </div>
+      <div class="access-label">👔 Manager — create/manage &nbsp;|&nbsp; 🧑‍💻 Employee — view/update</div>
+
+      <h3>Task Lifecycle</h3>
+      <div class="flow">
+        <div class="flow-step warn" style="background:#6b7280;">Pending</div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step warn">In Progress</div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step alt">Completed</div>
+      </div>
+      <div class="callout warn">
+        <span class="ci">⚠️</span>
+        <span>Tasks past their due date that are not yet completed are automatically flagged as <strong>Overdue</strong>.</span>
+      </div>
+
+      <h3>Manager Capabilities</h3>
+      <ul>
+        <li>Create tasks with title, description (up to 5,000 chars), assignee, priority, start/due dates, and file attachments (max 4 MB)</li>
+        <li>Priority levels: <span class="pill pill-gray">low</span> <span class="pill pill-blue">medium</span> <span class="pill pill-orange">high</span></li>
+        <li>Full CRUD on all assigned tasks</li>
+        <li>Filter by team member, status, or priority</li>
+        <li>Task statistics: total, pending, in progress, completed, overdue</li>
+        <li>View comment threads on each task</li>
+      </ul>
+
+      <h3>Employee Capabilities</h3>
+      <ul>
+        <li>"My Tasks" view with filter by status and priority</li>
+        <li>Update task status (pending → in progress → completed)</li>
+        <li>Add timestamped comments</li>
+        <li>Completion notification automatically sent to the assigning manager</li>
+      </ul>
+
+      <h3>Tracked Timestamps</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Event</th><th>Field</th></tr></thead>
+          <tbody>
+            <tr><td>First moved to <code>in_progress</code></td><td><code>started_at</code></td></tr>
+            <tr><td>Moved to <code>completed</code></td><td><code>completed_at</code></td></tr>
+            <tr><td>Past due date &amp; not completed</td><td>Flagged as <strong>Overdue</strong></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ── NOTIFICATIONS ── -->
+    <div class="section" id="notifications">
+      <div class="section-header">
+        <div class="section-icon" style="background:#fef3c7;">🔔</div>
+        <h2>Notification System</h2>
+      </div>
+      <div class="access-label">👥 All roles</div>
+
+      <h3>Notification Triggers</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Event</th><th>Recipient</th></tr></thead>
+          <tbody>
+            <tr><td>Leave request submitted</td><td>Manager</td></tr>
+            <tr><td>Leave approved (L1)</td><td>Employee</td></tr>
+            <tr><td>Leave approved (Final)</td><td>Employee</td></tr>
+            <tr><td>Leave rejected</td><td>Employee</td></tr>
+            <tr><td>Task assigned</td><td>Employee</td></tr>
+            <tr><td>Task completed</td><td>Manager</td></tr>
+            <tr><td>Task comment added</td><td>Both parties</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Features</h3>
+      <ul>
+        <li>In-app notification bell with <strong>unread count badge</strong></li>
+        <li>Latest 20 notifications shown in dropdown</li>
+        <li>Human-readable timestamps (e.g., "5 minutes ago")</li>
+        <li>Mark individual or all notifications as read</li>
+        <li>Encrypted notification IDs for URL safety</li>
+      </ul>
+    </div>
+
+    <!-- ── DASHBOARDS ── -->
+    <div class="section" id="dashboards">
+      <div class="section-header">
+        <div class="section-icon" style="background:#eff6ff;">📊</div>
+        <h2>Dashboards</h2>
+      </div>
+
+      <h3>Admin Dashboard</h3>
+      <p>System-level overview with quick-access navigation to all management modules — employees, departments, holidays, leave rules, settings, and cron jobs.</p>
+
+      <h3>Manager Dashboard</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Widget</th><th>Details</th></tr></thead>
+          <tbody>
+            <tr><td>Personal KPIs</td><td>Present days, work hours for current month</td></tr>
+            <tr><td>Team KPIs</td><td>Total members, present today, absent today</td></tr>
+            <tr><td>Team Overview</td><td>Member names, punch in/out times, work hours, location</td></tr>
+            <tr><td>Attendance Calendar</td><td>Monthly view with per-day status indicators</td></tr>
+            <tr><td>Task Statistics</td><td>Total, pending, completed, overdue</td></tr>
+            <tr><td>Leave Stats</td><td>CL balance, permissions remaining, Saturday leave</td></tr>
+            <tr><td>Upcoming Holidays</td><td>Next 5 holidays</td></tr>
+            <tr><td>Today's Birthdays</td><td>Team member birthdays</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Employee Dashboard</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Widget</th><th>Details</th></tr></thead>
+          <tbody>
+            <tr><td>Personal KPIs</td><td>Present, absent, leave days, permission hours, work hours</td></tr>
+            <tr><td>Attendance Calendar</td><td>Monthly view with status per day</td></tr>
+            <tr><td>Punch State</td><td>Current clock-in status with location display</td></tr>
+            <tr><td>Leave Stats</td><td>CL balance, permissions remaining, Saturday leave</td></tr>
+            <tr><td>Upcoming Holidays</td><td>Department-specific upcoming holidays</td></tr>
+            <tr><td>Today's Birthdays</td><td>Colleagues' birthdays</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Calendar Features</h3>
+      <ul>
+        <li>Month-by-month navigation</li>
+        <li>Day status indicators: <span class="pill pill-green">present</span> <span class="pill pill-orange">absent</span> <span class="pill pill-gray">sunday</span> <span class="pill pill-blue">holiday</span> <span class="pill pill-gray">future</span> <span class="pill pill-gray">pending</span></li>
+        <li>AJAX-based data loading for responsive interaction</li>
+      </ul>
+    </div>
+
+    <!-- ── SETTINGS ── -->
+    <div class="section" id="settings">
+      <div class="section-header">
+        <div class="section-icon" style="background:#f1f5f9;">⚙️</div>
+        <h2>Site Settings &amp; Configuration</h2>
+      </div>
+      <div class="access-label">🛡️ Admin only</div>
+
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Setting</th><th>Description</th></tr></thead>
+          <tbody>
+            <tr><td>Site title &amp; name</td><td>Displayed in browser tabs and emails</td></tr>
+            <tr><td>Site URL</td><td>Base URL for the application</td></tr>
+            <tr><td>Employee ID prefix</td><td>Prefix for auto-generated codes (e.g., <code>EMP</code>)</td></tr>
+            <tr><td>Site logo</td><td>Accepted: jpg, jpeg, png, svg, webp</td></tr>
+            <tr><td>Site favicon</td><td>Accepted: ico, png, jpg, jpeg, svg</td></tr>
+            <tr><td>Minimum work hours</td><td>Threshold for sufficient hours check (default: <code>9</code>)</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>All settings are persisted in a key-value store and applied system-wide.</p>
+    </div>
+
+    <!-- ── CRON JOBS ── -->
+    <div class="section" id="cron">
+      <div class="section-header">
+        <div class="section-icon" style="background:#f0fdf4;">🕐</div>
+        <h2>Cron Jobs &amp; Scheduling</h2>
+      </div>
+      <div class="access-label">🛡️ Admin only</div>
+
+      <h3>Scheduled Commands</h3>
+
+      <div style="background:#fff;border:1px solid var(--gray-200);border-radius:10px;padding:18px 20px;margin:14px 0;">
+        <p style="margin-bottom:8px;"><code>leave:credit-monthly</code> &nbsp;<span class="pill pill-green">Monthly</span></p>
+        <ul>
+          <li>Credits CL based on department configuration</li>
+          <li>Credits monthly permission allowance</li>
+          <li>Credits Saturday leave if eligible</li>
+          <li>Expires previous month's unused permissions and Saturday leave</li>
+          <li>Duplicate-safe (won't re-credit the same period)</li>
+          <li>Supports <code>--dry-run</code> flag for verification</li>
+        </ul>
+      </div>
+
+      <div style="background:#fff;border:1px solid var(--gray-200);border-radius:10px;padding:18px 20px;margin:14px 0;">
+        <p style="margin-bottom:8px;"><code>leave:year-end-reset</code> &nbsp;<span class="pill pill-orange">Dec 31</span></p>
+        <ul>
+          <li>Lapses all remaining CL balances</li>
+          <li>Creates audit entries in LeaveTransaction</li>
+          <li>Supports <code>--dry-run</code> flag</li>
+        </ul>
+      </div>
+
+      <h3>Cron Job Management UI</h3>
+      <ul>
+        <li>List all scheduled jobs with last run time and status</li>
+        <li>Manual job execution from the admin interface</li>
+        <li>Execution logs with output capture, duration (ms), and error details</li>
+        <li>Color-coded status indicators</li>
+      </ul>
+    </div>
+
+    <!-- ── SECURITY ── -->
+    <div class="section" id="security">
+      <div class="section-header">
+        <div class="section-icon" style="background:#fef3c7;">🛡️</div>
+        <h2>Security Features</h2>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Feature</th><th>Implementation</th></tr></thead>
+          <tbody>
+            <tr><td><strong>ID Encryption</strong></td><td>AES-128-ECB for all route parameters — 22-char base64url tokens</td></tr>
+            <tr><td><strong>Authentication</strong></td><td>Laravel's built-in Auth guard</td></tr>
+            <tr><td><strong>Authorization</strong></td><td>Role-based middleware on all protected routes</td></tr>
+            <tr><td><strong>Password Hashing</strong></td><td>Laravel bcrypt</td></tr>
+            <tr><td><strong>CSRF Protection</strong></td><td>Laravel default CSRF middleware on all forms</td></tr>
+            <tr><td><strong>Session Management</strong></td><td>Session regeneration on login and logout</td></tr>
+            <tr><td><strong>Input Validation</strong></td><td>Comprehensive server-side validation on all forms</td></tr>
+            <tr><td><strong>File Upload Restrictions</strong></td><td>Type whitelist + 4 MB size cap on all uploads</td></tr>
+            <tr><td><strong>Notification IDs</strong></td><td>Encrypted for URL safety</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Data Validation Highlights</h3>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:12px;">
+        <div style="background:#fff;border:1px solid var(--gray-200);border-radius:10px;padding:16px;">
+          <p style="font-weight:700;font-size:13px;margin-bottom:8px;">Leave Requests</p>
+          <ul>
+            <li>Date range overlap checks</li>
+            <li>Monthly CL cap enforcement</li>
+            <li>Permission limit per month</li>
+            <li>Duplicate permission date prevention</li>
+            <li>Auto CL/LOP split by balance</li>
+            <li>Working days exclude Sundays &amp; holidays</li>
+          </ul>
+        </div>
+        <div style="background:#fff;border:1px solid var(--gray-200);border-radius:10px;padding:16px;">
+          <p style="font-weight:700;font-size:13px;margin-bottom:8px;">Employees</p>
+          <ul>
+            <li>Unique email enforcement</li>
+            <li>Username regex validation</li>
+            <li>Manager relationship validation</li>
+            <li>DOB and DOJ date constraints</li>
+            <li>Mobile: 10 digits with <code>+91</code> prefix</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── DATABASE ── -->
+    <div class="section" id="database">
+      <div class="section-header">
+        <div class="section-icon" style="background:#f1f5f9;">🗄️</div>
+        <h2>Database Schema</h2>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Table</th><th>Purpose</th></tr></thead>
+          <tbody>
+            <tr><td><code>users</code></td><td>Employees, managers, and admins with roles and manager hierarchy</td></tr>
+            <tr><td><code>employee_details</code></td><td>Extended employee information — identity, financial, personal</td></tr>
+            <tr><td><code>departments</code></td><td>Organizational structure with leave rule configuration</td></tr>
+            <tr><td><code>attendances</code></td><td>Daily punch records with computed work hours</td></tr>
+            <tr><td><code>punch_logs</code></td><td>Individual punch in/out events with GPS location</td></tr>
+            <tr><td><code>leave_requests</code></td><td>Leave and permission requests with approval chain data</td></tr>
+            <tr><td><code>leave_balances</code></td><td>CL annual balance + monthly permission/Saturday leave balances</td></tr>
+            <tr><td><code>leave_transactions</code></td><td>Complete audit trail of all leave credits, debits, and lapses</td></tr>
+            <tr><td><code>tasks</code></td><td>Task assignments with priority, dates, and lifecycle status</td></tr>
+            <tr><td><code>task_comments</code></td><td>Threaded comments on tasks</td></tr>
+            <tr><td><code>holidays</code></td><td>National and departmental holidays</td></tr>
+            <tr><td><code>app_notifications</code></td><td>In-app notification records</td></tr>
+            <tr><td><code>cron_jobs</code></td><td>Scheduled job registry</td></tr>
+            <tr><td><code>cron_job_logs</code></td><td>Execution history per cron job</td></tr>
+            <tr><td><code>site_settings</code></td><td>Key-value application configuration store</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Architecture Notes</h3>
+      <ul>
+        <li><strong>Trait <code>HasEncryptedRouteKey</code></strong> — applied to all models to encrypt primary keys in URLs</li>
+        <li><strong>Helper <code>IdCrypt</code></strong> — URL-safe AES encryption/decryption utility for integer IDs</li>
+        <li><strong>Middleware <code>RoleMiddleware</code></strong> — enforces role-based access on protected route groups</li>
+        <li><strong>AJAX Interactions</strong> — calendar data loading, notification reads, and punch state checks</li>
+        <li><strong>Email</strong> — initial password delivery and event notifications via Laravel's mail system</li>
+      </ul>
+    </div>
+
+  </div><!-- /.content -->
+
+  <div class="doc-footer">
+    <span>Attendance Management System &mdash; v1.0 &mdash; Laravel 11</span>
+    <span>Document date: 2026-03-17</span>
+  </div>
+</div><!-- /#main -->
+
+<script>
+  // Highlight active sidebar link on scroll
+  const sections = document.querySelectorAll('.section[id]');
+  const links = document.querySelectorAll('#sidebar nav a');
+
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        links.forEach(l => l.classList.remove('active'));
+        const active = document.querySelector(`#sidebar nav a[href="#${entry.target.id}"]`);
+        if (active) active.classList.add('active');
+      }
+    });
+  }, { rootMargin: '-30% 0px -60% 0px' });
+
+  sections.forEach(s => observer.observe(s));
+</script>
+</body>
+</html>

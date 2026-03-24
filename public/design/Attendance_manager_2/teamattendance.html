@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leave Request - HR Portal</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- External CSS -->
+    <link href="./css/style.css" rel="stylesheet">
+</head>
+<body>
+    <div class="d-flex vh-100 overflow-hidden">
+        <!-- Sidebar (same as your other pages) -->
+     <aside class="sidebar border-end d-flex flex-column">
+            <div class="sidebar-header border-bottom p-3">
+                <div class="d-flex align-items-center gap-3">
+                    <div class="brand-icon">
+                        <span class="material-symbols-outlined icon-fill">hexagon</span>
+                    </div>
+                    <div>
+                        <h1 class="brand-title mb-0">HR Portal</h1>
+                        <p class="brand-subtitle mb-0">Manager View</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="sidebar-nav flex-grow-1 overflow-auto p-3">
+                <!-- Main Nav -->
+                <a href="#" class="nav-link active d-flex align-items-center gap-3 mb-2">
+                    <span class="material-symbols-outlined icon-fill">dashboard</span>
+                    <span>Dashboard</span>
+                </a>
+                
+                <div class="nav-section-title">My Space</div>
+                
+                <!-- <a href="#" class="nav-link d-flex align-items-center gap-3 mb-2">
+                    <span class="material-symbols-outlined">fingerprint</span>
+                    <span>Punch In/Out</span>
+                </a> -->
+                <a href="attendance.html" class="nav-link d-flex align-items-center gap-3 mb-2">
+                    <span class="material-symbols-outlined">calendar_month</span>
+                    <span>Attendance</span>
+                </a>
+                <a href="leaverequest.html" class="nav-link d-flex align-items-center gap-3 mb-2">
+                    <span class="material-symbols-outlined">event_busy</span>
+                    <span>Leave Request</span>
+                </a>
+                <!-- <a href="#" class="nav-link d-flex align-items-center gap-3 mb-2">
+                    <span class="material-symbols-outlined">palm_logo</span>
+                    <span>Holiday List</span>
+                </a> -->
+                
+                <div class="nav-section-title">Work Management</div>
+                
+                <a href="taskAllogation.html" class="nav-link d-flex align-items-center gap-3 mb-2">
+                    <span class="material-symbols-outlined">task_alt</span>
+                    <span>Task Allocation</span>
+                </a>
+                
+                <div class="nav-section-title d-flex align-items-center justify-content-between">
+                    <span>Under Team</span>
+                    <span class="material-symbols-outlined">expand_more</span>
+                </div>
+                
+                <!-- Submenu -->
+                <div class="nav-submenu">
+                    <a href="teamattendance.html" class="nav-link submenu-link">Team Attendance</a>
+                    <a href="leaveapproval.html" class="nav-link submenu-link d-flex align-items-center justify-content-between">
+                        <span>Leave Approval</span>
+                        <span class="badge-notification">3</span>
+                    </a>
+                    <a href="permissionApproval.html" class="nav-link submenu-link">Permission</a>
+                    <a href="teamattendance.html" class="nav-link submenu-link">Timesheet</a>
+                </div>
+            </div>
+            
+            <div class="sidebar-footer border-top p-3">
+                <button class="btn btn-logout w-100 d-flex align-items-center gap-3">
+                    <span class="material-symbols-outlined">logout</span>
+                    <span>Log Out</span>
+                </button>
+            </div>
+        </aside>
+        
+        <!-- Main Content -->
+        <main class="flex-grow-1 d-flex flex-column overflow-hidden">
+            <!-- Top Header (same as other pages) -->
+            <header class="top-header border-bottom">
+                <div class="container-fluid h-100">
+                    <div class="row h-100 align-items-center">
+                        <div class="col-auto">
+                            <button class="btn-mobile-menu d-lg-none" id="menuBtn">
+                                <span class="material-symbols-outlined">menu</span>
+                            </button>
+                            <nav class="breadcrumb-nav d-none d-lg-flex align-items-center">
+                                <span>Home</span>
+                                <span class="material-symbols-outlined mx-2">chevron_right</span>
+                                <span class="active">Leave Request</span>
+                            </nav>
+                        </div>
+                        <div class="col d-flex align-items-center justify-content-end gap-3">
+                            <div class="search-box d-none d-md-block position-relative">
+                                <span class="material-symbols-outlined search-icon">search</span>
+                                <input type="text" class="form-control" placeholder="Search...">
+                            </div>
+                            <button class="btn-icon position-relative">
+                                <span class="material-symbols-outlined">notifications</span>
+                                <span class="notification-dot"></span>
+                            </button>
+                            <div class="vr"></div>
+                            <button class="user-profile d-flex align-items-center gap-3">
+                                <div class="avatar" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDQGeZA_zVQ7HKHYdZ0fx0K5Gb9vk64w8Dc6KDrCY5K6MTLZRSXFWav5mWm6Fe6iTVuUJ4h9Xl5cG9ajyYlgxzTvqPWYq0-70loIgdzL5pkfRFg4HoopIjSAy2CW9A4xn_jKY67WvVhgXS8LY8j6wIVZncRCoTOgJMFY2yzyZRi7nKFqMydIbCpqLEV3dM586lh38DrFrjYw7jredsuNR4fDjfYBYuKioKaG7Jh3Z5z9t5jcfTdPoOK_vtJfa2nCRkvVD-ZecDM7oGL');"></div>
+                                <div class="d-none d-md-block text-start">
+                                    <p class="user-name mb-0">Alex Morgan</p>
+                                    <p class="user-role mb-0">Manager</p>
+                                </div>
+                                <span class="material-symbols-outlined">expand_more</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </header>
+            
+            <!-- Scrollable Content -->
+            <!-- Scrollable Content -->
+            <div class="main-content flex-grow-1 overflow-auto p-4 p-md-5">
+                <div class="container-fluid">
+                    <!-- Page Heading -->
+                    <div class="row mb-4 align-items-end">
+                        <div class="col-lg-8 mb-3 mb-lg-0">
+                            <h2 class="page-title">Team Attendance Overview</h2>
+                            <p class="page-subtitle">Monitor daily attendance, status, and hours for all team members.</p>
+                        </div>
+                        <div class="col-lg-4 text-lg-end">
+                            <p class="current-date mb-1" id="currentDate">Tue, Oct 24, 2023</p>
+                            <p class="current-date-subtitle mb-0">Today's Team Status</p>
+                        </div>
+                    </div>
+
+                    <!-- Stats Cards -->
+                    <div class="row g-4 mb-4">
+                        <div class="col-sm-6 col-lg-3">
+                            <div class="card stat-card">
+                                <div class="card-body d-flex align-items-center gap-3">
+                                    <div class="stat-icon stat-icon-present">
+                                        <span class="material-symbols-outlined">person_check</span>
+                                    </div>
+                                    <div>
+                                        <p class="stat-label mb-1">Present</p>
+                                        <p class="stat-value mb-0">
+                                            <span id="presentCount">12</span>
+                                            <span class="stat-total">/ 16</span>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 col-lg-3">
+                            <div class="card stat-card">
+                                <div class="card-body d-flex align-items-center gap-3">
+                                    <div class="stat-icon stat-icon-leave">
+                                        <span class="material-symbols-outlined">beach_access</span>
+                                    </div>
+                                    <div>
+                                        <p class="stat-label mb-1">On Leave</p>
+                                        <p class="stat-value mb-0" id="leaveCount">2</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 col-lg-3">
+                            <div class="card stat-card">
+                                <div class="card-body d-flex align-items-center gap-3">
+                                    <div class="stat-icon stat-icon-absent">
+                                        <span class="material-symbols-outlined">person_off</span>
+                                    </div>
+                                    <div>
+                                        <p class="stat-label mb-1">Absent</p>
+                                        <p class="stat-value mb-0" id="absentCount">1</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 col-lg-3">
+                            <div class="card stat-card">
+                                <div class="card-body d-flex align-items-center gap-3">
+                                    <div class="stat-icon stat-icon-late">
+                                        <span class="material-symbols-outlined">schedule</span>
+                                    </div>
+                                    <div>
+                                        <p class="stat-label mb-1">Late Entry</p>
+                                        <p class="stat-value mb-0" id="lateCount">3</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Attendance Table -->
+                    <div class="card">
+                        <div class="card-header d-flex flex-wrap align-items-center justify-content-between gap-3">
+                            <div class="search-box position-relative">
+                                <span class="material-symbols-outlined search-icon">search</span>
+                                <input type="text" class="form-control" placeholder="Search employee..." id="searchInput">
+                            </div>
+                            <div class="d-flex gap-2">
+                                <button class="btn btn-outline-secondary d-flex align-items-center gap-2" id="filterBtn">
+                                    <span class="material-symbols-outlined">filter_list</span>
+                                    <span>Filter</span>
+                                </button>
+                                <button class="btn btn-outline-secondary d-flex align-items-center gap-2" id="exportBtn">
+                                    <span class="material-symbols-outlined">download</span>
+                                    <span>Export</span>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table attendance-table mb-0">
+                                <thead>
+                                    <tr>
+                                        <th class="sortable" data-sort="name">
+                                            <div class="d-flex align-items-center gap-1">
+                                                Employee
+                                                <span class="material-symbols-outlined sort-icon">swap_vert</span>
+                                            </div>
+                                        </th>
+                                        <th class="sortable" data-sort="status">
+                                            <div class="d-flex align-items-center gap-1">
+                                                Status
+                                                <span class="material-symbols-outlined sort-icon">swap_vert</span>
+                                            </div>
+                                        </th>
+                                        <th>Clock In</th>
+                                        <th>Clock Out</th>
+                                        <th class="sortable" data-sort="hours">
+                                            <div class="d-flex align-items-center gap-1">
+                                                Total Hours
+                                                <span class="material-symbols-outlined sort-icon">swap_vert</span>
+                                            </div>
+                                        </th>
+                                        <th class="text-end">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="attendanceTableBody">
+                                    <!-- Table rows will be inserted by JavaScript -->
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="card-footer d-flex justify-content-between align-items-center">
+                            <span class="pagination-text" id="paginationInfo">Showing 1 to 5 of 16 results</span>
+                            <div class="d-flex gap-2">
+                                <button class="btn btn-pagination" id="prevBtn">Previous</button>
+                                <button class="btn btn-pagination" id="nextBtn">Next</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Mobile Menu Overlay -->
+    <div class="mobile-overlay" id="mobileOverlay"></div>
+
+   
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="./js/attendance.js"></script>
+
+    <script>
+        // Mobile menu toggle (same as other pages)
+        document.getElementById('menuBtn').addEventListener('click', toggleMenu);
+        document.getElementById('mobileOverlay').addEventListener('click', toggleMenu);
+
+        function toggleMenu() {
+            document.querySelector('.sidebar').classList.toggle('active');
+            document.getElementById('mobileOverlay').classList.toggle('active');
+            document.body.style.overflow = document.querySelector('.sidebar').classList.contains('active') ? 'hidden' : '';
+        }
+
+        // Auto-show/hide To Date based on duration
+        document.getElementById('durationType').addEventListener('change', function() {
+            const toDateField = document.getElementById('toDateField');
+            toDateField.parentElement.style.display = this.value === 'multiple' ? 'block' : 'none';
+            toDateField.required = this.value === 'multiple';
+        });
+
+        // Close mobile menu when clicking a link (same behavior)
+        document.querySelectorAll('.sidebar .nav-link').forEach(link => {
+            link.addEventListener('click', () => {
+                if (window.innerWidth < 992) toggleMenu();
+            });
+        });
+    </script>
+</body>
+</html>

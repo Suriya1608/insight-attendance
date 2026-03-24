@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leave Request - HR Portal</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- External CSS -->
+    <link href="./css/style.css" rel="stylesheet">
+</head>
+<body>
+    <div class="d-flex vh-100 overflow-hidden">
+        <!-- Sidebar (same as your other pages) -->
+       <aside class="sidebar border-end d-flex flex-column">
+            <div class="sidebar-header border-bottom p-3">
+                <div class="d-flex align-items-center gap-3">
+                    <div class="brand-icon">
+                        <span class="material-symbols-outlined icon-fill">hexagon</span>
+                    </div>
+                    <div>
+                        <h1 class="brand-title mb-0">HR Portal</h1>
+                        <p class="brand-subtitle mb-0">Manager View</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="sidebar-nav flex-grow-1 overflow-auto p-3">
+                <!-- Main Nav -->
+                <a href="#" class="nav-link active d-flex align-items-center gap-3 mb-2">
+                    <span class="material-symbols-outlined icon-fill">dashboard</span>
+                    <span>Dashboard</span>
+                </a>
+                
+                <div class="nav-section-title">My Space</div>
+                
+                <!-- <a href="#" class="nav-link d-flex align-items-center gap-3 mb-2">
+                    <span class="material-symbols-outlined">fingerprint</span>
+                    <span>Punch In/Out</span>
+                </a> -->
+                <a href="attendance.html" class="nav-link d-flex align-items-center gap-3 mb-2">
+                    <span class="material-symbols-outlined">calendar_month</span>
+                    <span>Attendance</span>
+                </a>
+                <a href="leaverequest.html" class="nav-link d-flex align-items-center gap-3 mb-2">
+                    <span class="material-symbols-outlined">event_busy</span>
+                    <span>Leave Request</span>
+                </a>
+                <!-- <a href="#" class="nav-link d-flex align-items-center gap-3 mb-2">
+                    <span class="material-symbols-outlined">palm_logo</span>
+                    <span>Holiday List</span>
+                </a> -->
+                
+                <div class="nav-section-title">Work Management</div>
+                
+                <a href="taskAllogation.html" class="nav-link d-flex align-items-center gap-3 mb-2">
+                    <span class="material-symbols-outlined">task_alt</span>
+                    <span>Task Allocation</span>
+                </a>
+                
+                <div class="nav-section-title d-flex align-items-center justify-content-between">
+                    <span>Under Team</span>
+                    <span class="material-symbols-outlined">expand_more</span>
+                </div>
+                
+                <!-- Submenu -->
+                <div class="nav-submenu">
+                    <a href="teamattendance.html" class="nav-link submenu-link">Team Attendance</a>
+                    <a href="leaveapproval.html" class="nav-link submenu-link d-flex align-items-center justify-content-between">
+                        <span>Leave Approval</span>
+                        <span class="badge-notification">3</span>
+                    </a>
+                    <a href="permissionApproval.html" class="nav-link submenu-link">Permission</a>
+                    <a href="teamattendance.html" class="nav-link submenu-link">Timesheet</a>
+                </div>
+            </div>
+            
+            <div class="sidebar-footer border-top p-3">
+                <button class="btn btn-logout w-100 d-flex align-items-center gap-3">
+                    <span class="material-symbols-outlined">logout</span>
+                    <span>Log Out</span>
+                </button>
+            </div>
+        </aside>
+        
+        <!-- Main Content -->
+        <main class="flex-grow-1 d-flex flex-column overflow-hidden">
+            <!-- Top Header (same as other pages) -->
+            <header class="top-header border-bottom">
+                <div class="container-fluid h-100">
+                    <div class="row h-100 align-items-center">
+                        <div class="col-auto">
+                            <button class="btn-mobile-menu d-lg-none" id="menuBtn">
+                                <span class="material-symbols-outlined">menu</span>
+                            </button>
+                            <nav class="breadcrumb-nav d-none d-lg-flex align-items-center">
+                                <span>Home</span>
+                                <span class="material-symbols-outlined mx-2">chevron_right</span>
+                                <span class="active">Leave Request</span>
+                            </nav>
+                        </div>
+                        <div class="col d-flex align-items-center justify-content-end gap-3">
+                            <div class="search-box d-none d-md-block position-relative">
+                                <span class="material-symbols-outlined search-icon">search</span>
+                                <input type="text" class="form-control" placeholder="Search...">
+                            </div>
+                            <button class="btn-icon position-relative">
+                                <span class="material-symbols-outlined">notifications</span>
+                                <span class="notification-dot"></span>
+                            </button>
+                            <div class="vr"></div>
+                            <button class="user-profile d-flex align-items-center gap-3">
+                                <div class="avatar" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDQGeZA_zVQ7HKHYdZ0fx0K5Gb9vk64w8Dc6KDrCY5K6MTLZRSXFWav5mWm6Fe6iTVuUJ4h9Xl5cG9ajyYlgxzTvqPWYq0-70loIgdzL5pkfRFg4HoopIjSAy2CW9A4xn_jKY67WvVhgXS8LY8j6wIVZncRCoTOgJMFY2yzyZRi7nKFqMydIbCpqLEV3dM586lh38DrFrjYw7jredsuNR4fDjfYBYuKioKaG7Jh3Z5z9t5jcfTdPoOK_vtJfa2nCRkvVD-ZecDM7oGL');"></div>
+                                <div class="d-none d-md-block text-start">
+                                    <p class="user-name mb-0">Alex Morgan</p>
+                                    <p class="user-role mb-0">Manager</p>
+                                </div>
+                                <span class="material-symbols-outlined">expand_more</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </header>
+            
+            <!-- Scrollable Content -->
+            <div class="main-content flex-grow-1 overflow-auto p-4">
+                <div class="container-fluid">
+                    <!-- Page Heading -->
+                    <div class="row mb-4 align-items-center">
+                        <div class="col-md-8">
+                            <h2 class="page-title">Leave Request</h2>
+                            <p class="page-subtitle">Apply for leave or check your leave balance and history.</p>
+                        </div>
+                        <div class="col-md-4 text-md-end">
+                            <button class="btn btn-primary d-flex align-items-center gap-2 mx-auto mx-md-0" data-bs-toggle="modal" data-bs-target="#leaveRequestModal">
+                                <span class="material-symbols-outlined">add</span>
+                                New Leave Request
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Leave Balance Cards -->
+                    <div class="row g-4 mb-5">
+                        <div class="col-md-4">
+                            <div class="card leave-balance-card">
+                                <div class="card-body">
+                                    <div class="d-flex align-items-center justify-content-between">
+                                        <div>
+                                            <p class="mb-1 text-muted">Annual Leave</p>
+                                            <h3 class="mb-0">12.5 <small class="text-muted fs-6">/ 18 days</small></h3>
+                                        </div>
+                                        <span class="material-symbols-outlined text-primary fs-1">flight</span>
+                                    </div>
+                                    <div class="progress mt-3" style="height: 6px;">
+                                        <div class="progress-bar bg-primary" style="width: 69%;"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card leave-balance-card">
+                                <div class="card-body">
+                                    <div class="d-flex align-items-center justify-content-between">
+                                        <div>
+                                            <p class="mb-1 text-muted">Sick Leave</p>
+                                            <h3 class="mb-0">7 <small class="text-muted fs-6">/ 10 days</small></h3>
+                                        </div>
+                                        <span class="material-symbols-outlined text-success fs-1">medical_services</span>
+                                    </div>
+                                    <div class="progress mt-3" style="height: 6px;">
+                                        <div class="progress-bar bg-success" style="width: 70%;"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card leave-balance-card">
+                                <div class="card-body">
+                                    <div class="d-flex align-items-center justify-content-between">
+                                        <div>
+                                            <p class="mb-1 text-muted">Casual Leave</p>
+                                            <h3 class="mb-0">3 <small class="text-muted fs-6">/ 7 days</small></h3>
+                                        </div>
+                                        <span class="material-symbols-outlined text-warning fs-1">coffee</span>
+                                    </div>
+                                    <div class="progress mt-3" style="height: 6px;">
+                                        <div class="progress-bar bg-warning" style="width: 43%;"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Leave History Table -->
+                    <div class="card">
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                            <h3 class="card-title mb-0">Leave History</h3>
+                            <select class="form-select w-auto">
+                                <option>2025</option>
+                                <option>2024</option>
+                                <option>2023</option>
+                            </select>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table activity-table mb-0">
+                                <thead>
+                                    <tr>
+                                        <th>Type</th>
+                                        <th>From</th>
+                                        <th>To</th>
+                                        <th>Days</th>
+                                        <th>Applied On</th>
+                                        <th>Status</th>
+                                        <th>Reason</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><span class="badge bg-primary">Annual</span></td>
+                                        <td>Dec 23, 2025</td>
+                                        <td>Dec 27, 2025</td>
+                                        <td>5 days</td>
+                                        <td>Dec 01, 2025</td>
+                                        <td><span class="badge bg-success">Approved</span></td>
+                                        <td>Vacation with family</td>
+                                    </tr>
+                                    <tr>
+                                        <td><span class="badge bg-success">Sick</span></td>
+                                        <td>Nov 15, 2025</td>
+                                        <td>Nov 15, 2025</td>
+                                        <td>1 day</td>
+                                        <td>Nov 14, 2025</td>
+                                        <td><span class="badge bg-success">Approved</span></td>
+                                        <td>Flu</td>
+                                    </tr>
+                                    <tr>
+                                        <td><span class="badge bg-warning">Casual</span></td>
+                                        <td>Oct 10, 2025</td>
+                                        <td>Oct 10, 2025</td>
+                                        <td>1 day</td>
+                                        <td>Oct 09, 2025</td>
+                                        <td><span class="badge bg-success">Approved</span></td>
+                                        <td>Personal work</td>
+                                    </tr>
+                                    <tr>
+                                        <td><span class="badge bg-primary">Annual</span></td>
+                                        <td>Aug 05, 2025</td>
+                                        <td>Aug 09, 2025</td>
+                                        <td>5 days</td>
+                                        <td>Jul 28, 2025</td>
+                                        <td><span class="badge bg-danger">Rejected</span></td>
+                                        <td>Project deadline conflict</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Mobile Menu Overlay -->
+    <div class="mobile-overlay" id="mobileOverlay"></div>
+
+    <!-- Leave Request Modal -->
+    <div class="modal fade" id="leaveRequestModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">New Leave Request</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="leaveForm">
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label class="form-label">Leave Type</label>
+                                <select class="form-select" required>
+                                    <option value="">Select type</option>
+                                    <option value="annual">Annual Leave</option>
+                                    <option value="sick">Sick Leave</option>
+                                    <option value="casual">Casual Leave</option>
+                                    <option value="maternity">Maternity/Paternity</option>
+                                    <option value="unpaid">Unpaid Leave</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Duration</label>
+                                <select class="form-select" id="durationType" required>
+                                    <option value="full">Full Day</option>
+                                    <option value="half">Half Day</option>
+                                    <option value="multiple">Multiple Days</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">From Date</label>
+                                <input type="date" class="form-control" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">To Date</label>
+                                <input type="date" class="form-control" id="toDateField">
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label">Reason</label>
+                                <textarea class="form-control" rows="4" placeholder="Briefly explain your leave request..." required></textarea>
+                            </div>
+                            <div class="col-12">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="notifyTeam">
+                                    <label class="form-check-label" for="notifyTeam">
+                                        Notify team members about my absence
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" onclick="alert('Leave request submitted successfully!')">Submit Request</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        // Mobile menu toggle (same as other pages)
+        document.getElementById('menuBtn').addEventListener('click', toggleMenu);
+        document.getElementById('mobileOverlay').addEventListener('click', toggleMenu);
+
+        function toggleMenu() {
+            document.querySelector('.sidebar').classList.toggle('active');
+            document.getElementById('mobileOverlay').classList.toggle('active');
+            document.body.style.overflow = document.querySelector('.sidebar').classList.contains('active') ? 'hidden' : '';
+        }
+
+        // Auto-show/hide To Date based on duration
+        document.getElementById('durationType').addEventListener('change', function() {
+            const toDateField = document.getElementById('toDateField');
+            toDateField.parentElement.style.display = this.value === 'multiple' ? 'block' : 'none';
+            toDateField.required = this.value === 'multiple';
+        });
+
+        // Close mobile menu when clicking a link (same behavior)
+        document.querySelectorAll('.sidebar .nav-link').forEach(link => {
+            link.addEventListener('click', () => {
+                if (window.innerWidth < 992) toggleMenu();
+            });
+        });
+    </script>
+</body>
+</html>

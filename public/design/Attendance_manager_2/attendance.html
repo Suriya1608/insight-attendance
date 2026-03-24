@@ -1,0 +1,795 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Punch In/Out - Attendance Dashboard</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- External CSS -->
+    <link href="./css/style.css" rel="stylesheet">
+</head>
+<body>
+    <div class="d-flex vh-100 overflow-hidden">
+        <!-- Sidebar -->
+        <aside class="sidebar border-end d-flex flex-column">
+            <div class="sidebar-header border-bottom p-3">
+                <div class="d-flex align-items-center gap-3">
+                    <div class="brand-icon">
+                        <span class="material-symbols-outlined icon-fill">hexagon</span>
+                    </div>
+                    <div>
+                        <h1 class="brand-title mb-0">HR Portal</h1>
+                        <p class="brand-subtitle mb-0">Manager View</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="sidebar-nav flex-grow-1 overflow-auto p-3">
+                <!-- Main Nav -->
+                <a href="#" class="nav-link active d-flex align-items-center gap-3 mb-2">
+                    <span class="material-symbols-outlined icon-fill">dashboard</span>
+                    <span>Dashboard</span>
+                </a>
+                
+                <div class="nav-section-title">My Space</div>
+                
+                <!-- <a href="#" class="nav-link d-flex align-items-center gap-3 mb-2">
+                    <span class="material-symbols-outlined">fingerprint</span>
+                    <span>Punch In/Out</span>
+                </a> -->
+                <a href="attendance.html" class="nav-link d-flex align-items-center gap-3 mb-2">
+                    <span class="material-symbols-outlined">calendar_month</span>
+                    <span>Attendance</span>
+                </a>
+                <a href="leaverequest.html" class="nav-link d-flex align-items-center gap-3 mb-2">
+                    <span class="material-symbols-outlined">event_busy</span>
+                    <span>Leave Request</span>
+                </a>
+                <!-- <a href="#" class="nav-link d-flex align-items-center gap-3 mb-2">
+                    <span class="material-symbols-outlined">palm_logo</span>
+                    <span>Holiday List</span>
+                </a> -->
+                
+                <div class="nav-section-title">Work Management</div>
+                
+                <a href="taskAllogation.html" class="nav-link d-flex align-items-center gap-3 mb-2">
+                    <span class="material-symbols-outlined">task_alt</span>
+                    <span>Task Allocation</span>
+                </a>
+                
+                <div class="nav-section-title d-flex align-items-center justify-content-between">
+                    <span>Under Team</span>
+                    <span class="material-symbols-outlined">expand_more</span>
+                </div>
+                
+                <!-- Submenu -->
+                <div class="nav-submenu">
+                    <a href="teamattendance.html" class="nav-link submenu-link">Team Attendance</a>
+                    <a href="leaveapproval.html" class="nav-link submenu-link d-flex align-items-center justify-content-between">
+                        <span>Leave Approval</span>
+                        <span class="badge-notification">3</span>
+                    </a>
+                    <a href="permissionApproval.html" class="nav-link submenu-link">Permission</a>
+                    <a href="teamattendance.html" class="nav-link submenu-link">Timesheet</a>
+                </div>
+            </div>
+            
+            <div class="sidebar-footer border-top p-3">
+                <button class="btn btn-logout w-100 d-flex align-items-center gap-3">
+                    <span class="material-symbols-outlined">logout</span>
+                    <span>Log Out</span>
+                </button>
+            </div>
+        </aside>
+
+        
+        <!-- Main Content -->
+        <main class="flex-grow-1 d-flex flex-column overflow-hidden">
+            <!-- Top Header -->
+            <header class="top-header border-bottom">
+                <div class="container-fluid h-100">
+                    <div class="row h-100 align-items-center">
+                        <div class="col-auto">
+                            <button class="btn-mobile-menu d-lg-none" id="menuBtn">
+                                <span class="material-symbols-outlined">menu</span>
+                            </button>
+                            
+                            <nav class="breadcrumb-nav d-none d-lg-flex align-items-center">
+                                <span>Home</span>
+                                <span class="material-symbols-outlined mx-2">chevron_right</span>
+                                <span class="active">Attendance</span>
+                            </nav>
+                        </div>
+                        <div class="col d-flex align-items-center justify-content-end gap-3">
+                            <div class="search-box d-none d-md-block position-relative">
+                                <span class="material-symbols-outlined search-icon">search</span>
+                                <input type="text" class="form-control" placeholder="Search...">
+                            </div>
+                            
+                            <button class="btn-icon position-relative">
+                                <span class="material-symbols-outlined">notifications</span>
+                                <span class="notification-dot"></span>
+                            </button>
+                            
+                            <div class="vr"></div>
+                            
+                            <button class="user-profile d-flex align-items-center gap-3">
+                                <div class="avatar" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDQGeZA_zVQ7HKHYdZ0fx0K5Gb9vk64w8Dc6KDrCY5K6MTLZRSXFWav5mWm6Fe6iTVuUJ4h9Xl5cG9ajyYlgxzTvqPWYq0-70loIgdzL5pkfRFg4HoopIjSAy2CW9A4xn_jKY67WvVhgXS8LY8j6wIVZncRCoTOgJMFY2yzyZRi7nKFqMydIbCpqLEV3dM586lh38DrFrjYw7jredsuNR4fDjfYBYuKioKaG7Jh3Z5z9t5jcfTdPoOK_vtJfa2nCRkvVD-ZecDM7oGL');"></div>
+                                <div class="d-none d-md-block text-start">
+                                    <p class="user-name mb-0">Alex Morgan</p>
+                                    <p class="user-role mb-0">Manager</p>
+                                </div>
+                                <span class="material-symbols-outlined">expand_more</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </header>
+            
+            <!-- Scrollable Content -->
+            <div class="main-content flex-grow-1 overflow-auto p-4">
+                <div class="container-fluid">
+                    <!-- Page Heading -->
+                    <div class="row mb-4">
+                        <div class="col-md-8">
+                            <h2 class="page-title">Time Clock</h2>
+                            <p class="page-subtitle">Manage your daily attendance and track work hours.</p>
+                        </div>
+                        <div class="col-md-4 text-md-end d-none d-md-block">
+                            <p class="clock-date mb-0" id="current-date">Mon, Oct 24, 2023</p>
+                            <p class="clock-timezone" id="timezone">New York, USA (GMT-4)</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Main Punch Card Section -->
+                    <div class="row g-4 mb-4">
+                        <!-- Left: Status & Actions -->
+                        <div class="col-lg-8">
+                            <div class="card punch-clock-card h-100">
+                                <div class="card-body d-flex flex-column">
+                                    <!-- Top Row: Status -->
+                                    <div class="d-flex align-items-center justify-content-between mb-4">
+                                        <div class="d-flex align-items-center gap-3">
+                                            <div class="status-indicator" id="statusIndicator"></div>
+                                            <span class="status-text" id="statusText">Currently: Not Punched In</span>
+                                        </div>
+                                        <div class="shift-time" id="shiftInfo">Shift: 09:00 AM - 06:00 PM</div>
+                                    </div>
+                                    
+                                    <!-- Center: Timer -->
+                                    <div class="timer-section text-center py-4">
+                                        <p class="timer-label">Time Elapsed</p>
+                                        <div class="timer-display d-flex justify-content-center gap-3 gap-md-4">
+                                            <div class="timer-unit">
+                                                <div class="timer-box" id="hours">00</div>
+                                                <span class="timer-unit-label">HOURS</span>
+                                            </div>
+                                            <div class="timer-separator">:</div>
+                                            <div class="timer-unit">
+                                                <div class="timer-box" id="minutes">00</div>
+                                                <span class="timer-unit-label">MINS</span>
+                                            </div>
+                                            <div class="timer-separator">:</div>
+                                            <div class="timer-unit">
+                                                <div class="timer-box" id="seconds">00</div>
+                                                <span class="timer-unit-label">SECS</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Bottom: Action Buttons -->
+                                    <div class="row g-3 mt-auto">
+                                        <div class="col-6">
+                                            <button class="btn btn-punch-in w-100" id="punchInBtn">
+                                                <span class="material-symbols-outlined">login</span>
+                                                <span>Punch In</span>
+                                            </button>
+                                        </div>
+                                        <div class="col-6">
+                                            <button class="btn btn-punch-out w-100" id="punchOutBtn" disabled>
+                                                <span class="material-symbols-outlined">logout</span>
+                                                <span>Punch Out</span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="text-center mt-3">
+                                        <button class="btn-break" id="breakBtn" disabled>
+                                            <span class="material-symbols-outlined">coffee</span>
+                                            <span id="breakText">Start Break</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Right: Weekly Summary -->
+                        <div class="col-lg-4">
+                            <div class="card h-100">
+                                <div class="card-body d-flex flex-column">
+                                    <h3 class="card-title mb-4">This Week</h3>
+                                    
+                                    <div class="mb-4">
+                                        <div class="d-flex justify-content-between mb-2">
+                                            <span class="week-label">Total Hours</span>
+                                            <span class="week-value" id="weekHours">0 / 40h</span>
+                                        </div>
+                                        <div class="progress week-progress">
+                                            <div class="progress-bar" id="weekProgress" style="width: 0%"></div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="row g-3 mb-4">
+                                        <div class="col-6">
+                                            <div class="week-stat-box stat-late">
+                                                <div class="d-flex align-items-center gap-2 mb-2">
+                                                    <span class="material-symbols-outlined">warning</span>
+                                                    <span class="stat-label">Late</span>
+                                                </div>
+                                                <p class="stat-value mb-0" id="lateCount">0</p>
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="week-stat-box stat-ontime">
+                                                <div class="d-flex align-items-center gap-2 mb-2">
+                                                    <span class="material-symbols-outlined">check_circle</span>
+                                                    <span class="stat-label">On Time</span>
+                                                </div>
+                                                <p class="stat-value mb-0" id="onTimeCount">0</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="mt-auto pt-4 border-top">
+                                        <div class="d-flex align-items-center justify-content-between">
+                                            <div>
+                                                <span class="overtime-label">Overtime</span>
+                                                <span class="overtime-value d-block" id="overtime">0h 0m</span>
+                                            </div>
+                                            <button class="btn-view-report">View Report</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Recent Activity Section -->
+                    <div class="card">
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                            <h3 class="card-title mb-0">Recent Activity</h3>
+                            <div class="d-flex gap-2">
+                                <button class="btn btn-filter" id="filterBtn">
+                                    <span class="material-symbols-outlined">calendar_today</span>
+                                    <span id="filterText">Last 7 Days</span>
+                                    <span class="material-symbols-outlined">arrow_drop_down</span>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table activity-table mb-0">
+                                <thead>
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>Punch In</th>
+                                        <th>Punch Out</th>
+                                        <th>Work Hrs</th>
+                                        <th>Status</th>
+                                        <th class="text-end">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="activityTableBody">
+                                    <!-- Table rows will be populated by JavaScript -->
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="card-footer">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="pagination-info">
+                                    Showing <span id="showingStart">1</span> to <span id="showingEnd">5</span> of <span id="totalRecords">0</span> entries
+                                </div>
+                                <nav>
+                                    <ul class="pagination mb-0" id="pagination">
+                                        <!-- Pagination will be populated by JavaScript -->
+                                    </ul>
+                                </nav>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    
+    <!-- Mobile Menu Overlay -->
+    <div class="mobile-overlay" id="mobileOverlay"></div>
+    
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        // ==================== STATE MANAGEMENT ====================
+        let punchState = {
+            isPunchedIn: false,
+            punchInTime: null,
+            onBreak: false,
+            breakStartTime: null,
+            totalBreakTime: 0,
+            elapsedSeconds: 0
+        };
+
+        let attendanceRecords = [];
+        const recordsPerPage = 5;
+        let currentPage = 1;
+        let currentFilter = 'week';
+
+        // ==================== INITIALIZE ====================
+        function init() {
+            loadStateFromStorage();
+            generateSampleData();
+            updateDateTime();
+            updateUI();
+            renderTable();
+            startTimer();
+            
+            setInterval(updateDateTime, 1000);
+            
+            // Event Listeners
+            document.getElementById('punchInBtn').addEventListener('click', handlePunchIn);
+            document.getElementById('punchOutBtn').addEventListener('click', handlePunchOut);
+            document.getElementById('breakBtn').addEventListener('click', handleBreak);
+            document.getElementById('menuBtn').addEventListener('click', toggleMenu);
+            document.getElementById('mobileOverlay').addEventListener('click', toggleMenu);
+            document.getElementById('filterBtn').addEventListener('click', cycleFilter);
+        }
+
+        // ==================== LOCAL STORAGE ====================
+        function saveStateToStorage() {
+            localStorage.setItem('punchState', JSON.stringify(punchState));
+            localStorage.setItem('attendanceRecords', JSON.stringify(attendanceRecords));
+        }
+
+        function loadStateFromStorage() {
+            const savedState = localStorage.getItem('punchState');
+            const savedRecords = localStorage.getItem('attendanceRecords');
+            
+            if (savedState) {
+                punchState = JSON.parse(savedState);
+                if (punchState.punchInTime) {
+                    const punchInDate = new Date(punchState.punchInTime);
+                    const now = new Date();
+                    if (punchInDate.toDateString() === now.toDateString()) {
+                        punchState.isPunchedIn = true;
+                    } else {
+                        punchState = {
+                            isPunchedIn: false,
+                            punchInTime: null,
+                            onBreak: false,
+                            breakStartTime: null,
+                            totalBreakTime: 0,
+                            elapsedSeconds: 0
+                        };
+                    }
+                }
+            }
+            
+            if (savedRecords) {
+                attendanceRecords = JSON.parse(savedRecords);
+            }
+        }
+
+        // ==================== DATE & TIME ====================
+        function updateDateTime() {
+            const now = new Date();
+            const dateOptions = { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' };
+            document.getElementById('current-date').textContent = now.toLocaleDateString('en-US', dateOptions);
+            
+            const offset = -now.getTimezoneOffset() / 60;
+            const sign = offset >= 0 ? '+' : '';
+            document.getElementById('timezone').textContent = `${Intl.DateTimeFormat().resolvedOptions().timeZone} (GMT${sign}${offset})`;
+        }
+
+        // ==================== TIMER ====================
+        function startTimer() {
+            setInterval(() => {
+                if (punchState.isPunchedIn && !punchState.onBreak) {
+                    updateTimer();
+                }
+            }, 1000);
+        }
+
+        function updateTimer() {
+            if (!punchState.punchInTime) return;
+            
+            const now = new Date();
+            const punchIn = new Date(punchState.punchInTime);
+            const diff = Math.floor((now - punchIn) / 1000) - punchState.totalBreakTime;
+            
+            const hours = Math.floor(diff / 3600);
+            const minutes = Math.floor((diff % 3600) / 60);
+            const seconds = diff % 60;
+            
+            document.getElementById('hours').textContent = String(hours).padStart(2, '0');
+            document.getElementById('minutes').textContent = String(minutes).padStart(2, '0');
+            document.getElementById('seconds').textContent = String(seconds).padStart(2, '0');
+            
+            punchState.elapsedSeconds = diff;
+        }
+
+        // ==================== PUNCH IN/OUT ====================
+        function handlePunchIn() {
+            const now = new Date();
+            punchState.isPunchedIn = true;
+            punchState.punchInTime = now.toISOString();
+            punchState.totalBreakTime = 0;
+            punchState.elapsedSeconds = 0;
+            
+            updateUI();
+            saveStateToStorage();
+        }
+
+        function handlePunchOut() {
+            if (!punchState.isPunchedIn) return;
+            
+            const now = new Date();
+            const punchIn = new Date(punchState.punchInTime);
+            const workHours = ((now - punchIn) / 1000 - punchState.totalBreakTime) / 3600;
+            
+            const record = {
+                date: now.toISOString(),
+                punchIn: formatTime(punchIn),
+                punchOut: formatTime(now),
+                workHours: formatWorkHours(workHours),
+                status: isLate(punchIn) ? 'late' : 'completed'
+            };
+            
+            attendanceRecords.unshift(record);
+            
+            punchState = {
+                isPunchedIn: false,
+                punchInTime: null,
+                onBreak: false,
+                breakStartTime: null,
+                totalBreakTime: 0,
+                elapsedSeconds: 0
+            };
+            
+            document.getElementById('hours').textContent = '00';
+            document.getElementById('minutes').textContent = '00';
+            document.getElementById('seconds').textContent = '00';
+            
+            updateUI();
+            renderTable();
+            saveStateToStorage();
+        }
+
+        function handleBreak() {
+            if (punchState.onBreak) {
+                const now = new Date();
+                const breakStart = new Date(punchState.breakStartTime);
+                const breakDuration = Math.floor((now - breakStart) / 1000);
+                punchState.totalBreakTime += breakDuration;
+                punchState.onBreak = false;
+                punchState.breakStartTime = null;
+            } else {
+                punchState.onBreak = true;
+                punchState.breakStartTime = new Date().toISOString();
+            }
+            
+            updateUI();
+            saveStateToStorage();
+        }
+
+        // ==================== UI UPDATE ====================
+        function updateUI() {
+            const indicator = document.getElementById('statusIndicator');
+            const statusText = document.getElementById('statusText');
+            const shiftInfo = document.getElementById('shiftInfo');
+            const punchInBtn = document.getElementById('punchInBtn');
+            const punchOutBtn = document.getElementById('punchOutBtn');
+            const breakBtn = document.getElementById('breakBtn');
+            const breakText = document.getElementById('breakText');
+            
+            if (punchState.isPunchedIn) {
+                if (punchState.onBreak) {
+                    indicator.style.backgroundColor = '#f59e0b';
+                    statusText.textContent = 'Currently: On Break';
+                    breakText.textContent = 'End Break';
+                } else {
+                    indicator.style.backgroundColor = '#10b981';
+                    statusText.textContent = 'Currently: Punched In';
+                    breakText.textContent = 'Start Break';
+                }
+                
+                const punchIn = new Date(punchState.punchInTime);
+                shiftInfo.textContent = `Shift started at ${formatTime(punchIn)}`;
+                
+                punchInBtn.disabled = true;
+                punchInBtn.style.opacity = '0.5';
+                punchOutBtn.disabled = false;
+                punchOutBtn.style.opacity = '1';
+                breakBtn.disabled = false;
+            } else {
+                indicator.style.backgroundColor = '#94a3b8';
+                statusText.textContent = 'Currently: Not Punched In';
+                shiftInfo.textContent = 'Shift: 09:00 AM - 06:00 PM';
+                
+                punchInBtn.disabled = false;
+                punchInBtn.style.opacity = '1';
+                punchOutBtn.disabled = true;
+                punchOutBtn.style.opacity = '0.5';
+                breakBtn.disabled = true;
+                breakText.textContent = 'Start Break';
+            }
+            
+            updateWeeklySummary();
+        }
+
+        function updateWeeklySummary() {
+            const weekRecords = getWeekRecords();
+            const totalHours = weekRecords.reduce((sum, r) => sum + parseWorkHours(r.workHours), 0);
+            const lateCount = weekRecords.filter(r => r.status === 'late').length;
+            const onTimeCount = weekRecords.filter(r => r.status === 'completed').length;
+            
+            const percentage = Math.min((totalHours / 40) * 100, 100);
+            
+            document.getElementById('weekHours').textContent = `${totalHours.toFixed(1)} / 40h`;
+            document.getElementById('weekProgress').style.width = `${percentage}%`;
+            document.getElementById('lateCount').textContent = lateCount;
+            document.getElementById('onTimeCount').textContent = onTimeCount;
+            
+            const overtime = Math.max(0, totalHours - 40);
+            const overtimeHours = Math.floor(overtime);
+            const overtimeMins = Math.round((overtime - overtimeHours) * 60);
+            document.getElementById('overtime').textContent = `${overtimeHours}h ${overtimeMins}m`;
+        }
+
+        // ==================== TABLE & PAGINATION ====================
+        function renderTable() {
+            const tbody = document.getElementById('activityTableBody');
+            const filteredRecords = getFilteredRecords();
+            
+            const start = (currentPage - 1) * recordsPerPage;
+            const end = start + recordsPerPage;
+            const pageRecords = filteredRecords.slice(start, end);
+            
+            tbody.innerHTML = '';
+            
+            pageRecords.forEach((record, index) => {
+                const tr = document.createElement('tr');
+                const recordDate = new Date(record.date);
+                const isToday = isDateToday(recordDate);
+                
+                tr.innerHTML = `
+                    <td>
+                        <div class="d-flex flex-column">
+                            <span class="date-main">${formatDate(recordDate)}</span>
+                            <span class="date-sub">${isToday ? 'Today' : getDayName(recordDate)}</span>
+                        </div>
+                    </td>
+                    <td class="time-value">${record.punchIn}</td>
+                    <td class="${record.punchOut ? 'time-value' : 'time-empty'}">${record.punchOut || '-- : --'}</td>
+                    <td class="time-value">${record.workHours}</td>
+                    <td>
+                        <span class="badge status-${record.status === 'active' ? 'active' : record.status === 'late' ? 'late' : 'completed'}">
+                            ${record.status === 'active' ? '<span class="status-dot"></span>' : ''}
+                            ${record.status === 'active' ? 'Active' : record.status === 'late' ? 'Late Entry' : 'Completed'}
+                        </span>
+                    </td>
+                    <td class="text-end">
+                        <button class="btn-action" onclick="viewRecord(${start + index})">
+                            <span class="material-symbols-outlined">${record.status === 'active' ? 'edit_note' : 'visibility'}</span>
+                        </button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+            
+            renderPagination(filteredRecords.length);
+        }
+
+        function renderPagination(totalRecords) {
+            const totalPages = Math.ceil(totalRecords / recordsPerPage);
+            const pagination = document.getElementById('pagination');
+            
+            document.getElementById('showingStart').textContent = totalRecords > 0 ? (currentPage - 1) * recordsPerPage + 1 : 0;
+            document.getElementById('showingEnd').textContent = Math.min(currentPage * recordsPerPage, totalRecords);
+            document.getElementById('totalRecords').textContent = totalRecords;
+            
+            pagination.innerHTML = '';
+            
+            // Previous button
+            const prevLi = document.createElement('li');
+            prevLi.className = `page-item ${currentPage === 1 ? 'disabled' : ''}`;
+            prevLi.innerHTML = `<a class="page-link" href="#" onclick="changePage(${currentPage - 1}); return false;">Previous</a>`;
+            pagination.appendChild(prevLi);
+            
+            // Page numbers
+            for (let i = 1; i <= totalPages; i++) {
+                if (i === 1 || i === totalPages || (i >= currentPage - 1 && i <= currentPage + 1)) {
+                    const li = document.createElement('li');
+                    li.className = `page-item ${i === currentPage ? 'active' : ''}`;
+                    li.innerHTML = `<a class="page-link" href="#" onclick="changePage(${i}); return false;">${i}</a>`;
+                    pagination.appendChild(li);
+                } else if (i === currentPage - 2 || i === currentPage + 2) {
+                    const li = document.createElement('li');
+                    li.className = 'page-item disabled';
+                    li.innerHTML = `<a class="page-link" href="#">...</a>`;
+                    pagination.appendChild(li);
+                }
+            }
+            
+            // Next button
+            const nextLi = document.createElement('li');
+            nextLi.className = `page-item ${currentPage === totalPages ? 'disabled' : ''}`;
+            nextLi.innerHTML = `<a class="page-link" href="#" onclick="changePage(${currentPage + 1}); return false;">Next</a>`;
+            pagination.appendChild(nextLi);
+        }
+
+        function changePage(page) {
+            const filteredRecords = getFilteredRecords();
+            const totalPages = Math.ceil(filteredRecords.length / recordsPerPage);
+            
+            if (page >= 1 && page <= totalPages) {
+                currentPage = page;
+                renderTable();
+            }
+        }
+
+        function viewRecord(index) {
+            alert(`Viewing record details for entry ${index + 1}`);
+        }
+        // ==================== FILTERS ====================
+    function cycleFilter() {
+        const filters = ['week', 'month', 'all'];
+        const currentIndex = filters.indexOf(currentFilter);
+        currentFilter = filters[(currentIndex + 1) % filters.length];
+        
+        const filterText = {
+            'week': 'Last 7 Days',
+            'month': 'Last 30 Days',
+            'all': 'All Time'
+        };
+        
+        document.getElementById('filterText').textContent = filterText[currentFilter];
+        currentPage = 1;
+        renderTable();
+    }
+
+    function getFilteredRecords() {
+        const now = new Date();
+        
+        if (punchState.isPunchedIn) {
+            const activeRecord = {
+                date: punchState.punchInTime,
+                punchIn: formatTime(new Date(punchState.punchInTime)),
+                punchOut: null,
+                workHours: formatWorkHours(punchState.elapsedSeconds / 3600),
+                status: 'active'
+            };
+            
+            const allRecords = [activeRecord, ...attendanceRecords];
+            return filterByDateRange(allRecords, now);
+        }
+        
+        return filterByDateRange(attendanceRecords, now);
+    }
+
+    function filterByDateRange(records, now) {
+        if (currentFilter === 'all') return records;
+        
+        const days = currentFilter === 'week' ? 7 : 30;
+        const cutoff = new Date(now.getTime() - days * 24 * 60 * 60 * 1000);
+        
+        return records.filter(r => new Date(r.date) >= cutoff);
+    }
+
+    function getWeekRecords() {
+        const now = new Date();
+        const weekAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
+        return attendanceRecords.filter(r => new Date(r.date) >= weekAgo);
+    }
+
+    // ==================== MOBILE MENU ====================
+    function toggleMenu() {
+        const sidebar = document.querySelector('.sidebar');
+        const overlay = document.getElementById('mobileOverlay');
+        
+        sidebar.classList.toggle('active');
+        overlay.classList.toggle('active');
+        document.body.style.overflow = sidebar.classList.contains('active') ? 'hidden' : '';
+    }
+
+    // Close menu when clicking nav links on mobile
+    document.querySelectorAll('.sidebar .nav-link').forEach(link => {
+        link.addEventListener('click', function() {
+            if (window.innerWidth < 992) {
+                toggleMenu();
+            }
+        });
+    });
+
+    // ==================== SAMPLE DATA ====================
+    function generateSampleData() {
+        if (attendanceRecords.length > 0) return;
+        
+        const sampleData = [
+            { days: 1, punchIn: '08:55 AM', punchOut: '05:30 PM', hours: 8.58, late: false },
+            { days: 2, punchIn: '09:15 AM', punchOut: '05:00 PM', hours: 7.75, late: true },
+            { days: 3, punchIn: '08:50 AM', punchOut: '06:00 PM', hours: 9.17, late: false },
+            { days: 4, punchIn: '09:05 AM', punchOut: '05:45 PM', hours: 8.67, late: true },
+            { days: 5, punchIn: '08:45 AM', punchOut: '05:30 PM', hours: 8.75, late: false },
+            { days: 8, punchIn: '09:00 AM', punchOut: '06:15 PM', hours: 9.25, late: false },
+            { days: 9, punchIn: '08:55 AM', punchOut: '05:00 PM', hours: 8.08, late: false },
+            { days: 10, punchIn: '09:20 AM', punchOut: '05:30 PM', hours: 8.17, late: true },
+        ];
+        
+        const now = new Date();
+        sampleData.forEach(data => {
+            const date = new Date(now);
+            date.setDate(date.getDate() - data.days);
+            
+            attendanceRecords.push({
+                date: date.toISOString(),
+                punchIn: data.punchIn,
+                punchOut: data.punchOut,
+                workHours: formatWorkHours(data.hours),
+                status: data.late ? 'late' : 'completed'
+            });
+        });
+        
+        saveStateToStorage();
+    }
+
+    // ==================== UTILITY FUNCTIONS ====================
+    function formatTime(date) {
+        return date.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true });
+    }
+
+    function formatDate(date) {
+        return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+    }
+
+    function getDayName(date) {
+        return date.toLocaleDateString('en-US', { weekday: 'long' });
+    }
+
+    function isDateToday(date) {
+        const today = new Date();
+        return date.toDateString() === today.toDateString();
+    }
+
+    function formatWorkHours(hours) {
+        const h = Math.floor(hours);
+        const m = Math.round((hours - h) * 60);
+        return `${h}h ${m}m`;
+    }
+
+    function parseWorkHours(workHours) {
+        const match = workHours.match(/(\d+)h\s*(\d+)m/);
+        if (match) {
+            return parseInt(match[1]) + parseInt(match[2]) / 60;
+        }
+        return 0;
+    }
+
+    function isLate(punchInTime) {
+        const hours = punchInTime.getHours();
+        const minutes = punchInTime.getMinutes();
+        return hours > 9 || (hours === 9 && minutes > 0);
+    }
+
+    // ==================== START APPLICATION ====================
+    init();
+</script>
+</body>
+</html>

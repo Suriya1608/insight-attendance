@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manager Attendance Dashboard</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- External CSS -->
+    <link href="./css/style.css" rel="stylesheet">
+</head>
+<body>
+    <div class="d-flex vh-100 overflow-hidden">
+        <!-- Sidebar -->
+        <aside class="sidebar border-end d-flex flex-column">
+            <div class="sidebar-header border-bottom p-3">
+                <div class="d-flex align-items-center gap-3">
+                    <div class="brand-icon">
+                        <span class="material-symbols-outlined icon-fill">hexagon</span>
+                    </div>
+                    <div>
+                        <h1 class="brand-title mb-0">HR Portal</h1>
+                        <p class="brand-subtitle mb-0">Manager View</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="sidebar-nav flex-grow-1 overflow-auto p-3">
+                <!-- Main Nav -->
+                <a href="#" class="nav-link active d-flex align-items-center gap-3 mb-2">
+                    <span class="material-symbols-outlined icon-fill">dashboard</span>
+                    <span>Dashboard</span>
+                </a>
+                
+                <div class="nav-section-title">My Space</div>
+                
+                <!-- <a href="#" class="nav-link d-flex align-items-center gap-3 mb-2">
+                    <span class="material-symbols-outlined">fingerprint</span>
+                    <span>Punch In/Out</span>
+                </a> -->
+                <a href="attendance.html" class="nav-link d-flex align-items-center gap-3 mb-2">
+                    <span class="material-symbols-outlined">calendar_month</span>
+                    <span>Attendance</span>
+                </a>
+                <a href="leaverequest.html" class="nav-link d-flex align-items-center gap-3 mb-2">
+                    <span class="material-symbols-outlined">event_busy</span>
+                    <span>Leave Request</span>
+                </a>
+                <!-- <a href="#" class="nav-link d-flex align-items-center gap-3 mb-2">
+                    <span class="material-symbols-outlined">palm_logo</span>
+                    <span>Holiday List</span>
+                </a> -->
+                
+                <div class="nav-section-title">Work Management</div>
+                
+                <a href="taskAllogation.html" class="nav-link d-flex align-items-center gap-3 mb-2">
+                    <span class="material-symbols-outlined">task_alt</span>
+                    <span>Task Allocation</span>
+                </a>
+                
+                <div class="nav-section-title d-flex align-items-center justify-content-between">
+                    <span>Under Team</span>
+                    <span class="material-symbols-outlined">expand_more</span>
+                </div>
+                
+                <!-- Submenu -->
+                <div class="nav-submenu">
+                    <a href="teamattendance.html" class="nav-link submenu-link">Team Attendance</a>
+                    <a href="leaveapproval.html" class="nav-link submenu-link d-flex align-items-center justify-content-between">
+                        <span>Leave Approval</span>
+                        <span class="badge-notification">3</span>
+                    </a>
+                    <a href="permissionApproval.html" class="nav-link submenu-link">Permission</a>
+                    <a href="teamattendance.html" class="nav-link submenu-link">Timesheet</a>
+                </div>
+            </div>
+            
+            <div class="sidebar-footer border-top p-3">
+                <button class="btn btn-logout w-100 d-flex align-items-center gap-3">
+                    <span class="material-symbols-outlined">logout</span>
+                    <span>Log Out</span>
+                </button>
+            </div>
+        </aside>
+        
+        <!-- Main Content -->
+        <main class="flex-grow-1 d-flex flex-column overflow-hidden">
+            <!-- Top Header -->
+            <header class="top-header border-bottom">
+                <div class="container-fluid h-100">
+                    <div class="row h-100 align-items-center">
+                        <div class="col-auto">
+                            <!-- Mobile Menu Button -->
+                            <button class="btn-mobile-menu d-lg-none" id="menuBtn">
+                                <span class="material-symbols-outlined">menu</span>
+                            </button>
+                            
+                            <!-- Breadcrumb -->
+                            <nav class="breadcrumb-nav d-none d-lg-flex align-items-center">
+                                <span>Dashboard</span>
+                                <span class="material-symbols-outlined mx-2">chevron_right</span>
+                                <span class="active">Overview</span>
+                            </nav>
+                        </div>
+                        <div class="col d-flex align-items-center justify-content-end gap-3">
+                            <!-- Search -->
+                            <div class="search-box d-none d-md-block position-relative">
+                                <span class="material-symbols-outlined search-icon">search</span>
+                                <input type="text" class="form-control" placeholder="Search...">
+                            </div>
+                            
+                            <!-- Notifications -->
+                            <button class="btn-icon position-relative">
+                                <span class="material-symbols-outlined">notifications</span>
+                                <span class="notification-dot"></span>
+                            </button>
+                            
+                            <div class="vr"></div>
+                            
+                            <!-- User Profile -->
+                            <button class="user-profile d-flex align-items-center gap-3">
+                                <div class="avatar" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDQGeZA_zVQ7HKHYdZ0fx0K5Gb9vk64w8Dc6KDrCY5K6MTLZRSXFWav5mWm6Fe6iTVuUJ4h9Xl5cG9ajyYlgxzTvqPWYq0-70loIgdzL5pkfRFg4HoopIjSAy2CW9A4xn_jKY67WvVhgXS8LY8j6wIVZncRCoTOgJMFY2yzyZRi7nKFqMydIbCpqLEV3dM586lh38DrFrjYw7jredsuNR4fDjfYBYuKioKaG7Jh3Z5z9t5jcfTdPoOK_vtJfa2nCRkvVD-ZecDM7oGL');"></div>
+                                <div class="d-none d-md-block text-start">
+                                    <p class="user-name mb-0">Alex Morgan</p>
+                                    <p class="user-role mb-0">Manager</p>
+                                </div>
+                                <span class="material-symbols-outlined">expand_more</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </header>
+            
+            <!-- Scrollable Content -->
+            <div class="main-content flex-grow-1 overflow-auto p-4">
+                <div class="container-fluid">
+                    <!-- Welcome Section -->
+                    <div class="row mb-4">
+                        <div class="col-md-8">
+                            <h2 class="welcome-title">Good Morning, Alex 👋</h2>
+                            <p class="welcome-subtitle">Here's what's happening with your team today.</p>
+                        </div>
+                        <div class="col-md-4 text-md-end d-none d-md-block">
+                            <p class="current-date mb-0" id="current-date">Oct 24, 2023</p>
+                            <p class="current-day">Thursday</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Overview Widgets -->
+                    <div class="row g-4 mb-4">
+                        <!-- Quick Punch Card -->
+                        <div class="col-lg-4">
+                            <div class="card punch-card h-100">
+                                <div class="card-body d-flex flex-column">
+                                    <div class="d-flex justify-content-between align-items-start mb-4">
+                                        <div>
+                                            <h3 class="card-title">Quick Punch</h3>
+                                            <p class="card-subtitle">Shift: 09:00 AM - 06:00 PM</p>
+                                        </div>
+                                        <span class="material-symbols-outlined time-icon">schedule</span>
+                                    </div>
+                                    <div class="text-center my-4">
+                                        <p class="punch-time">09:41 <span class="time-period">AM</span></p>
+                                        <span class="badge-status">On Time</span>
+                                    </div>
+                                    <button class="btn btn-primary btn-punch mt-auto">
+                                        <span class="material-symbols-outlined me-2">fingerprint</span>
+                                        Punch In
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Stats Grid -->
+                        <div class="col-lg-8">
+                            <div class="row g-3">
+                                <!-- Stat 1 -->
+                                <div class="col-sm-6">
+                                    <div class="card stat-card">
+                                        <div class="card-body">
+                                            <div class="d-flex align-items-center gap-3 mb-3">
+                                                <div class="stat-icon stat-icon-blue">
+                                                    <span class="material-symbols-outlined">group</span>
+                                                </div>
+                                                <p class="stat-label mb-0">Total Team</p>
+                                            </div>
+                                            <div class="d-flex align-items-end justify-content-between">
+                                                <h4 class="stat-value">12</h4>
+                                                <span class="stat-unit">Members</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Stat 2 -->
+                                <div class="col-sm-6">
+                                    <div class="card stat-card">
+                                        <div class="card-body">
+                                            <div class="d-flex align-items-center gap-3 mb-3">
+                                                <div class="stat-icon stat-icon-green">
+                                                    <span class="material-symbols-outlined">check_circle</span>
+                                                </div>
+                                                <p class="stat-label mb-0">Present Today</p>
+                                            </div>
+                                            <div class="d-flex align-items-end justify-content-between">
+                                                <h4 class="stat-value">9</h4>
+                                                <span class="stat-trend">
+                                                    <span class="material-symbols-outlined">trending_up</span> 75%
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Stat 3 -->
+                                <div class="col-sm-6">
+                                    <div class="card stat-card">
+                                        <div class="card-body">
+                                            <div class="d-flex align-items-center gap-3 mb-3">
+                                                <div class="stat-icon stat-icon-orange">
+                                                    <span class="material-symbols-outlined">beach_access</span>
+                                                </div>
+                                                <p class="stat-label mb-0">On Leave</p>
+                                            </div>
+                                            <div class="d-flex align-items-end justify-content-between">
+                                                <h4 class="stat-value">2</h4>
+                                                <div class="avatar-stack">
+                                                    <div class="avatar-sm" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCDKdqFTAYlGrOUUTFFOiLeZBhIvWg65lvCxwK4mkpVQTwf7v9tJQHJStOAXJ6TnQuF3nmpdqBE-PHxYqGewlM41a_PyHcUrbCpy3h-Korug8WfOyWxIol962CNy57wa1fX6T3rgZraV_HjuYKwSYF_FM3um2xEol1rEAeaF4pNk7nV4dSXzxCNWukryVKWpyCBEAobrFFZIguHiMb2vaGHvRqtNv7zr-D1ldvLjDr2TuxZO0aLJffo59kMUr6p1ETIAlqJbMKxH_b6');"></div>
+                                                    <div class="avatar-sm" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDQFcW-nSBT1vatQ0A8r9irCjgOCgqe4fJOg_LvPBHTOcjOasaSD8AkOFxhQa8aVhBwLI0LKjOBVPFucR8i7LFDOfNyqLWtWFsYd5ijqGoCsXuOoUxSX6Sac7dA_EkmysZrrZzTmPrwnFI_54oLvC-v9bAtK8zDhShHmVqsrjCAQQ-O4nZnNC-uaikuIcEO30smhWE6tM1XdsF2MoWdle9gIC8tmXK534DXeXKr67xRxrLJ3l_EF23VmNqQhkG4y9s8IVgBbO6s0aBW');"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Stat 4 -->
+                                <div class="col-sm-6">
+                                    <div class="card stat-card stat-card-highlight">
+                                        <div class="card-body">
+                                            <div class="d-flex align-items-center gap-3 mb-3">
+                                                <div class="stat-icon stat-icon-red">
+                                                    <span class="material-symbols-outlined">notification_important</span>
+                                                </div>
+                                                <p class="stat-label mb-0">Pending Approvals</p>
+                                            </div>
+                                            <div class="d-flex align-items-end justify-content-between">
+                                                <h4 class="stat-value">3</h4>
+                                                <a href="#" class="stat-link">
+                                                    Review <span class="material-symbols-outlined">arrow_forward</span>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Main Dashboard Content -->
+                    <div class="row g-4">
+                        <!-- Pending Requests -->
+                        <div class="col-lg-8">
+                            <div class="card">
+                                <div class="card-header d-flex justify-content-between align-items-center">
+                                    <h3 class="card-title mb-0">Pending Requests</h3>
+                                    <a href="#" class="link-primary">View All</a>
+                                </div>
+                                <div class="card-body p-0">
+                                    <!-- Request Item 1 -->
+                                    <div class="request-item">
+                                        <div class="d-flex flex-column flex-sm-row gap-3 align-items-start align-items-sm-center justify-content-between">
+                                            <div class="d-flex align-items-center gap-3">
+                                                <div class="avatar-md" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBhDl7dh4NzeLPcdGG_nV0QWBc94lR7YiV-o-DhrpKHVSvItM3ifH1QDhzwL1BkhxabL8s98q3dMP4wU23Ht8F4ks3xJzV5h973n8b6YOFx6WAda7LPzumL3uZWYDIhive7KNtkCqkAqaHWu-BUcI8O0xdbrar_2DivCtI_s9Va2W1pyoCXOAKIptnzUUOO3tOrsi1Np6ta8FJO4R84sobuknhwTFjkHfA6eQZ1NGUqRmsRvjUJ7fgzFsTM3eWOUDuuyz4Iny2HZqk6');"></div>
+                                                <div>
+                                                    <p class="request-name mb-1">Sarah Jenkins</p>
+                                                    <div class="d-flex align-items-center gap-2">
+                                                        <span class="badge-leave badge-leave-purple">Sick Leave</span>
+                                                        <span class="request-time">• Today</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="d-flex gap-2">
+                                                <button class="btn btn-outline-secondary btn-sm">Reject</button>
+                                                <button class="btn btn-primary btn-sm">Approve</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Request Item 2 -->
+                                    <div class="request-item">
+                                        <div class="d-flex flex-column flex-sm-row gap-3 align-items-start align-items-sm-center justify-content-between">
+                                            <div class="d-flex align-items-center gap-3">
+                                                <div class="avatar-md" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCOVcPOQUMwBMvKHaWy0hwvjgH7Ju2BzRGZt1hYIS5uzklliI1w163yYILkYjDH6xBbw5Z6ees_94g97yXD9G36j-LVCBBcxkoWBj5tLZ_6rA2Ea4wU7qV3tHaEl4InxyZlaR3RUMlMY5lun0MmqzVZKcd88NkHrqbyQVRphWRB5FfVrQidaTp9mTh4lsPxXZMIL6C6WQfVaZ-RguyUOVMfPlrGgqFeSsT1ed-EgrVzaZ8nELgK7x__YYLkcpFeD8vGYHZZDI191k97');"></div>
+                                                <div>
+                                                    <p class="request-name mb-1">Mike Ross</p>
+                                                    <div class="d-flex align-items-center gap-2">
+                                                        <span class="badge-leave badge-leave-blue">Permission</span>
+                                                        <span class="request-time">• 2h Early Leave</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="d-flex gap-2">
+                                                <button class="btn btn-outline-secondary btn-sm">Reject</button>
+                                                <button class="btn btn-primary btn-sm">Approve</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Request Item 3 -->
+                                    <div class="request-item">
+                                        <div class="d-flex flex-column flex-sm-row gap-3 align-items-start align-items-sm-center justify-content-between">
+                                            <div class="d-flex align-items-center gap-3">
+                                                <div class="avatar-md" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDvnrK6Z8mpks3BZC_KDct7yyhpky13lOiKoL7HIfeOWVDJCAIzli3Ge1HOQthMnAXV2jNQfevu6PCcwFW5lifRRo-I0lur6XGrEm6DT0oy7EUEaH8N3vfcePLv-JcaMAboq196e0_R2Faz0vkgToeGNkstDpODdJNiST4qJJjT1OBDur46Vl_ySZChPIMIrsYRtUaXiMnOEkDS_wxiDkr7CHuECuCKK215goQag_-hGOH0t_W8rrpnGDl0OzizvlIQ4lVjKBBcp_ZW');"></div>
+                                                <div>
+                                                    <p class="request-name mb-1">Emily Blunt</p>
+                                                    <div class="d-flex align-items-center gap-2">
+                                                        <span class="badge-leave badge-leave-yellow">Casual Leave</span>
+                                                        <span class="request-time">• Oct 26 - Oct 28</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="d-flex gap-2">
+                                                <button class="btn btn-outline-secondary btn-sm">Reject</button>
+                                                <button class="btn btn-primary btn-sm">Approve</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Sidebar Cards -->
+                        <div class="col-lg-4">
+                            <!-- Holiday Card -->
+                            <div class="card holiday-card mb-4">
+                                <div class="card-body">
+                                    <div class="d-flex align-items-center gap-2 mb-4">
+                                        <span class="material-symbols-outlined">event</span>
+                                        <span class="holiday-subtitle">Upcoming Holiday</span>
+                                    </div>
+                                    <h3 class="holiday-title">Diwali Festival</h3>
+                                    <p class="holiday-date">Monday, 12 Nov</p>
+                                    <button class="btn btn-holiday w-100">View Holiday List</button>
+                                </div>
+                            </div>
+                            
+                            <!-- Who is Away -->
+                            <div class="card">
+                                <div class="card-header">
+                                    <h3 class="card-title mb-0">Who is Away</h3>
+                                </div>
+                                <div class="card-body">
+                                    <div class="away-item">
+                                        <div class="d-flex align-items-center justify-content-between">
+                                            <div class="d-flex align-items-center gap-3">
+                                                <div class="position-relative">
+                                                    <div class="avatar-md" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBGMhQyd1HxG-nkoUwudRO_gaRebzo3X3cMIKlTLQk1yEmeBs1FmBc-zENqSfi5GHZtaCEIAOhXDyKJpdHmyXmM-i9JHiJIKC6lQC9SPWg1jfCjdiGMoHOlwWc9EXYYd_9vB7aFn1Cyq4O4_dVsZeVfPwZv-H93gyffeETVvSM1hqoQs12YbYzv6jUmvm9HMIorPyKlLr2wZFf4_GJCfnz4jl5veOUYZdBtroVTEDqJdDGlqt0c0-wgh2JUF6OsbHLKulf29qb97S1Q');"></div>
+                                                    <span class="status-indicator"></span>
+                                                </div>
+                                                <div>
+                                                    <p class="away-name mb-0">John Doe</p>
+                                                    <p class="away-reason mb-0">Sick Leave</p>
+                                                </div>
+                                            </div>
+                                            <span class="away-duration">Until Oct 25</span>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="away-item">
+                                        <div class="d-flex align-items-center justify-content-between">
+                                            <div class="d-flex align-items-center gap-3">
+                                                <div class="position-relative">
+                                                    <div class="avatar-md" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCOOFf56ZTHwHl9ZP0D6MlDICoKe_D2JfE5nWia5yqYhmXiYTndYihSMV3fLDx40oqPafiT575zqb-IRof30rmJBXtamBKZGwPHpz1YaTVIavNBCGy-dGnLagF-DvV4Bb9x4L2l2HGF5lqTPTnxA_oai4p3Jy1RqqYiX86k4JN49agImUgfXwAjzjrFKbG5b9mDDGinuMJSsnEhObD5S_2v31H32SzCYF9ctPn3E1tVj0xHHO7mv3dA3nPNcF8Izpi5uINRqDURwHkn');"></div>
+                                                    <span class="status-indicator"></span>
+                                                </div>
+                                                <div>
+                                                    <p class="away-name mb-0">Jane Smith</p>
+                                                    <p class="away-reason mb-0">Vacation</p>
+                                                </div>
+                                            </div>
+                                            <span class="away-duration">Until Oct 30</span>
+                                        </div>
+                                    </div>
+                                    
+                                    <button class="btn btn-apply-leave w-100 mt-3">
+                                        + Apply for Leave
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    
+    <!-- Mobile Menu Overlay -->
+    <div class="mobile-overlay" id="mobileOverlay"></div>
+    
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        // Set current date
+        const dateOptions = { year: 'numeric', month: 'short', day: 'numeric' };
+        document.getElementById('current-date').textContent = new Date().toLocaleDateString('en-US', dateOptions);
+        
+        // Mobile menu toggle
+        const menuBtn = document.getElementById('menuBtn');
+        const sidebar = document.querySelector('.sidebar');
+        const overlay = document.getElementById('mobileOverlay');
+        
+        function toggleMenu() {
+            sidebar.classList.toggle('active');
+            overlay.classList.toggle('active');
+            document.body.style.overflow = sidebar.classList.contains('active') ? 'hidden' : '';
+        }
+        
+        menuBtn.addEventListener('click', toggleMenu);
+        overlay.addEventListener('click', toggleMenu);
+        
+        // Close menu when clicking on nav links (mobile)
+        const navLinks = document.querySelectorAll('.sidebar .nav-link');
+        navLinks.forEach(link => {
+            link.addEventListener('click', function() {
+                if (window.innerWidth < 992) {
+                    toggleMenu();
+                }
+            });
+        });
+    </script>
+</body>
+</html>

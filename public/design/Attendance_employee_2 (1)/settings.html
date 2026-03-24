@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings - HR Portal</title>
+   
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap" rel="stylesheet">
+   
+    <!-- Material Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+   
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+   
+    <!-- External CSS -->
+    <link rel="stylesheet" href="./css/style.css">
+</head>
+<body>
+    <div class="dashboard-wrapper">
+        <!-- Sidebar (Desktop) -->
+        <aside class="dashboard-sidebar">
+            <div class="sidebar-logo-section">
+                <div class="d-flex align-items-center gap-3">
+                    <div class="logo-icon">
+                        <span class="material-symbols-outlined">token</span>
+                    </div>
+                    <h2 class="logo-text">HR Portal</h2>
+                </div>
+            </div>
+            <nav class="nav-menu">
+                <a href="index.html" class="nav-menu-link">
+                    <span class="material-symbols-outlined">dashboard</span>
+                    <span>Dashboard</span>
+                </a>
+                <a href="attendance.html" class="nav-menu-link">
+                    <span class="material-symbols-outlined">schedule</span>
+                    <span>Attendance</span>
+                </a>
+                <a href="leave.html" class="nav-menu-link">
+                    <span class="material-symbols-outlined">event_available</span>
+                    <span>Leaves</span>
+                </a>
+                <a href="taskmanagement.html" class="nav-menu-link">
+                    <span class="material-symbols-outlined">checklist</span>
+                    <span>My Tasks</span>
+                </a>
+            </nav>
+            <div class="sidebar-bottom">
+                <a href="settings.html" class="nav-menu-link active">
+                    <span class="material-symbols-outlined">settings</span>
+                    <span>Settings</span>
+                </a>
+                <a href="#" class="nav-menu-link logout-link">
+                    <span class="material-symbols-outlined">logout</span>
+                    <span>Log Out</span>
+                </a>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="dashboard-main">
+            <!-- Desktop Header -->
+            <div class="desktop-header d-none d-lg-flex">
+                <div class="header-left">
+                    <h2 class="page-title-header">Settings</h2>
+                </div>
+                <div class="header-right">
+                    <button class="action-btn">
+                        <span class="material-symbols-outlined">notifications</span>
+                    </button>
+                    <button class="action-btn">
+                        <span class="material-symbols-outlined">help</span>
+                    </button>
+                    <div class="header-user-profile">
+                        <div class="user-avatar-wrapper">
+                            <div class="user-avatar"></div>
+                            <span class="status-indicator"></span>
+                        </div>
+                        <div>
+                            <h3 class="user-name">Alex Morgan</h3>
+                            <p class="user-role">Product Designer</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Mobile Header -->
+            <div class="mobile-header d-lg-none">
+                <div class="d-flex align-items-center gap-2">
+                    <span class="material-symbols-outlined text-primary">verified</span>
+                    <span class="mobile-header-title">HR Portal</span>
+                </div>
+                <button class="mobile-menu-btn" onclick="toggleMobileMenu()">
+                    <span class="material-symbols-outlined" id="mobileMenuIcon">menu</span>
+                </button>
+            </div>
+
+            <!-- Mobile Sidebar Overlay -->
+            <div class="mobile-sidebar-overlay" id="mobileOverlay" onclick="closeMobileMenu()"></div>
+
+            <!-- Mobile Sidebar (NOW INCLUDED!) -->
+            <div class="mobile-sidebar" id="mobileSidebar">
+                <div class="mobile-sidebar-header">
+                    <div class="d-flex align-items-center gap-2">
+                        <span class="material-symbols-outlined text-primary">verified</span>
+                        <span class="mobile-header-title">HR Portal</span>
+                    </div>
+                    <button class="mobile-close-btn" onclick="closeMobileMenu()">
+                        <span class="material-symbols-outlined">close</span>
+                    </button>
+                </div>
+
+                <div class="mobile-user-section">
+                    <div class="d-flex align-items-center gap-3">
+                        <div class="user-avatar-wrapper">
+                            <div class="user-avatar"></div>
+                            <span class="status-indicator"></span>
+                        </div>
+                        <div>
+                            <h3 class="user-name">Alex Morgan</h3>
+                            <p class="user-role">Product Designer</p>
+                        </div>
+                    </div>
+                </div>
+
+                <nav class="mobile-nav-menu">
+                    <a href="index.html" class="nav-menu-link" onclick="closeMobileMenu()">
+                        <span class="material-symbols-outlined">dashboard</span>
+                        <span>Dashboard</span>
+                    </a>
+                    <a href="attendance.html" class="nav-menu-link" onclick="closeMobileMenu()">
+                        <span class="material-symbols-outlined">schedule</span>
+                        <span>Attendance</span>
+                    </a>
+                    <a href="leave.html" class="nav-menu-link" onclick="closeMobileMenu()">
+                        <span class="material-symbols-outlined">event_available</span>
+                        <span>Leaves</span>
+                    </a>
+                    <a href="taskmanagement.html" class="nav-menu-link" onclick="closeMobileMenu()">
+                        <span class="material-symbols-outlined">checklist</span>
+                        <span>My Tasks</span>
+                    </a>
+                    <a href="settings.html" class="nav-menu-link active" onclick="closeMobileMenu()">
+                        <span class="material-symbols-outlined">settings</span>
+                        <span>Settings</span>
+                    </a>
+                    <a href="#" class="nav-menu-link logout-link" onclick="closeMobileMenu()">
+                        <span class="material-symbols-outlined">logout</span>
+                        <span>Log Out</span>
+                    </a>
+                </nav>
+            </div>
+
+            <!-- Main Content Area -->
+            <div class="dashboard-content">
+                <div class="content-wrapper">
+                    <div class="page-header-dashboard">
+                        <div>
+                            <p class="page-subtitle-leave">Manage your account preferences, security, and notifications.</p>
+                        </div>
+                        <div class="status-badge-system">
+                            <span class="status-dot-system"></span>
+                            <span>System Online</span>
+                        </div>
+                    </div>
+
+                    <!-- Settings Content (same as before) -->
+                    <div class="row g-4">
+                        <div class="col-12 col-lg-8">
+                            <div class="form-card p-0">
+                                <ul class="nav nav-tabs-custom" id="settingsTab" role="tablist">
+                                    <li class="nav-item" role="presentation">
+                                        <button class="nav-link active" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button">
+                                            <span class="material-symbols-outlined">person</span> Profile
+                                        </button>
+                                    </li>
+                                    <li class="nav-item" role="presentation">
+                                        <button class="nav-link" id="security-tab" data-bs-toggle="tab" data-bs-target="#security" type="button">
+                                            <span class="material-symbols-outlined">lock</span> Security
+                                        </button>
+                                    </li>
+                                    <li class="nav-item" role="presentation">
+                                        <button class="nav-link" id="notifications-tab" data-bs-toggle="tab" data-bs-target="#notifications" type="button">
+                                            <span class="material-symbols-outlined">notifications</span> Notifications
+                                        </button>
+                                    </li>
+                                </ul>
+
+                                <div class="tab-content p-4">
+                                    <!-- Profile, Security, Notifications tabs (unchanged) -->
+                                    <!-- ... (same as previous version) ... -->
+                                    <div class="tab-pane fade show active" id="profile">
+                                        <form>
+                                            <div class="row g-4">
+                                                <div class="col-12 col-md-6">
+                                                    <label class="form-label-custom">First Name</label>
+                                                    <input type="text" class="form-input-custom" value="Alex">
+                                                </div>
+                                                <div class="col-12 col-md-6">
+                                                    <label class="form-label-custom">Last Name</label>
+                                                    <input type="text" class="form-input-custom" value="Morgan">
+                                                </div>
+                                                <div class="col-12 col-md-6">
+                                                    <label class="form-label-custom">Employee ID</label>
+                                                    <input type="text" class="form-input-custom" value="EMP-2024-087" disabled>
+                                                </div>
+                                                <div class="col-12 col-md-6">
+                                                    <label class="form-label-custom">Department</label>
+                                                    <input type="text" class="form-input-custom" value="Design Team">
+                                                </div>
+                                                <div class="col-12">
+                                                    <label class="form-label-custom">Email</label>
+                                                    <input type="email" class="form-input-custom" value="alex.morgan@company.com">
+                                                </div>
+                                                <div class="col-12">
+                                                    <label class="form-label-custom">Phone</label>
+                                                    <input type="tel" class="form-input-custom" value="+1 234 567 8900">
+                                                </div>
+                                                <div class="col-12">
+                                                    <button type="submit" class="btn-primary-custom">Save Changes</button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+
+                                    <div class="tab-pane fade" id="security">
+                                        <form>
+                                            <div class="mb-4">
+                                                <label class="form-label-custom">Current Password</label>
+                                                <input type="password" class="form-input-custom">
+                                            </div>
+                                            <div class="mb-4">
+                                                <label class="form-label-custom">New Password</label>
+                                                <input type="password" class="form-input-custom">
+                                            </div>
+                                            <div class="mb-4">
+                                                <label class="form-label-custom">Confirm New Password</label>
+                                                <input type="password" class="form-input-custom">
+                                            </div>
+                                            <div class="d-flex gap-3">
+                                                <button type="submit" class="btn-primary-custom">Update Password</button>
+                                                <button type="button" class="btn-secondary-custom">Enable 2FA</button>
+                                            </div>
+                                        </form>
+                                    </div>
+
+                                    <div class="tab-pane fade" id="notifications">
+                                        <div class="settings-toggle-group">
+                                            <div class="toggle-item">
+                                                <div>
+                                                    <h6>Email Notifications</h6>
+                                                    <p class="text-muted small">Receive leave approval/rejection emails</p>
+                                                </div>
+                                                <label class="toggle-wrapper">
+                                                    <input type="checkbox" class="toggle-input" checked>
+                                                    <span class="toggle-slider"></span>
+                                                </label>
+                                            </div>
+                                            <div class="toggle-item">
+                                                <div>
+                                                    <h6>Push Notifications</h6>
+                                                    <p class="text-muted small">Get browser push alerts</p>
+                                                </div>
+                                                <label class="toggle-wrapper">
+                                                    <input type="checkbox" class="toggle-input">
+                                                    <span class="toggle-slider"></span>
+                                                </label>
+                                            </div>
+                                            <div class="toggle-item">
+                                                <div>
+                                                    <h6>Daily Attendance Reminder</h6>
+                                                    <p class="text-muted small">Reminder at 9:00 AM</p>
+                                                </div>
+                                                <label class="toggle-wrapper">
+                                                    <input type="checkbox" class="toggle-input" checked>
+                                                    <span class="toggle-slider"></span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-lg-4">
+                            <div class="widget-card mb-4 text-center">
+                                <div class="user-avatar-wrapper large mx-auto mb-3">
+                                    <div class="user-avatar large"></div>
+                                    <button class="avatar-edit-btn">
+                                        <span class="material-symbols-outlined">camera_alt</span>
+                                    </button>
+                                </div>
+                                <h4>Alex Morgan</h4>
+                                <p class="text-muted">Product Designer</p>
+                                <small class="text-success">Active Account</small>
+                            </div>
+
+                            <div class="policy-tip">
+                                <span class="material-symbols-outlined policy-icon">lightbulb</span>
+                                <div>
+                                    <h4 class="policy-title">Security Tip</h4>
+                                    <p class="policy-text">
+                                        Use a strong, unique password and enable two-factor authentication for better protection.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Bootstrap + Custom JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="./js/script.js"></script>
+</body>
+</html>

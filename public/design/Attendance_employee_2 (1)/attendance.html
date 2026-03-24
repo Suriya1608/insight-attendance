@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Attendance - HR Portal</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap" rel="stylesheet">
+    
+    <!-- Material Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- External CSS -->
+    <link rel="stylesheet" href="./css/style.css">
+</head>
+<body>
+    <div class="dashboard-wrapper">
+        <!-- Sidebar -->
+        <aside class="dashboard-sidebar">
+            <!-- Logo Section -->
+            <div class="sidebar-logo-section">
+                <div class="d-flex align-items-center gap-3">
+                    <div class="logo-icon">
+                        <span class="material-symbols-outlined">token</span>
+                    </div>
+                    <h2 class="logo-text">HR Portal</h2>
+                </div>
+            </div>
+
+            <!-- Navigation Links -->
+            <nav class="nav-menu">
+                <a href="index.html" class="nav-menu-link">
+                    <span class="material-symbols-outlined">dashboard</span>
+                    <span>Dashboard</span>
+                </a>
+                <a href="attendance.html" class="nav-menu-link active">
+                    <span class="material-symbols-outlined">schedule</span>
+                    <span>Attendance</span>
+                </a>
+                <a href="apply-leave.html" class="nav-menu-link">
+                    <span class="material-symbols-outlined">event_available</span>
+                    <span>Leaves</span>
+                </a>
+                <a href="#" class="nav-menu-link">
+                    <span class="material-symbols-outlined">checklist</span>
+                    <span>My Tasks</span>
+                </a>
+                <!-- <a href="#" class="nav-menu-link">
+                    <span class="material-symbols-outlined">group</span>
+                    <span>Team</span>
+                </a> -->
+            </nav>
+
+            <!-- Bottom Settings -->
+            <div class="sidebar-bottom">
+                <a href="settings.html" class="nav-menu-link">
+                    <span class="material-symbols-outlined">settings</span>
+                    <span>Settings</span>
+                </a>
+                <a href="#" class="nav-menu-link logout-link">
+                    <span class="material-symbols-outlined">logout</span>
+                    <span>Log Out</span>
+                </a>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="dashboard-main">
+            <!-- Desktop Header -->
+            <div class="desktop-header d-none d-lg-flex">
+                <div class="header-left">
+                    <h2 class="page-title-header">Attendance</h2>
+                </div>
+                <div class="header-right">
+                    <button class="action-btn">
+                        <span class="material-symbols-outlined">notifications</span>
+                    </button>
+                    <button class="action-btn">
+                        <span class="material-symbols-outlined">help</span>
+                    </button>
+                    <div class="header-user-profile">
+                        <div class="user-avatar-wrapper">
+                            <div class="user-avatar"></div>
+                            <span class="status-indicator"></span>
+                        </div>
+                        <div>
+                            <h3 class="user-name">Alex Morgan</h3>
+                            <p class="user-role">Product Designer</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Mobile Header -->
+            <div class="mobile-header d-lg-none">
+                <div class="d-flex align-items-center gap-2">
+                    <span class="material-symbols-outlined text-primary">verified</span>
+                    <span class="mobile-header-title">HR Portal</span>
+                </div>
+                <button class="mobile-menu-btn" onclick="toggleMobileMenu()">
+                    <span class="material-symbols-outlined">menu</span>
+                </button>
+            </div>
+
+            <!-- Mobile Sidebar Overlay -->
+            <div class="mobile-sidebar-overlay" id="mobileOverlay" onclick="closeMobileMenu()"></div>
+            
+            <!-- Mobile Sidebar -->
+            <div class="mobile-sidebar" id="mobileSidebar">
+                <div class="mobile-sidebar-header">
+                    <div class="d-flex align-items-center gap-2">
+                        <span class="material-symbols-outlined text-primary">verified</span>
+                        <span class="mobile-header-title">HR Portal</span>
+                    </div>
+                    <button class="mobile-close-btn" onclick="closeMobileMenu()">
+                        <span class="material-symbols-outlined">close</span>
+                    </button>
+                </div>
+
+                <!-- Mobile User Profile -->
+                <div class="mobile-user-section">
+                    <div class="d-flex align-items-center gap-3">
+                        <div class="user-avatar-wrapper">
+                            <div class="user-avatar"></div>
+                            <span class="status-indicator"></span>
+                        </div>
+                        <div>
+                            <h3 class="user-name">Alex Morgan</h3>
+                            <p class="user-role">Product Designer</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Mobile Navigation -->
+                <nav class="mobile-nav-menu">
+                    <a href="index.html" class="nav-menu-link" onclick="closeMobileMenu()">
+                        <span class="material-symbols-outlined">dashboard</span>
+                        <span>Dashboard</span>
+                    </a>
+                    <a href="attendance.html" class="nav-menu-link active" onclick="closeMobileMenu()">
+                        <span class="material-symbols-outlined">schedule</span>
+                        <span>Attendance</span>
+                    </a>
+                    <a href="leave.html" class="nav-menu-link" onclick="closeMobileMenu()">
+                        <span class="material-symbols-outlined">event_available</span>
+                        <span>Leaves</span>
+                    </a>
+                    <a href="taskmanagement.html" class="nav-menu-link" onclick="closeMobileMenu()">
+                        <span class="material-symbols-outlined">checklist</span>
+                        <span>My Tasks</span>
+                    </a>
+                    <!-- <a href="#" class="nav-menu-link" onclick="closeMobileMenu()">
+                        <span class="material-symbols-outlined">group</span>
+                        <span>Team</span>
+                    </a> -->
+                    <a href="settings.html" class="nav-menu-link" onclick="closeMobileMenu()">
+                        <span class="material-symbols-outlined">settings</span>
+                        <span>Settings</span>
+                    </a>
+                    <a href="#" class="nav-menu-link logout-link" onclick="closeMobileMenu()">
+                        <span class="material-symbols-outlined">logout</span>
+                        <span>Log Out</span>
+                    </a>
+                </nav>
+            </div>
+
+            <!-- Main Content Area -->
+            <div class="dashboard-content">
+                <div class="content-wrapper">
+                    <!-- Page Header -->
+                    <div class="page-header-attendance">
+                        <div>
+                            <h1 class="attendance-title">Attendance Overview</h1>
+                            <p class="attendance-subtitle">Track your daily attendance and working hours</p>
+                        </div>
+                        <div class="date-filter">
+                            <input type="date" class="date-input" id="dateFilter">
+                            <button class="btn-export">
+                                <span class="material-symbols-outlined">download</span>
+                                Export
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Stats Cards -->
+                    <div class="row g-4 mb-4">
+                        <div class="col-12 col-sm-6 col-lg-3">
+                            <div class="attendance-stat-card">
+                                <div class="stat-icon-wrapper stat-icon-blue">
+                                    <span class="material-symbols-outlined">schedule</span>
+                                </div>
+                                <div>
+                                    <p class="stat-label">Total Hours</p>
+                                    <p class="stat-value">168h 45m</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-6 col-lg-3">
+                            <div class="attendance-stat-card">
+                                <div class="stat-icon-wrapper stat-icon-green">
+                                    <span class="material-symbols-outlined">check_circle</span>
+                                </div>
+                                <div>
+                                    <p class="stat-label">Present Days</p>
+                                    <p class="stat-value">22 Days</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-6 col-lg-3">
+                            <div class="attendance-stat-card">
+                                <div class="stat-icon-wrapper stat-icon-red">
+                                    <span class="material-symbols-outlined">cancel</span>
+                                </div>
+                                <div>
+                                    <p class="stat-label">Absent Days</p>
+                                    <p class="stat-value">2 Days</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-6 col-lg-3">
+                            <div class="attendance-stat-card">
+                                <div class="stat-icon-wrapper stat-icon-orange">
+                                    <span class="material-symbols-outlined">event_busy</span>
+                                </div>
+                                <div>
+                                    <p class="stat-label">Late Arrivals</p>
+                                    <p class="stat-value">3 Times</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Attendance Table -->
+                    <div class="attendance-table-wrapper">
+                        <div class="table-header">
+                            <h3 class="table-title">Attendance History</h3>
+                            <div class="table-filters">
+                                <select class="filter-select">
+                                    <option>This Month</option>
+                                    <option>Last Month</option>
+                                    <option>Last 3 Months</option>
+                                    <option>This Year</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="table-responsive">
+                            <table class="attendance-table">
+                                <thead>
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>Day</th>
+                                        <th>Check In</th>
+                                        <th>Check Out</th>
+                                        <th>Working Hours</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="date-cell">Dec 07, 2024</td>
+                                        <td class="day-cell">Saturday</td>
+                                        <td class="time-cell">09:00 AM</td>
+                                        <td class="time-cell">06:15 PM</td>
+                                        <td class="hours-cell">9h 15m</td>
+                                        <td>
+                                            <span class="status-badge status-present">Present</span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="date-cell">Dec 06, 2024</td>
+                                        <td class="day-cell">Friday</td>
+                                        <td class="time-cell">09:15 AM</td>
+                                        <td class="time-cell">06:00 PM</td>
+                                        <td class="hours-cell">8h 45m</td>
+                                        <td>
+                                            <span class="status-badge status-late">Late</span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="date-cell">Dec 05, 2024</td>
+                                        <td class="day-cell">Thursday</td>
+                                        <td class="time-cell">08:55 AM</td>
+                                        <td class="time-cell">06:30 PM</td>
+                                        <td class="hours-cell">9h 35m</td>
+                                        <td>
+                                            <span class="status-badge status-present">Present</span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="date-cell">Dec 04, 2024</td>
+                                        <td class="day-cell">Wednesday</td>
+                                        <td class="time-cell">--</td>
+                                        <td class="time-cell">--</td>
+                                        <td class="hours-cell">--</td>
+                                        <td>
+                                            <span class="status-badge status-absent">Absent</span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="date-cell">Dec 03, 2024</td>
+                                        <td class="day-cell">Tuesday</td>
+                                        <td class="time-cell">09:05 AM</td>
+                                        <td class="time-cell">06:10 PM</td>
+                                        <td class="hours-cell">9h 05m</td>
+                                        <td>
+                                            <span class="status-badge status-present">Present</span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="date-cell">Dec 02, 2024</td>
+                                        <td class="day-cell">Monday</td>
+                                        <td class="time-cell">08:50 AM</td>
+                                        <td class="time-cell">05:45 PM</td>
+                                        <td class="hours-cell">8h 55m</td>
+                                        <td>
+                                            <span class="status-badge status-present">Present</span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="date-cell">Nov 30, 2024</td>
+                                        <td class="day-cell">Saturday</td>
+                                        <td class="time-cell">--</td>
+                                        <td class="time-cell">--</td>
+                                        <td class="hours-cell">--</td>
+                                        <td>
+                                            <span class="status-badge status-weekend">Weekend</span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="date-cell">Nov 29, 2024</td>
+                                        <td class="day-cell">Friday</td>
+                                        <td class="time-cell">09:20 AM</td>
+                                        <td class="time-cell">06:00 PM</td>
+                                        <td class="hours-cell">8h 40m</td>
+                                        <td>
+                                            <span class="status-badge status-late">Late</span>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- Pagination -->
+                        <div class="table-pagination">
+                            <span class="pagination-info">
+                                Showing <span class="fw-semibold">1</span> to <span class="fw-semibold">8</span> of <span class="fw-semibold">30</span> Entries
+                            </span>
+                            <div class="pagination-controls">
+                                <a href="#" class="page-link-btn page-link-first">Previous</a>
+                                <a href="#" class="page-link-btn page-link-active">1</a>
+                                <a href="#" class="page-link-btn">2</a>
+                                <a href="#" class="page-link-btn">3</a>
+                                <a href="#" class="page-link-btn page-link-last">Next</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        // Mobile Menu Functions
+        function toggleMobileMenu() {
+            const sidebar = document.getElementById('mobileSidebar');
+            const overlay = document.getElementById('mobileOverlay');
+            
+            sidebar.classList.toggle('active');
+            overlay.classList.toggle('active');
+            document.body.style.overflow = sidebar.classList.contains('active') ? 'hidden' : '';
+        }
+
+        function closeMobileMenu() {
+            const sidebar = document.getElementById('mobileSidebar');
+            const overlay = document.getElementById('mobileOverlay');
+            
+            sidebar.classList.remove('active');
+            overlay.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        // Set today's date in the date filter
+        document.getElementById('dateFilter').valueAsDate = new Date();
+    </script>
+</body>
+</html>

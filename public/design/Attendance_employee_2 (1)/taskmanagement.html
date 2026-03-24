@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apply Leave - Attendance App</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap" rel="stylesheet">
+    
+    <!-- Material Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- External CSS -->
+    <link rel="stylesheet" href="./css/style.css">
+</head>
+<body>
+    <div class="dashboard-wrapper">
+        <!-- Sidebar -->
+        <aside class="dashboard-sidebar">
+            <!-- Logo Section -->
+            <div class="sidebar-logo-section">
+                <div class="d-flex align-items-center gap-3">
+                    <div class="logo-icon">
+                        <span class="material-symbols-outlined">token</span>
+                    </div>
+                    <h2 class="logo-text">HR Portal</h2>
+                </div>
+            </div>
+
+            <!-- Navigation Links -->
+            <nav class="nav-menu">
+                <a href="index.html" class="nav-menu-link">
+                    <span class="material-symbols-outlined">dashboard</span>
+                    <span>Dashboard</span>
+                </a>
+                <a href="attendance.html" class="nav-menu-link">
+                    <span class="material-symbols-outlined">schedule</span>
+                    <span>Attendance</span>
+                </a>
+                <a href="leave.html" class="nav-menu-link ">
+                    <span class="material-symbols-outlined">event_available</span>
+                    <span>Leaves</span>
+                </a>
+                <a href="taskmanagement.html" class="nav-menu-link active">
+                    <span class="material-symbols-outlined">checklist</span>
+                    <span>My Tasks</span>
+                </a>
+                <!-- <a href="#" class="nav-menu-link">
+                    <span class="material-symbols-outlined">group</span>
+                    <span>Team</span>
+                </a> -->
+            </nav>
+
+            <!-- Bottom Settings -->
+            <div class="sidebar-bottom">
+                <a href="settings.html" class="nav-menu-link">
+                    <span class="material-symbols-outlined">settings</span>
+                    <span>Settings</span>
+                </a>
+                <a href="#" class="nav-menu-link logout-link">
+                    <span class="material-symbols-outlined">logout</span>
+                    <span>Log Out</span>
+                </a>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="dashboard-main">
+            <!-- Desktop Header -->
+            <div class="desktop-header d-none d-lg-flex">
+                <div class="header-left">
+                    <h2 class="page-title-header">Apply for Leave</h2>
+                </div>
+                <div class="header-right">
+                    <button class="action-btn">
+                        <span class="material-symbols-outlined">notifications</span>
+                    </button>
+                    <button class="action-btn">
+                        <span class="material-symbols-outlined">help</span>
+                    </button>
+                    <div class="header-user-profile">
+                        <div class="user-avatar-wrapper">
+                            <div class="user-avatar"></div>
+                            <span class="status-indicator"></span>
+                        </div>
+                        <div>
+                            <h3 class="user-name">Alex Morgan</h3>
+                            <p class="user-role">Product Designer</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Mobile Header -->
+            <div class="mobile-header d-lg-none">
+                <div class="d-flex align-items-center gap-2">
+                    <span class="material-symbols-outlined text-primary">verified</span>
+                    <span class="mobile-header-title">HR Portal</span>
+                </div>
+                <button class="mobile-menu-btn" onclick="toggleMobileMenu()">
+                    <span class="material-symbols-outlined" id="mobileMenuIcon">menu</span>
+                </button>
+            </div>
+
+            <!-- Mobile Sidebar Overlay -->
+            <div class="mobile-sidebar-overlay" id="mobileOverlay" onclick="closeMobileMenu()"></div>
+            
+            <!-- Mobile Sidebar -->
+            <div class="mobile-sidebar" id="mobileSidebar">
+                <div class="mobile-sidebar-header">
+                    <div class="d-flex align-items-center gap-2">
+                        <span class="material-symbols-outlined text-primary">verified</span>
+                        <span class="mobile-header-title">HR Portal</span>
+                    </div>
+                    <button class="mobile-close-btn" onclick="closeMobileMenu()">
+                        <span class="material-symbols-outlined">close</span>
+                    </button>
+                </div>
+
+                <!-- Mobile User Profile -->
+                <div class="mobile-user-section">
+                    <div class="d-flex align-items-center gap-3">
+                        <div class="user-avatar-wrapper">
+                            <div class="user-avatar"></div>
+                            <span class="status-indicator"></span>
+                        </div>
+                        <div>
+                            <h3 class="user-name">Alex Morgan</h3>
+                            <p class="user-role">Product Designer</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Mobile Navigation -->
+                <nav class="mobile-nav-menu">
+                    <a href="index.html" class="nav-menu-link" onclick="closeMobileMenu()">
+                        <span class="material-symbols-outlined">dashboard</span>
+                        <span>Dashboard</span>
+                    </a>
+                    <a href="attendance.html" class="nav-menu-link" onclick="closeMobileMenu()">
+                        <span class="material-symbols-outlined">schedule</span>
+                        <span>Attendance</span>
+                    </a>
+                    <a href="leave.html" class="nav-menu-link active" onclick="closeMobileMenu()">
+                        <span class="material-symbols-outlined">event_available</span>
+                        <span>Leaves</span>
+                    </a>
+                    <a href="taskmanagement.html" class="nav-menu-link" onclick="closeMobileMenu()">
+                        <span class="material-symbols-outlined">checklist</span>
+                        <span>My Tasks</span>
+                    </a>
+                    <!-- <a href="#" class="nav-menu-link" onclick="closeMobileMenu()">
+                        <span class="material-symbols-outlined">group</span>
+                        <span>Team</span>
+                    </a> -->
+                    <a href="settings.html" class="nav-menu-link" onclick="closeMobileMenu()">
+                        <span class="material-symbols-outlined">settings</span>
+                        <span>Settings</span>
+                    </a>
+                    <a href="#" class="nav-menu-link logout-link" onclick="closeMobileMenu()">
+                        <span class="material-symbols-outlined">logout</span>
+                        <span>Log Out</span>
+                    </a>
+                </nav>
+            </div>
+
+          <!-- Main Content Area -->
+            <div class="dashboard-content">
+                <div class="content-wrapper-task">
+                    <!-- Page Header -->
+                    <div class="task-page-header">
+                        <div>
+                            <h1 class="task-page-title">Task Management</h1>
+                            <p class="task-page-subtitle">Allocate tasks to employees and update their task status.</p>
+                        </div>
+                        <div class="task-header-actions d-none">
+                            <button class="btn-filter">
+                                <span class="material-symbols-outlined">filter_list</span>
+                                Filter
+                            </button>
+                            <button class="btn-create-task">
+                                <span class="material-symbols-outlined">add</span>
+                                Create Task
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Tasks Table -->
+                    <div class="tasks-table-wrapper">
+                        <div class="table-responsive">
+                            <table class="tasks-table-main">
+                                <thead>
+                                    <tr>
+                                        <th>Task Name</th>
+                                        <th>Assigned To</th>
+                                        <th>Due Date</th>
+                                        <th>Priority</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="task-name-cell">API Integration for Attendance</td>
+                                        <td>
+                                            <div class="employee-info">
+                                                <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuBlMhGiVP5Ak3Bcp_Gg2wYwqnD1hfSQcwEIzT_KrNeBSEFRH8z06p601Fw25OqZk0CBoj5pVL0XcnOuHu-wvcKjW-lQODtGWCFCj6684N4QHf9CqSaPgQZXPnGbnLWMI3HjwA4JahUCXS8KOU7U3EPv9UqbmVKbJDyJwABUvYsiNY_pU0KTjsOntcfUzHMwmqY3Eemg12jjS3uAWXpAlDduMc_A36EnZLV8U6YQ3AS_JbxrfcKIjPJWhq2BCvWqGO2n3fmpJnh9VLfo" alt="John Doe" class="employee-avatar">
+                                                <div>
+                                                    <p class="employee-name">John Doe</p>
+                                                    <p class="employee-role">Developer</p>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="date-cell">2023-10-28</td>
+                                        <td>
+                                            <span class="priority-badge priority-medium">
+                                                <span class="priority-dot"></span>
+                                                Medium
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <select class="status-select status-progress" onchange="updateStatus(this)">
+                                                <option value="in_progress" selected>In Progress</option>
+                                                <option value="pending">Pending</option>
+                                                <option value="completed">Completed</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="task-name-cell">Q3 Financial Report Analysis</td>
+                                        <td>
+                                            <div class="employee-info">
+                                                <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuAaZY2inRpAFxkXqpTulY2SX_nJxNlYB81yZX8JGDxFpiRGgvKiYRAbOZzr40c1gH8TxUGCJJl9V2-ZgR19h_ON3JYHzR5vRVKa1To83D_Q-xXgkRMrjwoafpIBXzOPlkmMNAyG13Q5pYhPyxuI3bxr8ZLSEWNYV1rBu2zZuICIQCbH3p92BV8KvaoaRKYG6nwmTF8BftRx71D3Sa5NURg9umC42dPA0xE68iecSo-k4U4VTD3wYszkrxPC_Y3Ga5rwGk50qcYhkacA" alt="Alice Martin" class="employee-avatar">
+                                                <div>
+                                                    <p class="employee-name">Alice Martin</p>
+                                                    <p class="employee-role">Analyst</p>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="date-cell">2023-10-25</td>
+                                        <td>
+                                            <span class="priority-badge priority-high">
+                                                <span class="priority-dot"></span>
+                                                High
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <select class="status-select status-pending" onchange="updateStatus(this)">
+                                                <option value="pending" selected>Pending</option>
+                                                <option value="in_progress">In Progress</option>
+                                                <option value="completed">Completed</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="task-name-cell">Mobile App Prototypes</td>
+                                        <td>
+                                            <div class="employee-info">
+                                                <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuCkllG-yDX9mna8t_9eoO59L3a9ugktTbcO_6-sF5uJfrY9wDXSLRMoX2eMlfNOAxa2PrytEbHdcexkD4Kgh4PSVR0j85Mnp7dgOMipj-D7ohL6d6MgfbIK7-ZBN7ayx711amEG11dokyc7XdCknKioAUv_8QsWqjDxIgBRfDcJ9ljqOl9xpJZI6Raag2j_cHNWIoC_8ejRrThWpQ-956zwQ4zG0P3IcUNhV2OoeW2ji-B7zwEBpcCVp17tWZgPbNlF4XDpEG6IbpTx" alt="Sarah Kim" class="employee-avatar">
+                                                <div>
+                                                    <p class="employee-name">Sarah Kim</p>
+                                                    <p class="employee-role">Designer</p>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="date-cell">2023-10-22</td>
+                                        <td>
+                                            <span class="priority-badge priority-medium">
+                                                <span class="priority-dot"></span>
+                                                Medium
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <select class="status-select status-completed" onchange="updateStatus(this)">
+                                                <option value="completed" selected>Completed</option>
+                                                <option value="pending">Pending</option>
+                                                <option value="in_progress">In Progress</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="task-name-cell">Update Homepage Hero</td>
+                                        <td>
+                                            <div class="employee-info">
+                                                <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuCdZhFdTesm_TjMB4JEPVtfxbl5Cvw3dWrmx3lsYyFSqw9OJozIkiiJPnRLg5YsnD1YyQRA1huPyZISn3jwjU9EAqn0gj-pr9tVLFHRTsPRpIwFXgdv8u7oTbcrOdUNJfLVCiqN2g_mS9PHUMq-FYpfMICKMbExxDGtLVAY9d449RrnzwjmtBXqRckZ_hDeuszMbWwYp3s2AYG4wW31054NV0yyLMAlRt3cd4sinQ9Z43cANBUX53mkO2ZO7k0VEITlbz89ASwhSzcf" alt="Mike Ross" class="employee-avatar">
+                                                <div>
+                                                    <p class="employee-name">Mike Ross</p>
+                                                    <p class="employee-role">Marketing</p>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="date-cell">2023-11-01</td>
+                                        <td>
+                                            <span class="priority-badge priority-low">
+                                                <span class="priority-dot"></span>
+                                                Low
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <select class="status-select status-progress" onchange="updateStatus(this)">
+                                                <option value="in_progress" selected>In Progress</option>
+                                                <option value="pending">Pending</option>
+                                                <option value="completed">Completed</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="task-name-cell">Inventory Count Q2</td>
+                                        <td>
+                                            <div class="employee-info">
+                                                <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuAvqAEOqpQOjQZQm7t4zu8wjEJ7HpgGML-RmAvFEAyjrTVso-y6uu3CUuOpeAMYIyG-xLBEOGplZHsAMCpaBD9kYqswtZJSyKEbt6A8aiMA96lwA35hu_SLVNE_kcR2Xl04nvExALZxVzBLT5Rq4CXSivwyoOTKAkPDhzUsAOjF1QiCvnB0cCphnfeyZWdTbCKtSw7B1CHlQnQg0kJrWgB0OJ7rSIqBj6bM8TP-z6W59E8q1oBDY5X5UvMiJymeH-q_BXLqVRzIZENe" alt="Tom Hall" class="employee-avatar">
+                                                <div>
+                                                    <p class="employee-name">Tom Hall</p>
+                                                    <p class="employee-role">Operations</p>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="date-cell">2023-10-20</td>
+                                        <td>
+                                            <span class="priority-badge priority-high">
+                                                <span class="priority-dot"></span>
+                                                High
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <select class="status-select status-completed" onchange="updateStatus(this)">
+                                                <option value="completed" selected>Completed</option>
+                                                <option value="pending">Pending</option>
+                                                <option value="in_progress">In Progress</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- Pagination -->
+                        <div class="table-pagination">
+                            <span class="pagination-info">
+                                Showing <span class="fw-semibold">1</span> to <span class="fw-semibold">5</span> of <span class="fw-semibold">12</span> Entries
+                            </span>
+                            <div class="pagination-controls">
+                                <a href="#" class="page-link-btn page-link-first">Previous</a>
+                                <a href="#" class="page-link-btn page-link-active">1</a>
+                                <a href="#" class="page-link-btn">2</a>
+                                <a href="#" class="page-link-btn page-link-last">Next</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="./js/script.js"></script>
+</body>
+</html>
