@@ -13,6 +13,7 @@ class Payroll extends Model
         'month',
         'year',
         'total_days',
+        'effective_days',
         'working_days',
         'present_days',
         'lop_days',

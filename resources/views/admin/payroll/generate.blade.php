@@ -300,6 +300,7 @@
                         <th style="text-align:left;">Employee</th>
                         <th style="text-align:left;">Department</th>
                         <th>Total<br>Days</th>
+                        <th>Effective<br>Days</th>
                         <th>Working<br>Days</th>
                         <th>Present<br>Days</th>
                         <th>Paid<br>Leaves</th>
@@ -344,6 +345,14 @@
                                 @endif
                             </td>
                             <td>{{ $row['total_days'] }}</td>
+                            <td>
+                                @php $effDays = $savedRow ? $savedRow->effective_days : $row['effective_days']; @endphp
+                                {{ $effDays }}
+                                @if($row['joining_adjusted'])
+                                    <span title="Pro-rated from DOJ: {{ $row['employee']->doj?->format('d M') }}"
+                                          style="display:inline-block;margin-left:3px;font-size:.65rem;font-weight:600;background:#fef3c7;color:#92400e;border-radius:3px;padding:1px 4px;vertical-align:middle;cursor:default;">DOJ</span>
+                                @endif
+                            </td>
                             <td>{{ $savedRow ? $savedRow->working_days : $row['working_days'] }}</td>
                             <td>
                                 @php $pd = $savedRow ? $savedRow->present_days : $row['present_days']; @endphp
@@ -375,7 +384,7 @@
                 @if($rows->count() > 1)
                 <tfoot>
                     <tr>
-                        <td colspan="10" style="text-align:left;font-size:.8rem;color:var(--text-secondary);">
+                        <td colspan="11" style="text-align:left;font-size:.8rem;color:var(--text-secondary);">
                             Page total ({{ $paginated->count() }} employees)
                         </td>
                         <td>₹{{ number_format($paginated->sum('salary'), 2) }}</td>

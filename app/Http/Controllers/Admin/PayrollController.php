@@ -154,6 +154,7 @@ class PayrollController extends Controller
                 ],
                 [
                     'total_days'              => $row['total_days'],
+                    'effective_days'          => $row['effective_days'],
                     'working_days'            => $row['working_days'],
                     'present_days'            => $row['present_days'],
                     'lop_days'                => $row['lop_days'],
@@ -285,11 +286,13 @@ class PayrollController extends Controller
         // Recalculate
         $workingDays  = (float) $request->working_days;
         $lopDays      = (float) $request->lop_days;
+        $effectiveDays = $payroll->effective_days ?: $payroll->total_days;
         $perDaySalary = $payroll->total_days > 0
             ? round($payroll->salary / $payroll->total_days, 4)
             : 0.0;
-        $lopAmount  = round($perDaySalary * $lopDays, 2);
-        $netSalary  = round($payroll->salary - $lopAmount, 2);
+        $earnedSalary = round($perDaySalary * $effectiveDays, 2);
+        $lopAmount    = round($perDaySalary * $lopDays, 2);
+        $netSalary    = round($earnedSalary - $lopAmount, 2);
 
         $payroll->update([
             'working_days'  => $workingDays,
@@ -420,11 +423,6 @@ class PayrollController extends Controller
         $end       = $start->copy()->endOfMonth()->endOfDay();
         $totalDays = $start->daysInMonth;
 
-        $sundays = 0;
-        for ($d = $start->copy(); $d->lte($end); $d->addDay()) {
-            if ($d->isSunday()) $sundays++;
-        }
-
         $nationalHolidays = Holiday::active()
             ->where('type', 'national')
             ->whereBetween('date', [$start->toDateString(), $end->toDateString()])
@@ -476,12 +474,43 @@ class PayrollController extends Controller
         $results = [];
 
         foreach ($employees as $employee) {
-            $empNatHolidays = $nationalHolidays->filter(function ($h) use ($employee) {
-                return $h->scope !== 'department' || $h->department_id === $employee->department_id;
+            // ── DOJ mid-month adjustment ──────────────────────────────────────
+            // If the employee's joining date falls inside the current payroll
+            // month, earnings start from that date — all prior days (including
+            // weekends and holidays) are excluded from the calculation.
+            $doj             = $employee->doj; // Carbon|null (cast on model)
+            $joiningAdjusted = false;
+            $effectiveStart  = $start->copy();
+
+            if (
+                $doj
+                && (int) $doj->format('n') === $month
+                && (int) $doj->format('Y') === $year
+                && $doj->gt($start)
+            ) {
+                $effectiveStart  = $doj->copy()->startOfDay();
+                $joiningAdjusted = true;
+            }
+
+            // Count calendar days and Sundays from the effective start date
+            $effectiveDays    = 0;
+            $effectiveSundays = 0;
+            for ($d = $effectiveStart->copy(); $d->lte($end); $d->addDay()) {
+                $effectiveDays++;
+                if ($d->isSunday()) $effectiveSundays++;
+            }
+
+            // National holidays within the effective window, scoped to dept
+            $effectiveNatHolidays = $nationalHolidays->filter(function ($h) use ($employee, $effectiveStart) {
+                if ($h->scope === 'department' && $h->department_id !== $employee->department_id) {
+                    return false;
+                }
+                return $h->date->gte($effectiveStart);
             })->count();
 
-            $workingDays = $totalDays - $sundays - $empNatHolidays;
+            $workingDays = max(0, $effectiveDays - $effectiveSundays - $effectiveNatHolidays);
 
+            // ── Attendance & leave ────────────────────────────────────────────
             $attendances     = $allAttendances->get($employee->id, collect());
             $presentCount    = $attendances->where('status', 'present')->count();
             $halfDayCount    = $attendances->where('status', 'half_day')->count();
@@ -491,16 +520,24 @@ class PayrollController extends Controller
             $paidLeaves            = (float) $allLeaveRequests->get($employee->id, collect())->sum('cl_days');
             $optionalHolidaysTaken = $allOptSelections->get($employee->id, collect())->count();
 
-            $lopDays      = max(0.0, round($workingDays - ($presentDays + $paidLeaves + $optionalHolidaysTaken), 2));
+            // ── Salary calculation ────────────────────────────────────────────
+            // Per-day rate is always based on the full calendar month so the
+            // daily rate is consistent across all employees.
+            // Earned salary is pro-rated to the effective window for mid-month
+            // joiners; for regular employees it equals the full monthly salary.
+            $lopDays       = max(0.0, round($workingDays - ($presentDays + $paidLeaves + $optionalHolidaysTaken), 2));
             $monthlySalary = (float) $employee->salary;
             $perDaySalary  = $totalDays > 0 ? round($monthlySalary / $totalDays, 4) : 0.0;
+            $earnedSalary  = round($perDaySalary * $effectiveDays, 2);
             $lopAmount     = round($perDaySalary * $lopDays, 2);
-            $netSalary     = round($monthlySalary - $lopAmount, 2);
+            $netSalary     = round($earnedSalary - $lopAmount, 2);
 
             $results[] = [
                 'employee'                => $employee,
                 'total_days'              => $totalDays,
-                'working_days'            => max(0, $workingDays),
+                'effective_days'          => $effectiveDays,
+                'joining_adjusted'        => $joiningAdjusted,
+                'working_days'            => $workingDays,
                 'present_days'            => $presentDays,
                 'paid_leaves'             => $paidLeaves,
                 'lop_days'                => $lopDays,
