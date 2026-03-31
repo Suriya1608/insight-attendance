@@ -122,8 +122,10 @@
         font-size: .72rem; color: var(--text-muted);
         background: #f1f5f9; border: 1px solid var(--border);
         padding: .2rem .6rem; border-radius: 20px; margin-top: .5rem;
+        max-width: 280px; text-align: left; line-height: 1.4; white-space: normal;
     }
-    .location-pill .material-symbols-outlined { font-size: .85rem; }
+    .location-pill .material-symbols-outlined { font-size: .85rem; flex-shrink: 0; }
+    .location-pill-error { background: #fee2e2 !important; color: #dc2626 !important; border-color: #fca5a5 !important; font-weight: 600; }
 
     /* spin animation for loading */
     @keyframes spin { to { transform: rotate(360deg); } }
@@ -779,46 +781,99 @@
     }
 
     // —— Geolocation helper ———————————————————————————————————————————————————
+    // errCode: null=success, 'unsupported', 1=PERMISSION_DENIED, 2=POSITION_UNAVAILABLE, 3=TIMEOUT
     function getLocation(callback) {
-        if (!navigator.geolocation) { callback(null); return; }
+        if (!navigator.geolocation) { callback(null, 'unsupported'); return; }
         navigator.geolocation.getCurrentPosition(
             function (pos) {
-                callback({ lat: pos.coords.latitude, lng: pos.coords.longitude });
+                callback({ lat: pos.coords.latitude, lng: pos.coords.longitude }, null);
             },
-            function () { callback(null); },
-            { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
+            function (err) { callback(null, err.code); },
+            { enableHighAccuracy: true, timeout: 15000, maximumAge: 0 }
         );
     }
 
+    function locationErrorMessage(errCode) {
+        if (errCode === 1) return 'Location access denied. Please enable location in your browser settings, then try again.';
+        if (errCode === 'unsupported') return 'Your browser does not support GPS location. Please use a modern browser.';
+        if (errCode === 3) return 'Location timed out. Please check your GPS signal and try again.';
+        return 'Could not detect your location. Please try again.';
+    }
+
+    function showLocationError(statusEl, textEl, iconEl, msg) {
+        statusEl.style.display = 'inline-flex';
+        statusEl.classList.add('location-pill-error');
+        statusEl.classList.remove('location-pill');
+        statusEl.className = 'location-pill location-pill-error';
+        iconEl.textContent = 'location_off';
+        textEl.textContent = msg;
+    }
+
     // —— Reverse geocoding (OpenStreetMap Nominatim) ———————————————————————————
-    // Returns: { label, formatted_address, suburb, city, state, country }
-    // Priority: neighbourhood > quarter > suburb > locality > village > hamlet
+    // zoom=18 (building level) + namedetails=1 gives the matched place's own name,
+    // which is more precise than parsing address components alone.
     function reverseGeocode(lat, lng, callback) {
-        var url = 'https://nominatim.openstreetmap.org/reverse?format=json&lat=' + lat + '&lon=' + lng + '&zoom=18&addressdetails=1';
+        var url = 'https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=' + lat +
+                  '&lon=' + lng + '&zoom=18&addressdetails=1&namedetails=1';
         fetch(url, { headers: { 'Accept-Language': 'en' } })
             .then(function (r) { return r.json(); })
             .then(function (data) {
-                var a       = data.address || {};
-                var suburb  = a.neighbourhood || a.quarter || a.suburb || a.locality || a.village || a.hamlet || '';
-                var city    = a.city || a.town || a.city_district || a.county || '';
+                var a = data.address || {};
+
+                // If the matched OSM object itself IS a locality-level place, use its
+                // name directly — this avoids getting a broader administrative boundary.
+                var localTypes = ['neighbourhood','suburb','quarter','hamlet','village',
+                                  'town','locality','residential','industrial','allotments'];
+                var nameFromMatch = (localTypes.indexOf(data.addresstype) !== -1) ? (data.name || '') : '';
+
+                // Field priority: matched-place name > neighbourhood > residential >
+                // quarter > suburb > hamlet > village > locality > city_district
+                var suburb = nameFromMatch
+                    || a.neighbourhood
+                    || a.residential
+                    || a.quarter
+                    || a.suburb
+                    || a.hamlet
+                    || a.village
+                    || a.locality
+                    || a.city_district
+                    || '';
+
+                var city    = a.city || a.town || a.municipality || a.county || '';
                 var state   = a.state || '';
                 var country = a.country || '';
 
-                // Full formatted address (neighbourhood, city, state, country)
+                // Drop suburb when it duplicates the city name (case-insensitive)
+                if (suburb && city && suburb.toLowerCase() === city.toLowerCase()) {
+                    suburb = '';
+                }
+
+                // Full formatted address
                 var addrParts = [suburb, city, state, country].filter(Boolean);
-                var addrUniq  = addrParts.filter(function (v, i, arr) { return i === 0 || v !== arr[i - 1]; });
+                var addrUniq  = addrParts.filter(function (v, i, arr) {
+                    return i === 0 || v.toLowerCase() !== arr[i - 1].toLowerCase();
+                });
                 var formattedAddress = addrUniq.join(', ')
                     || data.display_name
                     || (lat.toFixed(5) + ', ' + lng.toFixed(5));
 
-                // Display label (without country for compact display)
+                // Display label (suburb + city + state, no country)
                 var lblParts = [suburb, city, state].filter(Boolean);
-                var lblUniq  = lblParts.filter(function (v, i, arr) { return i === 0 || v !== arr[i - 1]; });
-                var label    = lblUniq.length
+                var lblUniq  = lblParts.filter(function (v, i, arr) {
+                    return i === 0 || v.toLowerCase() !== arr[i - 1].toLowerCase();
+                });
+                var label = lblUniq.length
                     ? lblUniq.join(', ')
                     : (data.display_name || (lat.toFixed(5) + ', ' + lng.toFixed(5)));
 
-                callback({ label: label, formatted_address: formattedAddress, suburb: suburb, city: city, state: state, country: country });
+                callback({
+                    label: label,
+                    formatted_address: formattedAddress,
+                    suburb: suburb || city,
+                    city: city,
+                    state: state,
+                    country: country
+                });
             })
             .catch(function () {
                 var fallback = lat.toFixed(5) + ', ' + lng.toFixed(5);
@@ -831,18 +886,21 @@
     if (punchInBtn) {
         punchInBtn.addEventListener('click', function () {
             punchInBtn.disabled = true;
-            punchInBtn.innerHTML = '<span class="material-symbols-outlined spin">sync</span> Getting locationÃ¢â‚¬Â¦';
+            punchInBtn.innerHTML = '<span class="material-symbols-outlined spin">sync</span> Getting location&hellip;';
 
             var statusEl = document.getElementById('locationStatus');
             var textEl   = document.getElementById('locationText');
+            var iconEl   = statusEl.querySelector('.material-symbols-outlined');
             statusEl.style.display = 'inline-flex';
-            textEl.textContent = 'Detecting GPS locationÃ¢â‚¬Â¦';
+            statusEl.className = 'location-pill';
+            iconEl.textContent = 'location_on';
+            textEl.textContent = 'Detecting GPS location\u2026';
 
-            getLocation(function (loc) {
+            getLocation(function (loc, errCode) {
                 if (loc) {
                     document.getElementById('inLat').value = loc.lat;
                     document.getElementById('inLng').value = loc.lng;
-                    textEl.textContent = 'Resolving addressÃ¢â‚¬Â¦';
+                    textEl.textContent = 'Resolving address\u2026';
                     reverseGeocode(loc.lat, loc.lng, function (geo) {
                         document.getElementById('inLabel').value             = geo.label;
                         document.getElementById('inFormattedAddress').value  = geo.formatted_address;
@@ -851,13 +909,13 @@
                         document.getElementById('inState').value             = geo.state;
                         document.getElementById('inCountry').value           = geo.country;
                         textEl.textContent = geo.formatted_address;
-                        punchInBtn.innerHTML = '<span class="material-symbols-outlined spin">sync</span> SubmittingÃ¢â‚¬Â¦';
+                        punchInBtn.innerHTML = '<span class="material-symbols-outlined spin">sync</span> Submitting\u2026';
                         document.getElementById('punchInForm').submit();
                     });
                 } else {
-                    textEl.textContent = 'Location unavailable — IP recorded';
-                    punchInBtn.innerHTML = '<span class="material-symbols-outlined spin">sync</span> SubmittingÃ¢â‚¬Â¦';
-                    document.getElementById('punchInForm').submit();
+                    showLocationError(statusEl, textEl, iconEl, locationErrorMessage(errCode));
+                    punchInBtn.disabled = false;
+                    punchInBtn.innerHTML = '<span class="material-symbols-outlined">login</span> Punch In';
                 }
             });
         });
@@ -914,21 +972,24 @@
         var btn = document.getElementById('punchOutBtn');
         if (btn) {
             btn.disabled = true;
-            btn.innerHTML = '<span class="material-symbols-outlined spin">sync</span> ProcessingÃ¢â‚¬Â¦';
+            btn.innerHTML = '<span class="material-symbols-outlined spin">sync</span> Getting location&hellip;';
         }
 
         var statusEl = document.getElementById('outLocationStatus');
         var textEl   = document.getElementById('outLocationText');
+        var iconEl   = statusEl ? statusEl.querySelector('.material-symbols-outlined') : null;
         if (statusEl) {
             statusEl.style.display = 'inline-flex';
-            textEl.textContent = 'Detecting GPS locationÃ¢â‚¬Â¦';
+            statusEl.className = 'location-pill';
+            if (iconEl) iconEl.textContent = 'location_on';
+            textEl.textContent = 'Detecting GPS location\u2026';
         }
 
-        getLocation(function (loc) {
+        getLocation(function (loc, errCode) {
             if (loc) {
                 document.getElementById('outLat').value = loc.lat;
                 document.getElementById('outLng').value = loc.lng;
-                if (textEl) textEl.textContent = 'Resolving addressÃ¢â‚¬Â¦';
+                if (textEl) textEl.textContent = 'Resolving address\u2026';
                 reverseGeocode(loc.lat, loc.lng, function (geo) {
                     document.getElementById('outLabel').value            = geo.label;
                     document.getElementById('outFormattedAddress').value = geo.formatted_address;
@@ -940,8 +1001,13 @@
                     document.getElementById('punchOutForm').submit();
                 });
             } else {
-                if (textEl) textEl.textContent = 'Location unavailable — IP recorded';
-                document.getElementById('punchOutForm').submit();
+                if (statusEl && textEl && iconEl) {
+                    showLocationError(statusEl, textEl, iconEl, locationErrorMessage(errCode));
+                }
+                if (btn) {
+                    btn.disabled = false;
+                    btn.innerHTML = '<span class="material-symbols-outlined">logout</span> Punch Out';
+                }
             }
         });
     };

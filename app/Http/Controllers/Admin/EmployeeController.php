@@ -119,6 +119,8 @@ class EmployeeController extends Controller
             'salary'             => ['required', 'numeric', 'min:0'],
             // Additional
             'blood_group'        => ['nullable', 'string', 'max:5'],
+            'father_name'        => ['nullable', 'string', 'max:100'],
+            'mother_name'        => ['nullable', 'string', 'max:100'],
             'profile_image'      => ['nullable', 'image', 'max:2048'],
         ]);
 
@@ -173,6 +175,8 @@ class EmployeeController extends Controller
             'state'              => $request->state,
             'country'            => $request->country ?? 'India',
             'blood_group'        => $request->blood_group,
+            'father_name'        => $request->father_name,
+            'mother_name'        => $request->mother_name,
             'profile_image'      => $profileImage,
         ]);
 
@@ -237,6 +241,8 @@ class EmployeeController extends Controller
             'state'              => ['nullable', 'string', 'max:100'],
             'country'            => ['nullable', 'string', 'max:100'],
             'blood_group'        => ['nullable', 'string', 'max:5'],
+            'father_name'        => ['nullable', 'string', 'max:100'],
+            'mother_name'        => ['nullable', 'string', 'max:100'],
             'profile_image'      => ['nullable', 'image', 'max:2048'],
             // Compensation
             'salary'             => ['required', 'numeric', 'min:0'],
@@ -291,6 +297,8 @@ class EmployeeController extends Controller
             'state'              => $request->state,
             'country'            => $request->country ?? 'India',
             'blood_group'        => $request->blood_group,
+            'father_name'        => $request->father_name,
+            'mother_name'        => $request->mother_name,
         ]);
 
         $detail->save();

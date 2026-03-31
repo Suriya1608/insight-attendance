@@ -347,15 +347,15 @@
                 </div>
             </div>
 
-            {{-- ── 4. EMERGENCY CONTACT ── --}}
+            {{-- ── 4. EMERGENCY CONTACT & FAMILY ── --}}
             <div class="form-section">
                 <div class="form-section-header"
                      style="--sec-color:rgba(239,68,68,.1); --sec-icon:#dc2626;">
                     <div class="sec-icon"><span class="material-symbols-outlined">emergency</span></div>
-                    <h6>Emergency Contact</h6>
+                    <h6>Emergency Contact &amp; Family</h6>
                 </div>
                 <div class="form-section-body">
-                    <div>
+                    <div class="mb-3">
                         <label class="form-label">Emergency Contact Number</label>
                         <div class="phone-group">
                             <span class="phone-prefix">+91</span>
@@ -366,6 +366,24 @@
                         </div>
                         @error('emergency_contact')<span class="invalid-feedback">{{ $message }}</span>@enderror
                         <span class="form-hint">10 digits only, without country code</span>
+                    </div>
+                    <div class="grid-2">
+                        <div>
+                            <label class="form-label">Father's Name</label>
+                            <input type="text" name="father_name"
+                                   class="form-control @error('father_name') is-invalid @enderror"
+                                   value="{{ old('father_name', $detail?->father_name) }}"
+                                   placeholder="Father's full name">
+                            @error('father_name')<span class="invalid-feedback">{{ $message }}</span>@enderror
+                        </div>
+                        <div>
+                            <label class="form-label">Mother's Name</label>
+                            <input type="text" name="mother_name"
+                                   class="form-control @error('mother_name') is-invalid @enderror"
+                                   value="{{ old('mother_name', $detail?->mother_name) }}"
+                                   placeholder="Mother's full name">
+                            @error('mother_name')<span class="invalid-feedback">{{ $message }}</span>@enderror
+                        </div>
                     </div>
                 </div>
             </div>
