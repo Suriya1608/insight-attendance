@@ -18,14 +18,17 @@ class PunchController extends Controller
     public function punchIn(Request $request): RedirectResponse
     {
         $payload = $request->validate([
-            'latitude'          => 'nullable|numeric|between:-90,90',
-            'longitude'         => 'nullable|numeric|between:-180,180',
+            'latitude'          => 'required|numeric|between:-90,90',
+            'longitude'         => 'required|numeric|between:-180,180',
             'location_label'    => 'nullable|string|max:255',
             'formatted_address' => 'nullable|string|max:1000',
             'suburb'            => 'nullable|string|max:255',
             'city'              => 'nullable|string|max:255',
             'state'             => 'nullable|string|max:255',
             'country'           => 'nullable|string|max:255',
+        ], [
+            'latitude.required'  => 'Location access is required to punch in. Please enable location in your browser and try again.',
+            'longitude.required' => 'Location access is required to punch in. Please enable location in your browser and try again.',
         ]);
 
         $user  = $this->currentUser();
@@ -118,14 +121,17 @@ class PunchController extends Controller
     public function punchOut(Request $request): RedirectResponse
     {
         $payload = $request->validate([
-            'latitude'          => 'nullable|numeric|between:-90,90',
-            'longitude'         => 'nullable|numeric|between:-180,180',
+            'latitude'          => 'required|numeric|between:-90,90',
+            'longitude'         => 'required|numeric|between:-180,180',
             'location_label'    => 'nullable|string|max:255',
             'formatted_address' => 'nullable|string|max:1000',
             'suburb'            => 'nullable|string|max:255',
             'city'              => 'nullable|string|max:255',
             'state'             => 'nullable|string|max:255',
             'country'           => 'nullable|string|max:255',
+        ], [
+            'latitude.required'  => 'Location access is required to punch out. Please enable location in your browser and try again.',
+            'longitude.required' => 'Location access is required to punch out. Please enable location in your browser and try again.',
         ]);
 
         $user  = $this->currentUser();

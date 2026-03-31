@@ -20,6 +20,8 @@ class EmployeeDetail extends Model
         'state',
         'country',
         'blood_group',
+        'father_name',
+        'mother_name',
         'profile_image',
     ];
 

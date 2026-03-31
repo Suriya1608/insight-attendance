@@ -313,6 +313,18 @@
                     </div>
                 </div>
                 <div class="info-item">
+                    <label>Father's Name</label>
+                    <div class="val {{ $employee->employeeDetail?->father_name ? '' : 'empty' }}">
+                        {{ $employee->employeeDetail?->father_name ?? '—' }}
+                    </div>
+                </div>
+                <div class="info-item">
+                    <label>Mother's Name</label>
+                    <div class="val {{ $employee->employeeDetail?->mother_name ? '' : 'empty' }}">
+                        {{ $employee->employeeDetail?->mother_name ?? '—' }}
+                    </div>
+                </div>
+                <div class="info-item">
                     <label>Monthly Salary</label>
                     <div class="val" style="font-weight:600;color:#059669;">
                         @if($employee->salary > 0)
