@@ -21,6 +21,7 @@ class User extends Authenticatable
         'department_id',
         'employee_code',
         'mobile',
+        'designation',
         'emp_status',
         'dob',
         'doj',
@@ -82,6 +83,12 @@ class User extends Authenticatable
             return strtoupper(substr($words[0], 0, 1) . substr($words[1], 0, 1));
         }
         return strtoupper(substr($this->name, 0, 2));
+    }
+
+    public function profileImageUrl(): ?string
+    {
+        $path = $this->employeeDetail?->profile_image;
+        return $path ? \Illuminate\Support\Facades\Storage::disk('public')->url($path) : null;
     }
 
     public static function generateEmployeeCode(): string

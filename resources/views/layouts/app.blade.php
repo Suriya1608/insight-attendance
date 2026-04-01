@@ -336,6 +336,12 @@
             font-weight: 800;
             flex-shrink: 0;
             letter-spacing: .02em;
+            overflow: hidden;
+        }
+        .user-avatar img {
+            width: 100%; height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
         }
         .user-info { line-height: 1.25; }
         .user-name { font-size: .8125rem; font-weight: 600; color: var(--text-main); }
@@ -884,7 +890,14 @@
 
                 <div class="dropdown">
                     <button class="user-btn" data-bs-toggle="dropdown" aria-expanded="false">
-                        <div class="user-avatar">{{ strtoupper(substr(auth()->user()->name, 0, 2)) }}</div>
+                        <div class="user-avatar">
+                            @php $profileUrl = auth()->user()->profileImageUrl(); @endphp
+                            @if($profileUrl)
+                                <img src="{{ $profileUrl }}" alt="{{ auth()->user()->name }}">
+                            @else
+                                {{ auth()->user()->initials() }}
+                            @endif
+                        </div>
                         <div class="user-info">
                             <div class="user-name">{{ auth()->user()->name }}</div>
                             <div class="user-role">{{ ucfirst(auth()->user()->role) }}</div>

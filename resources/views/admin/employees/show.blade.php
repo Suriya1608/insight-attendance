@@ -307,6 +307,12 @@
                     </div>
                 </div>
                 <div class="info-item">
+                    <label>Designation</label>
+                    <div class="val {{ $employee->designation ? '' : 'empty' }}">
+                        {{ $employee->designation ?? '—' }}
+                    </div>
+                </div>
+                <div class="info-item">
                     <label>Blood Group</label>
                     <div class="val {{ $employee->employeeDetail?->blood_group ? '' : 'empty' }}">
                         {{ $employee->employeeDetail?->blood_group ?? '—' }}
@@ -373,6 +379,12 @@
                 <div class="info-item">
                     <label>Country</label>
                     <div class="val">{{ $employee->employeeDetail?->country ?? 'India' }}</div>
+                </div>
+                <div class="info-item">
+                    <label>Pincode</label>
+                    <div class="val {{ $employee->employeeDetail?->pincode ? '' : 'empty' }}">
+                        {{ $employee->employeeDetail?->pincode ?? '—' }}
+                    </div>
                 </div>
                 <div class="info-item">
                     <label>Emergency Contact</label>
