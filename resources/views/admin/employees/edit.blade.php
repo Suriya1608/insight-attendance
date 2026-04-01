@@ -219,7 +219,14 @@
                             @error('username')<span class="invalid-feedback d-block">{{ $message }}</span>@enderror
                             <span class="form-hint" id="usernameHint">Optional. Letters, numbers, dots, dashes. Used to log in.</span>
                         </div>
-                        <div>{{-- spacer --}}</div>
+                        <div>
+                            <label class="form-label">Designation</label>
+                            <input type="text" name="designation"
+                                   class="form-control @error('designation') is-invalid @enderror"
+                                   value="{{ old('designation', $employee->designation) }}"
+                                   placeholder="e.g. Software Engineer">
+                            @error('designation')<span class="invalid-feedback">{{ $message }}</span>@enderror
+                        </div>
                     </div>
                     <div class="grid-3 mb-3">
                         <div>
@@ -414,7 +421,7 @@
                             @error('address_line2')<span class="invalid-feedback">{{ $message }}</span>@enderror
                         </div>
                     </div>
-                    <div class="grid-3">
+                    <div class="grid-3 mb-3">
                         <div>
                             <label class="form-label">City</label>
                             <input type="text" name="city"
@@ -435,6 +442,17 @@
                                    class="form-control @error('country') is-invalid @enderror"
                                    value="{{ old('country', $detail?->country ?? 'India') }}" placeholder="Country">
                             @error('country')<span class="invalid-feedback">{{ $message }}</span>@enderror
+                        </div>
+                    </div>
+                    <div class="grid-3">
+                        <div>
+                            <label class="form-label">Pincode</label>
+                            <input type="text" name="pincode"
+                                   class="form-control @error('pincode') is-invalid @enderror"
+                                   value="{{ old('pincode', $detail?->pincode) }}"
+                                   placeholder="e.g. 600001"
+                                   maxlength="10" inputmode="numeric" oninput="numericOnly(this)">
+                            @error('pincode')<span class="invalid-feedback">{{ $message }}</span>@enderror
                         </div>
                     </div>
                 </div>
@@ -557,7 +575,7 @@
                         </div>
                         <div id="level2Group">
                             <label class="form-label">Level 2 Manager <span class="req">*</span></label>
-                            <select name="level2_manager_id" id="level2Select"
+                            <select id="level2Select"
                                     class="form-select @error('level2_manager_id') is-invalid @enderror">
                                 <option value="">Select Level 2 Manager</option>
                                 @foreach($managers as $mgr)
@@ -568,6 +586,8 @@
                                     </option>
                                 @endforeach
                             </select>
+                            <input type="hidden" name="level2_manager_id" id="level2Hidden"
+                                   value="{{ old('level2_manager_id', $employee->level2_manager_id) }}">
                             @error('level2_manager_id')<span class="invalid-feedback">{{ $message }}</span>@enderror
                         </div>
                     </div>
@@ -602,8 +622,10 @@
     const roleMgr   = document.getElementById('roleManager');
     const mgrSec    = document.getElementById('managerSection');
     const lvl2Group = document.getElementById('level2Group');
-    const lvl1Sel   = document.getElementById('level1Select');
-    const lvl2Sel   = document.getElementById('level2Select');
+    const lvl1Sel    = document.getElementById('level1Select');
+    const lvl2Sel    = document.getElementById('level2Select');
+    const lvl2Hidden = document.getElementById('level2Hidden');
+    const mgrL1Map   = @json($managers->mapWithKeys(fn($m) => [$m->id => $m->level1_manager_id]));
 
     function updateHierarchy() {
         const isEmployee = roleEmp.checked;
@@ -612,6 +634,21 @@
         lvl2Group.style.display = isEmployee ? 'block' : 'none';
         lvl1Sel.required = (isEmployee || isManager);
         lvl2Sel.required = isEmployee;
+    }
+
+    // Auto-fill L2 from L1's own manager, and lock it
+    function syncL2FromL1() {
+        const l2Id = lvl1Sel.value ? (mgrL1Map[lvl1Sel.value] || null) : null;
+        if (l2Id) {
+            lvl2Sel.value    = l2Id;
+            lvl2Hidden.value = l2Id;
+            lvl2Sel.disabled = true;
+        } else {
+            lvl2Sel.value    = '';
+            lvl2Hidden.value = '';
+            lvl2Sel.disabled = false;
+        }
+        validateManagers();
     }
 
     function validateManagers() {
@@ -640,11 +677,12 @@
 
     roleEmp.addEventListener('change', function () { updateHierarchy(); styleRoles(); });
     roleMgr.addEventListener('change', function () { updateHierarchy(); styleRoles(); });
-    lvl1Sel.addEventListener('change', validateManagers);
+    lvl1Sel.addEventListener('change', syncL2FromL1);
     lvl2Sel.addEventListener('change', validateManagers);
 
     updateHierarchy();
     styleRoles();
+    syncL2FromL1();
 })();
 
 function numericOnly(input) {

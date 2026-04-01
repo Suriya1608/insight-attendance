@@ -19,6 +19,7 @@ class EmployeeDetail extends Model
         'city',
         'state',
         'country',
+        'pincode',
         'blood_group',
         'father_name',
         'mother_name',
