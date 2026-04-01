@@ -70,11 +70,23 @@ class User extends Authenticatable
 
     /* ── Helpers ── */
 
-    public function isAdmin(): bool    { return $this->role === 'admin'; }
-    public function isManager(): bool  { return $this->role === 'manager'; }
-    public function isEmployee(): bool { return $this->role === 'employee'; }
+    public function isAdmin(): bool
+    {
+        return $this->role === 'admin';
+    }
+    public function isManager(): bool
+    {
+        return $this->role === 'manager';
+    }
+    public function isEmployee(): bool
+    {
+        return $this->role === 'employee';
+    }
 
-    public function isActive(): bool   { return $this->emp_status === 'active'; }
+    public function isActive(): bool
+    {
+        return $this->emp_status === 'active';
+    }
 
     public function initials(): string
     {
@@ -85,21 +97,30 @@ class User extends Authenticatable
         return strtoupper(substr($this->name, 0, 2));
     }
 
+    // public function profileImageUrl(): ?string
+    // {
+    //     $path = $this->employeeDetail?->profile_image;
+    //     return $path ? \Illuminate\Support\Facades\Storage::disk('public')->url($path) : null;
+    // }
     public function profileImageUrl(): ?string
     {
         $path = $this->employeeDetail?->profile_image;
-        return $path ? \Illuminate\Support\Facades\Storage::disk('public')->url($path) : null;
-    }
 
+        if (!$path) {
+            return null;
+        }
+
+        return asset('storage/' . $path);
+    }
     public static function generateEmployeeCode(): string
     {
         $prefix = strtoupper(SiteSetting::get('employee_id_prefix', 'EMP'));
 
         // Find the highest numeric suffix for this prefix
         $last = self::whereNotNull('employee_code')
-                    ->where('employee_code', 'like', $prefix . '%')
-                    ->orderByDesc('id')
-                    ->value('employee_code');
+            ->where('employee_code', 'like', $prefix . '%')
+            ->orderByDesc('id')
+            ->value('employee_code');
 
         if ($last && preg_match('/^' . preg_quote($prefix, '/') . '(\d+)$/', $last, $m)) {
             $next = (int)$m[1] + 1;

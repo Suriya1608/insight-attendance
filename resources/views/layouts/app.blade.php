@@ -893,7 +893,7 @@
                         <div class="user-avatar">
                             @php $profileUrl = auth()->user()->profileImageUrl(); @endphp
                             @if($profileUrl)
-                                <img src="{{ $profileUrl }}" alt="{{ auth()->user()->name }}">
+                               <img src="{{ url($profileUrl) }}" alt="profile">
                             @else
                                 {{ auth()->user()->initials() }}
                             @endif

@@ -444,7 +444,7 @@
                             <label class="form-label">Blood Group</label>
                             <select name="blood_group" class="form-select @error('blood_group') is-invalid @enderror">
                                 <option value="">Select</option>
-                                @foreach(['A+','A-','B+','B-','AB+','AB-','O+','O-'] as $bg)
+                                @foreach(['A+','A-','B+','B-','AB+','AB-','O+','O-','A1+','A1-'] as $bg)
                                     <option value="{{ $bg }}" {{ old('blood_group') === $bg ? 'selected' : '' }}>{{ $bg }}</option>
                                 @endforeach
                             </select>
@@ -576,8 +576,6 @@
     const lvl1Sel   = document.getElementById('level1Select');
     const lvl2Sel   = document.getElementById('level2Select');
     const lvl2Hidden = document.getElementById('level2Hidden');
-    const mgrL1Map   = @json($managers->mapWithKeys(fn($m) => [$m->id => $m->level1_manager_id]));
-
     function updateHierarchy() {
         const isEmployee = roleEmp.checked;
         const isManager  = roleMgr.checked;
@@ -593,17 +591,16 @@
         lvl2Sel.required = isEmployee;
     }
 
-    // Auto-fill L2 from L1's own manager, and lock it
-    function syncL2FromL1() {
-        const l2Id = lvl1Sel.value ? (mgrL1Map[lvl1Sel.value] || null) : null;
-        if (l2Id) {
-            lvl2Sel.value    = l2Id;
-            lvl2Hidden.value = l2Id;
-            lvl2Sel.disabled = true;
-        } else {
+    // Exclude the selected L1 from L2 options (L1 and L2 must not be the same person)
+    function filterL2Options() {
+        const l1Val = lvl1Sel.value;
+        Array.from(lvl2Sel.options).forEach(function (opt) {
+            opt.disabled = (opt.value !== '' && opt.value === l1Val);
+        });
+        // If the currently selected L2 is now excluded, reset it
+        if (l1Val && lvl2Sel.value === l1Val) {
             lvl2Sel.value    = '';
             lvl2Hidden.value = '';
-            lvl2Sel.disabled = false;
         }
         validateManagers();
     }
@@ -636,13 +633,16 @@
 
     roleEmp.addEventListener('change', function () { updateHierarchy(); styleRoles(); });
     roleMgr.addEventListener('change', function () { updateHierarchy(); styleRoles(); });
-    lvl1Sel.addEventListener('change', syncL2FromL1);
-    lvl2Sel.addEventListener('change', validateManagers);
+    lvl1Sel.addEventListener('change', filterL2Options);
+    lvl2Sel.addEventListener('change', function () {
+        lvl2Hidden.value = lvl2Sel.value;
+        validateManagers();
+    });
 
     // Init
     updateHierarchy();
     styleRoles();
-    syncL2FromL1();
+    filterL2Options();
 })();
 
 function numericOnly(input) {

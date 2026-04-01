@@ -248,6 +248,10 @@
                 <span class="info-key">Department</span>
                 <span class="info-val {{ $user->department ? '' : 'empty' }}">{{ $user->department?->name ?? '—' }}</span>
             </div>
+            <div class="info-row">
+                <span class="info-key">Designation</span>
+                <span class="info-val {{ $user->designation ? '' : 'empty' }}">{{ $user->designation ?: '—' }}</span>
+            </div>
         </div>
     </div>
 
@@ -263,6 +267,14 @@
                 <span class="info-val {{ $user->dob ? '' : 'empty' }}">
                     {{ $user->dob ? $user->dob->format('d M Y') : '—' }}
                 </span>
+            </div>
+            <div class="info-row">
+                <span class="info-key">Father's Name</span>
+                <span class="info-val {{ $detail?->father_name ? '' : 'empty' }}">{{ $detail?->father_name ?: '—' }}</span>
+            </div>
+            <div class="info-row">
+                <span class="info-key">Mother's Name</span>
+                <span class="info-val {{ $detail?->mother_name ? '' : 'empty' }}">{{ $detail?->mother_name ?: '—' }}</span>
             </div>
             <div class="info-row">
                 <span class="info-key">Blood Group</span>
