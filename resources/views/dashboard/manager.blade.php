@@ -668,7 +668,7 @@
                             {{ strtoupper(substr($person->name, 0, 1)) }}{{ strtoupper(substr(strrchr($person->name, ' ') ?: $person->name, 1, 1)) }}
                         </div>
                         <div>
-                            <div class="bday-name">{{ $person->name }} <span class="bday-emoji">Ã°Å¸Å½â€°</span></div>
+                            <div class="bday-name">{{ $person->name }} <span class="bday-emoji">🎂</span></div>
                             <div class="bday-dept">{{ $person->department?->name ?? ucfirst($person->role) }}</div>
                         </div>
                     </div>

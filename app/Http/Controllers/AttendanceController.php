@@ -142,7 +142,12 @@ class AttendanceController extends Controller
             } elseif ($isFuture) {
                 $rowStatus = 'future';
             } elseif ($att) {
-                $rowStatus = $att->status;
+                // Punch-in exists but no punch-out on a past day → missed punch-out
+                if ($att->punch_in && ! $att->punch_out && $date->lt($now->copy()->startOfDay())) {
+                    $rowStatus = 'missed_punch_out';
+                } else {
+                    $rowStatus = $att->status;
+                }
             } else {
                 $rowStatus = 'absent';
             }
